@@ -19,7 +19,7 @@
     The script outputs a csv file depending on your delimit defaults choose semicolon or comma
 
 .PARAMETER OutputPath
-    Full- or relative path
+    Full- or relative path.  Defaults to the '.\output' subdirectory and creates a subdirectory in it for the current time: MMddyyyy-HHmm
 
 .PARAMETER DoNotShowRoleAssignmentsUserData
     default is to capture the DisplayName and SignInName for RoleAssignments on ObjectType=User; for data protection and security reasons this may not be acceptable
@@ -125,8 +125,8 @@
 .PARAMETER NoResources
     Will speed up the processing time but information like Resource diagnostics capability and resource type stats (featured for large tenants)
 
-.PARAMETER StatsOptOut
-    Will opt-out sending stats
+.PARAMETER StatsOptIn
+    Will opt-in to sending stats.  (Changed to default 'opt-out' -- was 'opt-in' by default.)
 
 .PARAMETER NoSingleSubscriptionOutput
     Single Scope Insights output per Subscription should not be created
@@ -246,8 +246,8 @@
     Will speed up the processing time but information like Resource diagnostics capability and resource type stats (featured for large tenants)
     PS C:\>.\AzGovVizParallel.ps1 -ManagementGroupId <your-Management-Group-Id> -NoResources
 
-    Will opt-out sending stats
-    PS C:\>.\AzGovVizParallel.ps1 -ManagementGroupId <your-Management-Group-Id> -StatsOptOut
+    Will opt-in sending stats
+    PS C:\>.\AzGovVizParallel.ps1 -ManagementGroupId <your-Management-Group-Id> -StatsOptIn
 
     Will not create a single Scope Insights output per Subscription
     PS C:\>.\AzGovVizParallel.ps1 -ManagementGroupId <your-Management-Group-Id> -NoSingleSubscriptionOutput
@@ -269,14 +269,14 @@ Param
 (
     [string]$Product = "AzGovViz",
     [string]$ProductVersion = "v6_minor_20211212_1",
-    [string]$GithubRepository = "aka.ms/AzGovViz",
+    [string]$GithubRepository = "github.com/tekowalsky/Azure-MG-Sub-Governance-Reporting",
     [string]$ManagementGroupId,
     [switch]$AzureDevOpsWikiAsCode, #deprecated - Based on environment variables the script will detect the code run platform
     [switch]$DebugAzAPICall,
     [switch]$NoCsvExport,
     [string]$CsvDelimiter = ";",
     [switch]$CsvExportUseQuotesAsNeeded,
-    [string]$OutputPath,
+    [string]$OutputPath = ".\output",
     [switch]$DoNotShowRoleAssignmentsUserData,
     [switch]$HierarchyMapOnly,
     [switch]$NoASCSecureScore,
@@ -311,7 +311,7 @@ Param
     [switch]$PolicyAtScopeOnly,
     [switch]$RBACAtScopeOnly,
     [switch]$NoResources,
-    [switch]$StatsOptOut,
+    [switch]$StatsOptIn,
     [switch]$NoSingleSubscriptionOutput,
 
     #https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#role-based-access-control-limits
@@ -354,6 +354,13 @@ if (-not (test-path $outputPath)) {
     Throw "Error - AzGovViz: check the last console output for details"
 }
 else {
+    $outputDate = $(get-date -format "MMddyyy-HHmm")
+    $outputPath = $("$outputPath"+"\"+"$outputDate")
+    mkdir $outputPath
+    if (-not (test-path $outputPath)) {
+        Write-Host "error creating path $outputPath!" -ForegroundColor Red
+        Throw "Error - AzGovViz: check the last console output for details"
+    }
     Write-Host "Output/Files will be created in path $outputPath"
 }
 $DirectorySeparatorChar = [IO.Path]::DirectorySeparatorChar
@@ -428,6 +435,7 @@ else {
     #Other Console
     Write-Host "CheckCodeRunPlatform: not Codespaces, not Azure DevOps, not Azure Automation - likely local console"
     $checkCodeRunPlatform = "Console"
+    Write-Host "Running in local console.(?)"
 }
 
 if ($LargeTenant -eq $true) {
@@ -5043,7 +5051,7 @@ function hierarchyMgHTML($mgChild) {
     $script:html += @"
                                             </div>
                                             <div class="treeMgLogo">
-                                                <img class="imgTreeLogo" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-11-Management-Groups.svg">
+                                                <img class="imgTreeLogo" src="../icon/Icon-general-11-Management-Groups.svg">
                                             </div>
                                             <div class="extraInfoContent">
 "@
@@ -5101,17 +5109,17 @@ function hierarchySubForMgHTML($mgChild) {
     if ($subscriptionsCnt -gt 0 -or $subscriptionsOutOfScopelinkedCnt -gt 0) {
         if ($subscriptionsCnt -gt 0 -and $subscriptionsOutOfScopelinkedCnt -gt 0) {
             $script:html += @"
-            <li><a href="#table_$mgChild"><div class="hierarchyTreeSubs" id="hierarchySub_$mgChild"><img class="imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions.svg">$(($subscriptions | measure-object).count)x <img class="imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions_excluded_r.svg">$(($subscriptionsOutOfScopelinked | Measure-Object).count)x</div></a></li>
+            <li><a href="#table_$mgChild"><div class="hierarchyTreeSubs" id="hierarchySub_$mgChild"><img class="imgSubTree" src="../icon/Icon-general-2-Subscriptions.svg">$(($subscriptions | measure-object).count)x <img class="imgSubTree" src="../icon/Icon-general-2-Subscriptions_excluded_r.svg">$(($subscriptionsOutOfScopelinked | Measure-Object).count)x</div></a></li>
 "@
         }
         if ($subscriptionsCnt -gt 0 -and $subscriptionsOutOfScopelinkedCnt -eq 0) {
             $script:html += @"
-            <li><a href="#table_$mgChild"><div class="hierarchyTreeSubs" id="hierarchySub_$mgChild"><img class="imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions.svg"> $(($subscriptions | measure-object).count)x</div></a></li>
+            <li><a href="#table_$mgChild"><div class="hierarchyTreeSubs" id="hierarchySub_$mgChild"><img class="imgSubTree" src="../icon/Icon-general-2-Subscriptions.svg"> $(($subscriptions | measure-object).count)x</div></a></li>
 "@
         }
         if ($subscriptionsCnt -eq 0 -and $subscriptionsOutOfScopelinkedCnt -gt 0) {
             $script:html += @"
-            <li><a href="#table_$mgChild"><div class="hierarchyTreeSubs" id="hierarchySub_$mgChild"><img class="imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions_excluded_r.svg">$(($subscriptionsOutOfScopelinked | Measure-Object).count)x</div></a></li>
+            <li><a href="#table_$mgChild"><div class="hierarchyTreeSubs" id="hierarchySub_$mgChild"><img class="imgSubTree" src="../icon/Icon-general-2-Subscriptions_excluded_r.svg">$(($subscriptionsOutOfScopelinked | Measure-Object).count)x</div></a></li>
 "@
         }
     }
@@ -5128,17 +5136,17 @@ function hierarchySubForMgUlHTML($mgChild) {
     if ($subscriptionsCnt -gt 0 -or $subscriptionsOutOfScopelinkedCnt -gt 0) {
         if ($subscriptionsCnt -gt 0 -and $subscriptionsOutOfScopelinkedCnt -gt 0) {
             $script:html += @"
-            <ul><li><a href="#table_$mgChild"><div class="hierarchyTreeSubs" id="hierarchySub_$mgChild"><img class="imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions.svg"> $(($subscriptions | measure-object).count)x <img class="imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions_excluded_r.svg">$(($subscriptionsOutOfScopelinked | Measure-Object).count)x</div></a></li></ul>
+            <ul><li><a href="#table_$mgChild"><div class="hierarchyTreeSubs" id="hierarchySub_$mgChild"><img class="imgSubTree" src="../icon/Icon-general-2-Subscriptions.svg"> $(($subscriptions | measure-object).count)x <img class="imgSubTree" src="../icon/Icon-general-2-Subscriptions_excluded_r.svg">$(($subscriptionsOutOfScopelinked | Measure-Object).count)x</div></a></li></ul>
 "@
         }
         if ($subscriptionsCnt -gt 0 -and $subscriptionsOutOfScopelinkedCnt -eq 0) {
             $script:html += @"
-            <ul><li><a href="#table_$mgChild"><div class="hierarchyTreeSubs" id="hierarchySub_$mgChild"><img class="imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions.svg"> $(($subscriptions | measure-object).count)x</div></a></li></ul>
+            <ul><li><a href="#table_$mgChild"><div class="hierarchyTreeSubs" id="hierarchySub_$mgChild"><img class="imgSubTree" src="../icon/Icon-general-2-Subscriptions.svg"> $(($subscriptions | measure-object).count)x</div></a></li></ul>
 "@
         }
         if ($subscriptionsCnt -eq 0 -and $subscriptionsOutOfScopelinkedCnt -gt 0) {
             $script:html += @"
-            <ul><li><a href="#table_$mgChild"><div class="hierarchyTreeSubs" id="hierarchySub_$mgChild"><img class="imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions_excluded_r.svg">$(($subscriptionsOutOfScopelinked | Measure-Object).count)x</div></a></li></ul>
+            <ul><li><a href="#table_$mgChild"><div class="hierarchyTreeSubs" id="hierarchySub_$mgChild"><img class="imgSubTree" src="../icon/Icon-general-2-Subscriptions_excluded_r.svg">$(($subscriptionsOutOfScopelinked | Measure-Object).count)x</div></a></li></ul>
 "@
         }
     }
@@ -5175,16 +5183,16 @@ function tableMgHTML($mgChild, $mgChildOf) {
         $mgLinkedSubsCount = ((($optimizedTableForPathQuery.where( { $_.MgId -eq $mgChild -and -not [String]::IsNullOrEmpty($_.SubscriptionId) } )).SubscriptionId | Get-Unique)).count
         $subscriptionsOutOfScopelinkedCount = ($outOfScopeSubscriptions.where( { $_.ManagementGroupId -eq $mgChild } )).count
         if ($mgLinkedSubsCount -gt 0 -and $subscriptionsOutOfScopelinkedCount -eq 0) {
-            $subInfo = "<img class=`"imgSub`" src=`"https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions.svg`">$mgLinkedSubsCount"
+            $subInfo = "<img class=`"imgSub`" src=`"../icon/Icon-general-2-Subscriptions.svg`">$mgLinkedSubsCount"
         }
         if ($mgLinkedSubsCount -gt 0 -and $subscriptionsOutOfScopelinkedCount -gt 0) {
-            $subInfo = "<img class=`"imgSub`" src=`"https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions.svg`">$mgLinkedSubsCount <img class=`"imgSub`" src=`"https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions_excluded_r.svg`">$subscriptionsOutOfScopelinkedCount"
+            $subInfo = "<img class=`"imgSub`" src=`"../icon/Icon-general-2-Subscriptions.svg`">$mgLinkedSubsCount <img class=`"imgSub`" src=`"../icon/Icon-general-2-Subscriptions_excluded_r.svg`">$subscriptionsOutOfScopelinkedCount"
         }
         if ($mgLinkedSubsCount -eq 0 -and $subscriptionsOutOfScopelinkedCount -gt 0) {
-            $subInfo = "<img class=`"imgSub`" src=`"https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions_excluded_r.svg`">$subscriptionsOutOfScopelinkedCount"
+            $subInfo = "<img class=`"imgSub`" src=`"../icon/Icon-general-2-Subscriptions_excluded_r.svg`">$subscriptionsOutOfScopelinkedCount"
         }
         if ($mgLinkedSubsCount -eq 0 -and $subscriptionsOutOfScopelinkedCount -eq 0) {
-            $subInfo = "<img class=`"imgSub`" src=`"https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions_grey.svg`">"
+            $subInfo = "<img class=`"imgSub`" src=`"../icon/Icon-general-2-Subscriptions_grey.svg`">"
         }
 
         if ($mgName -eq $mgId) {
@@ -5195,7 +5203,7 @@ function tableMgHTML($mgChild, $mgChildOf) {
         }
 
         $script:html += @"
-<button type="button" class="collapsible" id="table_$mgId">$levelSpacing<img class="imgMg $($classDefaultMG)" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle">$mgNameAndOrId $subInfo</span></button>
+<button type="button" class="collapsible" id="table_$mgId">$levelSpacing<img class="imgMg $($classDefaultMG)" src="../icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle">$mgNameAndOrId $subInfo</span></button>
 <div class="content">
 <table class="bottomrow">
 <tr><td class="detailstd"><p><a href="#hierarchy_$mgId"><i class="fa fa-eye" aria-hidden="true"></i> <i>Highlight Management Group in HierarchyMap</i></a></p></td></tr>
@@ -5250,7 +5258,7 @@ function tableSubForMgHTML($mgChild) {
             if ($subscriptionLinkedCount -gt 1) {
                 if (-not $NoScopeInsights) {
                     $script:html += @"
-                <button type="button" class="collapsible"> <img class="imgSub" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle"><b>$($subEntry.subscription -replace "<", "&lt;" -replace ">", "&gt;")</b> ($($subEntry.subscriptionId))</span></button>
+                <button type="button" class="collapsible"> <img class="imgSub" src="../icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle"><b>$($subEntry.subscription -replace "<", "&lt;" -replace ">", "&gt;")</b> ($($subEntry.subscriptionId))</span></button>
                 <div class="contentSub"><!--collapsiblePerSub-->
 "@
                 }
@@ -5259,7 +5267,7 @@ function tableSubForMgHTML($mgChild) {
             else {
                 if (-not $NoScopeInsights) {
                     $script:html += @"
-                <img class="imgSub" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle"><b>$($subEntry.subscription -replace "<", "&lt;" -replace ">", "&gt;")</b> ($($subEntry.subscriptionId))</span></button>
+                <img class="imgSub" src="../icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle"><b>$($subEntry.subscription -replace "<", "&lt;" -replace ">", "&gt;")</b> ($($subEntry.subscriptionId))</span></button>
 "@
                 }
             }
@@ -5480,7 +5488,7 @@ function tableMgSubDetailsHTML($mgOrSub, $mgChild, $subscriptionId, $subscriptio
 function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
 window.helpertfConfig4$htmlTableId =1;
 var tfConfig4$htmlTableId = {
-base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -5619,7 +5627,7 @@ tf.init();}}
 function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
 window.helpertfConfig4$htmlTableId =1;
 var tfConfig4$htmlTableId = {
-base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -5736,7 +5744,7 @@ tf.init();}}
             function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
    window.helpertfConfig4$htmlTableId =1;
    var tfConfig4$htmlTableId = {
-                base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+                base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -5841,7 +5849,7 @@ extensions: [{ name: 'sort' }]
             function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
             window.helpertfConfig4$htmlTableId =1;
             var tfConfig4$htmlTableId = {
-                base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+                base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -5984,7 +5992,7 @@ extensions: [{ name: 'sort' }]
 function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
 window.helpertfConfig4$htmlTableId=1;
 var tfConfig4$htmlTableId = {
-    base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,          
+    base_path: './tablefilter/', rows_counter: true,          
 "@)      
                 if ($tfCount -gt 10) {
                     $spectrum = "10, $tfCount"
@@ -6103,7 +6111,7 @@ tf.init();}}
         function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
    window.helpertfConfig4$htmlTableId=1;
    var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,          
+            base_path: './tablefilter/', rows_counter: true,          
 "@)      
                 if ($tfCount -gt 10) {
                     $spectrum = "10, $tfCount"
@@ -6195,7 +6203,7 @@ extensions: [{ name: 'sort' }]
             function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
    window.helpertfConfig4$htmlTableId =1;
    var tfConfig4$htmlTableId = {
-                base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+                base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -6325,7 +6333,7 @@ extensions: [{ name: 'sort' }]
     function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
 window.helpertfConfig4$htmlTableId =1;
 var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -6498,7 +6506,7 @@ extensions: [{ name: 'sort' }]
 function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
 window.helpertfConfig4$htmlTableId=1;
 var tfConfig4$htmlTableId = {
-base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,          
+base_path: './tablefilter/', rows_counter: true,          
 "@)      
                     if ($tfCount -gt 10) {
                         $spectrum = "10, $tfCount"
@@ -6612,7 +6620,7 @@ tf.init();}}
             function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
    window.helpertfConfig4$htmlTableId =1;
    var tfConfig4$htmlTableId = {
-                base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+                base_path: './tablefilter/', rows_counter: true,
 "@)
                 if ($tfCount -gt 10) {
                     $spectrum = "10, $tfCount"
@@ -6701,7 +6709,7 @@ extensions: [{ name: 'sort' }]
             function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
    window.helpertfConfig4$htmlTableId =1;
    var tfConfig4$htmlTableId = {
-                base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+                base_path: './tablefilter/', rows_counter: true,
 "@)
                 if ($tfCount -gt 10) {
                     $spectrum = "10, $tfCount"
@@ -6826,7 +6834,7 @@ extensions: [{ name: 'sort' }]
             function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
    window.helpertfConfig4$htmlTableId =1;
    var tfConfig4$htmlTableId = {
-                base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+                base_path: './tablefilter/', rows_counter: true,
 "@)
                 if ($tfCount -gt 10) {
                     $spectrum = "10, $tfCount"
@@ -6954,7 +6962,7 @@ extensions: [{ name: 'sort' }]
             function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
    window.helpertfConfig4$htmlTableId =1;
    var tfConfig4$htmlTableId = {
-                base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+                base_path: './tablefilter/', rows_counter: true,
 "@)
                 if ($tfCount -gt 10) {
                     $spectrum = "10, $tfCount"
@@ -7179,7 +7187,7 @@ extensions: [{ name: 'sort' }]
         function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
    window.helpertfConfig4$htmlTableId =1;
    var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -7425,7 +7433,7 @@ btn_reset: true, highlight_keywords: true, alternate_rows: true, auto_filter: { 
         function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
    window.helpertfConfig4$htmlTableId =1;
    var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -7626,7 +7634,7 @@ btn_reset: true, highlight_keywords: true, alternate_rows: true, auto_filter: { 
             function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
    window.helpertfConfig4$htmlTableId =1;
    var tfConfig4$htmlTableId = {
-                base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+                base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -7753,7 +7761,7 @@ extensions: [{ name: 'sort' }]
             function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
    window.helpertfConfig4$htmlTableId =1;
    var tfConfig4$htmlTableId = {
-                base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+                base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -7857,7 +7865,7 @@ extensions: [{ name: 'sort' }]
             function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
    window.helpertfConfig4$htmlTableId =1;
    var tfConfig4$htmlTableId = {
-                base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+                base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -7959,7 +7967,7 @@ extensions: [{ name: 'sort' }]
             function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
    window.helpertfConfig4$htmlTableId =1;
    var tfConfig4$htmlTableId = {
-                base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+                base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -8172,7 +8180,7 @@ extensions: [{ name: 'sort' }]
         function loadtf$randomFunctionName() { if (window.helpertfConfig4$htmlTableId !== 1) { 
    window.helpertfConfig4$htmlTableId =1;
    var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -8357,7 +8365,7 @@ function summary() {
         else {
             
             if ($roleAssigned.RoleSecurityCustomRoleOwner -eq 1) {
-                $roletype = "<abbr title=`"Custom 'Owner' Role definitions should not exist`"><i class=`"fa fa-exclamation-triangle yellow`" aria-hidden=`"true`"></i></abbr> <a class=`"externallink`" href=`"https://www.azadvertizer.net/azpolicyadvertizer/10ee2ea2-fb4d-45b8-a7e9-a2e770044cd9.html`" target=`"_blank`">Custom</a>"
+                $roletype = "<abbr title=`"Custom 'Owner' Role definitions should not exist`"><i class=`"fa fa-exclamation-triangle yellow`" aria-hidden=`"true`"></i></abbr> <a class=`"externallink`" href=`"../policyDefinition/10ee2ea2-fb4d-45b8-a7e9-a2e770044cd9.html`" target=`"_blank`">Custom</a>"
             }
             else {
                 $roleType = "Custom"
@@ -9155,7 +9163,7 @@ function summary() {
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,       
+            base_path: './tablefilter/', rows_counter: true,       
 "@)      
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -9306,7 +9314,7 @@ paging: {results_per_page: ['Records: ', [$spectrum]]},/*state: {types: ['local_
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -9439,7 +9447,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -9561,7 +9569,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -9836,7 +9844,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -9959,7 +9967,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -10073,7 +10081,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -10190,7 +10198,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -10307,7 +10315,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -10453,7 +10461,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -10635,7 +10643,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -10815,7 +10823,7 @@ extensions: [{ name: 'sort' }]
             if ($htPolicyAssignmentRoleAssignmentMapping.($policyAssignmentIdUnique.PolicyAssignmentId)) {
                 foreach ($entry in $htPolicyAssignmentRoleAssignmentMapping.($policyAssignmentIdUnique.PolicyAssignmentId).roleassignments) {
                     if ($entry.roleDefinitionType -eq "builtin") {
-                        $relatedRoleAssignmentsArray += "<a class=`"externallink`" href=`"https://www.azadvertizer.net/azrolesadvertizer/$($entry.roleDefinitionId).html`" target=`"_blank`">$($entry.roleDefinitionName)</a> ($($entry.roleAssignmentId))"
+                        $relatedRoleAssignmentsArray += "<a class=`"externallink`" href=`"../roleDefinition/$($entry.roleDefinitionId).html`" target=`"_blank`">$($entry.roleDefinitionName)</a> ($($entry.roleAssignmentId))"
                     }
                     else {
                         $relatedRoleAssignmentsArray += "<b>$($entry.roleDefinitionName -replace "<", "&lt;" -replace ">", "&gt;")</b> ($($entry.roleAssignmentId))"
@@ -10873,10 +10881,10 @@ extensions: [{ name: 'sort' }]
         #region AzAdvertizerLinkOrNot
         if ($policyAssignmentAll.PolicyType -eq "builtin") {
             if ($policyAssignmentAll.PolicyVariant -eq "Policy") {
-                $azaLinkOrNot = "<a class=`"externallink`" href=`"https://www.azadvertizer.net/azpolicyadvertizer/$(($policyAssignmentAll.PolicyDefinitionIdGuid)).html`" target=`"_blank`">$($policyAssignmentAll.Policy)</a>"
+                $azaLinkOrNot = "<a class=`"externallink`" href=`"../policyDefinition/$(($policyAssignmentAll.PolicyDefinitionIdGuid)).html`" target=`"_blank`">$($policyAssignmentAll.Policy)</a>"
             }
             else {
-                $azaLinkOrNot = "<a class=`"externallink`" href=`"https://www.azadvertizer.net/azpolicyinitiativesadvertizer/$(($policyAssignmentAll.PolicyDefinitionIdGuid)).html`" target=`"_blank`">$($policyAssignmentAll.Policy)</a>"
+                $azaLinkOrNot = "<a class=`"externallink`" href=`"../policySetDefinition/$(($policyAssignmentAll.PolicyDefinitionIdGuid)).html`" target=`"_blank`">$($policyAssignmentAll.Policy)</a>"
             }
         }
         else {
@@ -11525,7 +11533,7 @@ extensions: [{ name: 'sort' }]
         function loadtf$htmlTableId() { if (window.helpertfConfig4$htmlTableId !== 1) { 
         window.helpertfConfig4$htmlTableId =1;
         var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -11764,7 +11772,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -11889,7 +11897,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -12017,7 +12025,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -12113,7 +12121,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -12387,7 +12395,7 @@ extensions: [{ name: 'sort' }]
         function loadtf$htmlTableId() { if (window.helpertfConfig4$htmlTableId !== 1) { 
         window.helpertfConfig4$htmlTableId =1;
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -12524,7 +12532,7 @@ btn_reset: true, highlight_keywords: true, alternate_rows: true, auto_filter: { 
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -12620,7 +12628,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -12726,7 +12734,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -12836,7 +12844,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -12948,7 +12956,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -13054,7 +13062,7 @@ extensions: [{ name: 'sort' }]
         </div>
         <script>
             var tfConfig4$htmlTableId = {
-                base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+                base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -13146,7 +13154,7 @@ extensions: [{ name: 'sort' }]
         </div>
         <script>
             var tfConfig4$htmlTableId = {
-                base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+                base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -13251,7 +13259,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -13320,7 +13328,7 @@ extensions: [{ name: 'sort' }]
         $tfCount = $summaryManagementGroupsCount
         $htmlTableId = "TenantSummary_ManagementGroups"
         [void]$htmlTenantSummary.AppendLine(@"
-<button type="button" class="collapsible" id="buttonTenantSummary_Subs"><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle">$($summaryManagementGroupsCount) Management Groups</span></button>
+<button type="button" class="collapsible" id="buttonTenantSummary_Subs"><img class="padlx imgSubTree" src="../icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle">$($summaryManagementGroupsCount) Management Groups</span></button>
 <div class="content TenantSummary">
 <i class="padlxx fa fa-table" aria-hidden="true"></i> Download CSV <a class="externallink" href="#" onclick="download_table_as_csv_semicolon('$htmlTableId');">semicolon</a> | <a class="externallink" href="#" onclick="download_table_as_csv_comma('$htmlTableId');">comma</a>
 <table id="$htmlTableId" class="summaryTable">
@@ -13465,7 +13473,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -13526,7 +13534,7 @@ extensions: [{ name: 'sort' }]
     }
     else {
         [void]$htmlTenantSummary.AppendLine(@"
-    <p><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle">$($summaryManagementGroupsCount) Management Groups</span></p>
+    <p><img class="padlx imgSubTree" src="../icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle">$($summaryManagementGroupsCount) Management Groups</span></p>
 "@)
     }
     $endSUMMARYMGs = get-date
@@ -13536,14 +13544,14 @@ extensions: [{ name: 'sort' }]
     #region SUMMARYMGdefault
     Write-Host "  processing TenantSummary ManagementGroups - default Management Group"
     [void]$htmlTenantSummary.AppendLine(@"
-    <p><img class="padlx imgSubTree defaultMG" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle">Hierarchy Settings | Default Management Group Id: '<b>$($defaultManagementGroupId)</b>' <a class="externallink" href="https://docs.microsoft.com/en-us/azure/governance/management-groups/how-to/protect-resource-hierarchy#setting---default-management-group" target="_blank">docs <i class="fa fa-external-link" aria-hidden="true"></i></a></span></p>
+    <p><img class="padlx imgSubTree defaultMG" src="../icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle">Hierarchy Settings | Default Management Group Id: '<b>$($defaultManagementGroupId)</b>' <a class="externallink" href="https://docs.microsoft.com/en-us/azure/governance/management-groups/how-to/protect-resource-hierarchy#setting---default-management-group" target="_blank">docs <i class="fa fa-external-link" aria-hidden="true"></i></a></span></p>
 "@)
     #endregion SUMMARYMGdefault
 
     #region SUMMARYMGRequireAuthorizationForGroupCreation
     Write-Host "  processing TenantSummary ManagementGroups - requireAuthorizationForGroupCreation Management Group"
     [void]$htmlTenantSummary.AppendLine(@"
-    <p><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle">Hierarchy Settings | Require authorization for Management Group creation: '<b>$($requireAuthorizationForGroupCreation)</b>' <a class="externallink" href="https://docs.microsoft.com/en-us/azure/governance/management-groups/how-to/protect-resource-hierarchy#setting---require-authorization" target="_blank">docs <i class="fa fa-external-link" aria-hidden="true"></i></a></span></p>
+    <p><img class="padlx imgSubTree" src="../icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle">Hierarchy Settings | Require authorization for Management Group creation: '<b>$($requireAuthorizationForGroupCreation)</b>' <a class="externallink" href="https://docs.microsoft.com/en-us/azure/governance/management-groups/how-to/protect-resource-hierarchy#setting---require-authorization" target="_blank">docs <i class="fa fa-external-link" aria-hidden="true"></i></a></span></p>
 "@)
     #endregion SUMMARYMGRequireAuthorizationForGroupCreation
 
@@ -13566,7 +13574,7 @@ extensions: [{ name: 'sort' }]
         $tfCount = $summarySubscriptionsCount
         $htmlTableId = "TenantSummary_subs"
         [void]$htmlTenantSummary.AppendLine(@"
-<button type="button" class="collapsible" id="buttonTenantSummary_Subs"><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle">$($summarySubscriptionsCount) Subscriptions (state: enabled)</span></button>
+<button type="button" class="collapsible" id="buttonTenantSummary_Subs"><img class="padlx imgSubTree" src="../icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle">$($summarySubscriptionsCount) Subscriptions (state: enabled)</span></button>
 <div class="content TenantSummary">
 <i class="padlxx fa fa-lightbulb-o" aria-hidden="true" style="color:#FFB100;"></i> <span class="info">Supported Microsoft Azure offers</span> <a class="externallink" href="https://docs.microsoft.com/en-us/azure/cost-management-billing/costs/understand-cost-mgt-data#supported-microsoft-azure-offers" target="_blank">docs <i class="fa fa-external-link" aria-hidden="true"></i></a><br>
 <i class="padlxx fa fa-lightbulb-o" aria-hidden="true" style="color:#FFB100;"></i> <span class="info">Understand Microsoft Defender for Cloud Secure Score</span> <a class="externallink" href="https://www.youtube.com/watch?v=2EMnzxdqDhA" target="_blank">Video <i class="fa fa-external-link" aria-hidden="true"></i></a>, <a class="externallink" href="https://techcommunity.microsoft.com/t5/azure-security-center/security-controls-in-azure-security-center-enable-endpoint/ba-p/1624653" target="_blank">Blog <i class="fa fa-external-link" aria-hidden="true"></i></a>, <a class="externallink" href="https://docs.microsoft.com/en-us/azure/security-center/secure-score-security-controls#how-your-secure-score-is-calculated" target="_blank">docs <i class="fa fa-external-link" aria-hidden="true"></i></a><br>
@@ -13645,7 +13653,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -13707,7 +13715,7 @@ extensions: [{ name: 'sort' }]
     }
     else {
         [void]$htmlTenantSummary.AppendLine(@"
-    <p><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle">$($summarySubscriptionsCount) Subscriptions</span></p>
+    <p><img class="padlx imgSubTree" src="../icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle">$($summarySubscriptionsCount) Subscriptions</span></p>
 "@)
     }
     #endregion SUMMARYSubs
@@ -13719,7 +13727,7 @@ extensions: [{ name: 'sort' }]
         $tfCount = $outOfScopeSubscriptionsCount
         $htmlTableId = "TenantSummary_outOfScopeSubscriptions"
         [void]$htmlTenantSummary.AppendLine(@"
-<button type="button" class="collapsible" id="buttonTenantSummary_outOfScopeSubscriptions"><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions_excluded_r.svg"> <span class="valignMiddle">$outOfScopeSubscriptionsCount Subscriptions out-of-scope</span></button>
+<button type="button" class="collapsible" id="buttonTenantSummary_outOfScopeSubscriptions"><img class="padlx imgSubTree" src="../icon/Icon-general-2-Subscriptions_excluded_r.svg"> <span class="valignMiddle">$outOfScopeSubscriptionsCount Subscriptions out-of-scope</span></button>
 <div class="content TenantSummary">
 <i class="padlxx fa fa-table" aria-hidden="true"></i> Download CSV <a class="externallink" href="#" onclick="download_table_as_csv_semicolon('$htmlTableId');">semicolon</a> | <a class="externallink" href="#" onclick="download_table_as_csv_comma('$htmlTableId');">comma</a>
 <table id="$htmlTableId" class="summaryTable">
@@ -13751,7 +13759,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
             
 "@)      
         if ($tfCount -gt 10) {
@@ -13795,7 +13803,7 @@ extensions: [{ name: 'sort' }]
     }
     else {
         [void]$htmlTenantSummary.AppendLine(@"
-    <p><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions_excluded_r.svg"> <span class="valignMiddle">$outOfScopeSubscriptionsCount Subscriptions out-of-scope</span></p>
+    <p><img class="padlx imgSubTree" src="../icon/Icon-general-2-Subscriptions_excluded_r.svg"> <span class="valignMiddle">$outOfScopeSubscriptionsCount Subscriptions out-of-scope</span></p>
 "@)
     }
     #endregion SUMMARYOutOfScopeSubscriptions
@@ -13840,7 +13848,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
             
 "@)      
         if ($tfCount -gt 10) {
@@ -13934,7 +13942,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
                 if ($tfCount -gt 10) {
                     $spectrum = "10, $tfCount"
@@ -14039,7 +14047,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
                 if ($tfCount -gt 10) {
                     $spectrum = "10, $tfCount"
@@ -14199,7 +14207,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,      
+            base_path: './tablefilter/', rows_counter: true,      
 "@)      
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -14339,7 +14347,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
             
 "@)      
                 if ($tfCount -gt 10) {
@@ -14444,7 +14452,7 @@ extensions: [{ name: 'sort' }]
 </table>
 <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)      
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -14537,7 +14545,7 @@ extensions: [{ name: 'sort' }]
 </table>
 <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@) 
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -14620,7 +14628,7 @@ paging: {results_per_page: ['Records: ', [$spectrum]]},/*state: {types: ['local_
 </table>
 <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
             btn_reset: true, highlight_keywords: true, alternate_rows: true, auto_filter: { delay: 1100 }, no_results_message: true,
             col_types: [
                 'caseinsensitivestring',
@@ -14700,7 +14708,7 @@ paging: {results_per_page: ['Records: ', [$spectrum]]},/*state: {types: ['local_
 </table>
 <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)      
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -14789,7 +14797,7 @@ extensions: [{ name: 'sort' }]
 "@)
 
     [void]$htmlTenantSummary.AppendLine( @"
-<p><img class="imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle"><b>Management Groups</b></span></p>
+<p><img class="imgSubTree" src="../icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle"><b>Management Groups</b></span></p>
 "@)
 
     #region SUMMARYDiagnosticsManagementGroups
@@ -14863,7 +14871,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -14979,7 +14987,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -15029,7 +15037,7 @@ extensions: [{ name: 'sort' }]
 
     #region subscriptions
     [void]$htmlTenantSummary.AppendLine( @"
-<p><img class="imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle"><b>Subscriptions</b></span></p>
+<p><img class="imgSubTree" src="../icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle"><b>Subscriptions</b></span></p>
 "@)
 
     #region SUMMARYDiagnosticsSubscriptions
@@ -15101,7 +15109,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -15215,7 +15223,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -15268,7 +15276,7 @@ extensions: [{ name: 'sort' }]
     if ($htParameters.NoResources -eq $false) {
         #region resources
         [void]$htmlTenantSummary.AppendLine( @"
-<p><img class="imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/10001-icon-service-All-Resources.svg"> <span class="valignMiddle"><b>Resources</b></span></p>
+<p><img class="imgSubTree" src="../icon/10001-icon-service-All-Resources.svg"> <span class="valignMiddle"><b>Resources</b></span></p>
 "@)
 
         #region SUMMARYResourcesDiagnosticsCapable
@@ -15331,7 +15339,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -15711,7 +15719,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
                         if ($tfCount -gt 10) {
                             $spectrum = "10, $tfCount"
@@ -15836,7 +15844,7 @@ extensions: [{ name: 'sort' }]
 
     #region tenantSummaryLimitsManagementGroups
     [void]$htmlTenantSummary.AppendLine( @"
-<p><img class="imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle"><b>Management Groups</b></span></p>
+<p><img class="imgSubTree" src="../icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle"><b>Management Groups</b></span></p>
 "@)
 
     #region SUMMARYMgsapproachingLimitsPolicyAssignments
@@ -15877,7 +15885,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -15962,7 +15970,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -16047,7 +16055,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -16133,7 +16141,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -16184,7 +16192,7 @@ extensions: [{ name: 'sort' }]
 
     #region tenantSummaryLimitsSubscriptions
     [void]$htmlTenantSummary.AppendLine( @"
-<p><img class="imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle"><b>Subscriptions</b></span></p>
+<p><img class="imgSubTree" src="../icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle"><b>Subscriptions</b></span></p>
 "@)
 
     #region SUMMARYSubsapproachingLimitsResourceGroups
@@ -16226,7 +16234,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -16311,7 +16319,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -16396,7 +16404,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -16481,7 +16489,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -16566,7 +16574,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -16652,7 +16660,7 @@ extensions: [{ name: 'sort' }]
     </div>
     <script>
         var tfConfig4$htmlTableId = {
-            base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+            base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -16748,7 +16756,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
 var tfConfig4$htmlTableId = {
-    base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+    base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -16827,7 +16835,7 @@ tf.init();
 </div>
 <script>
 var tfConfig4$htmlTableId = {
-    base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+    base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -17110,7 +17118,7 @@ tf.init();
 </div>
 <script>
 var tfConfig4$htmlTableId = {
-    base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+    base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -17273,7 +17281,7 @@ tf.init();
 </div>
 <script>
 var tfConfig4$htmlTableId = {
-    base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+    base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -17428,7 +17436,7 @@ tf.init();
 </div>
 <script>
 var tfConfig4$htmlTableId = {
-    base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+    base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -17538,7 +17546,7 @@ tf.init();
 </div>
 <script>
 var tfConfig4$htmlTableId = {
-base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -17775,7 +17783,7 @@ tf.init();
 
     #region ctpolicy
     [void]$htmlTenantSummary.AppendLine(@"
-    <button type="button" class="collapsible" id="tenantSummaryChangeTrackingPolicy"><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/10316-icon-service-Policy.svg"> <span class="$ctContenIndicatorPolicy">Policy</span></button>
+    <button type="button" class="collapsible" id="tenantSummaryChangeTrackingPolicy"><img class="padlx imgSubTree" src="../icon/10316-icon-service-Policy.svg"> <span class="$ctContenIndicatorPolicy">Policy</span></button>
     <div class="content TenantSummaryContent">
 "@)
 
@@ -17870,7 +17878,7 @@ tf.init();
 </div>
 <script>
 var tfConfig4$htmlTableId = {
-base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -18019,7 +18027,7 @@ tf.init();
 </div>
 <script>
 var tfConfig4$htmlTableId = {
-base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -18231,7 +18239,7 @@ tf.init();
 </div>
 <script>
 var tfConfig4$htmlTableId = {
-base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -18381,7 +18389,7 @@ tf.init();
 
     #region ctrbac
     [void]$htmlTenantSummary.AppendLine(@"
-<button type="button" class="collapsible" id="tenantSummaryChangeTrackingRBAC"><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/rbacrole.svg"> <span class="$ctContenIndicatorRBAC">RBAC</span></button>
+<button type="button" class="collapsible" id="tenantSummaryChangeTrackingRBAC"><img class="padlx imgSubTree" src="../icon/rbacrole.svg"> <span class="$ctContenIndicatorRBAC">RBAC</span></button>
 <div class="content TenantSummaryContent">
 "@)
 
@@ -18460,7 +18468,7 @@ tf.init();
 </div>
 <script>
 var tfConfig4$htmlTableId = {
-base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -18602,7 +18610,7 @@ tf.init();
 </div>
 <script>
 var tfConfig4$htmlTableId = {
-base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -18678,7 +18686,7 @@ tf.init();
     if ($htParameters.NoResources -eq $false) {
         #region ctresources
         [void]$htmlTenantSummary.AppendLine(@"
-<button type="button" class="collapsible" id="tenantSummaryChangeTrackingResources"><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/10001-icon-service-All-Resources.svg"> <span class="$ctContenIndicatorResources">Resources</span></button>
+<button type="button" class="collapsible" id="tenantSummaryChangeTrackingResources"><img class="padlx imgSubTree" src="../icon/10001-icon-service-All-Resources.svg"> <span class="$ctContenIndicatorResources">Resources</span></button>
 <div class="content TenantSummaryContent">
 "@)
 
@@ -18739,7 +18747,7 @@ tf.init();
 </div>
 <script>
 var tfConfig4$htmlTableId = {
-base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+base_path: './tablefilter/', rows_counter: true,
 "@)
             if ($tfCount -gt 10) {
                 $spectrum = "10, $tfCount"
@@ -18821,7 +18829,7 @@ tf.init();
         $tfCount = $namingPolicyCount
         $htmlTableId = "TenantSummary_NamingPolicy"
         [void]$htmlTenantSummary.AppendLine(@"
-<button type="button" class="collapsible" id="buttonTenantSummary_NamingPolicy"><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/policydefinition.svg"> <span class="valignMiddle"><b>Policy</b> $($namingPolicyCount) Naming findings</span></button>
+<button type="button" class="collapsible" id="buttonTenantSummary_NamingPolicy"><img class="padlx imgSubTree" src="../icon/policydefinition.svg"> <span class="valignMiddle"><b>Policy</b> $($namingPolicyCount) Naming findings</span></button>
 <div class="content TenantSummary">
 <i class="padlxx fa fa-table" aria-hidden="true"></i> Download CSV <a class="externallink" href="#" onclick="download_table_as_csv_semicolon('$htmlTableId');">semicolon</a> | <a class="externallink" href="#" onclick="download_table_as_csv_comma('$htmlTableId');">comma</a>
 <table id="$htmlTableId" class="summaryTable">
@@ -18876,7 +18884,7 @@ tf.init();
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -18921,7 +18929,7 @@ extensions: [{ name: 'sort' }]
     }
     else {
         [void]$htmlTenantSummary.AppendLine(@"
-<p><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/policydefinition.svg"> <span class="valignMiddle">Policy $($namingPolicyCount) Naming findings</span></p>
+<p><img class="padlx imgSubTree" src="../icon/policydefinition.svg"> <span class="valignMiddle">Policy $($namingPolicyCount) Naming findings</span></p>
 "@)
     }
 
@@ -18930,7 +18938,7 @@ extensions: [{ name: 'sort' }]
         $tfCount = $namingPolicySetCount
         $htmlTableId = "TenantSummary_NamingPolicySet"
         [void]$htmlTenantSummary.AppendLine(@"
-<button type="button" class="collapsible" id="buttonTenantSummary_NamingPolicySet"><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/policysetdefinition.svg"> <span class="valignMiddle"><b>PolicySet</b> $($namingPolicySetCount) Naming findings</span></button>
+<button type="button" class="collapsible" id="buttonTenantSummary_NamingPolicySet"><img class="padlx imgSubTree" src="../icon/policysetdefinition.svg"> <span class="valignMiddle"><b>PolicySet</b> $($namingPolicySetCount) Naming findings</span></button>
 <div class="content TenantSummary">
 <i class="padlxx fa fa-table" aria-hidden="true"></i> Download CSV <a class="externallink" href="#" onclick="download_table_as_csv_semicolon('$htmlTableId');">semicolon</a> | <a class="externallink" href="#" onclick="download_table_as_csv_comma('$htmlTableId');">comma</a>
 <table id="$htmlTableId" class="summaryTable">
@@ -18985,7 +18993,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -19030,7 +19038,7 @@ extensions: [{ name: 'sort' }]
     }
     else {
         [void]$htmlTenantSummary.AppendLine(@"
-<p><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/policysetdefinition.svg"> <span class="valignMiddle">PolicySet $($namingPolicySetCount) Naming findings</span></p>
+<p><img class="padlx imgSubTree" src="../icon/policysetdefinition.svg"> <span class="valignMiddle">PolicySet $($namingPolicySetCount) Naming findings</span></p>
 "@)
     }
 
@@ -19039,7 +19047,7 @@ extensions: [{ name: 'sort' }]
         $tfCount = $namingPolicyAssignmentCount
         $htmlTableId = "TenantSummary_NamingPolicyAssignment"
         [void]$htmlTenantSummary.AppendLine(@"
-<button type="button" class="collapsible" id="buttonTenantSummary_NamingPolicyAssignment"><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/policyassignment.svg"> <span class="valignMiddle"><b>Policy assignment</b> $($namingPolicyAssignmentCount) Naming findings</span></button>
+<button type="button" class="collapsible" id="buttonTenantSummary_NamingPolicyAssignment"><img class="padlx imgSubTree" src="../icon/policyassignment.svg"> <span class="valignMiddle"><b>Policy assignment</b> $($namingPolicyAssignmentCount) Naming findings</span></button>
 <div class="content TenantSummary">
 <i class="padlxx fa fa-table" aria-hidden="true"></i> Download CSV <a class="externallink" href="#" onclick="download_table_as_csv_semicolon('$htmlTableId');">semicolon</a> | <a class="externallink" href="#" onclick="download_table_as_csv_comma('$htmlTableId');">comma</a>
 <table id="$htmlTableId" class="summaryTable">
@@ -19094,7 +19102,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -19139,7 +19147,7 @@ extensions: [{ name: 'sort' }]
     }
     else {
         [void]$htmlTenantSummary.AppendLine(@"
-<p><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/policyassignment.svg"> <span class="valignMiddle">Policy assignment $($namingPolicyAssignmentCount) Naming findings</span></p>
+<p><img class="padlx imgSubTree" src="../icon/policyassignment.svg"> <span class="valignMiddle">Policy assignment $($namingPolicyAssignmentCount) Naming findings</span></p>
 "@)
     }
 
@@ -19148,7 +19156,7 @@ extensions: [{ name: 'sort' }]
         $tfCount = $namingManagementGroupCount
         $htmlTableId = "TenantSummary_NamingManagementGroup"
         [void]$htmlTenantSummary.AppendLine(@"
-<button type="button" class="collapsible" id="buttonTenantSummary_NamingManagementGroup"><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle"><b>Management Group</b> $($namingManagementGroupCount) Naming findings</span></button>
+<button type="button" class="collapsible" id="buttonTenantSummary_NamingManagementGroup"><img class="padlx imgSubTree" src="../icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle"><b>Management Group</b> $($namingManagementGroupCount) Naming findings</span></button>
 <div class="content TenantSummary">
 <i class="padlxx fa fa-table" aria-hidden="true"></i> Download CSV <a class="externallink" href="#" onclick="download_table_as_csv_semicolon('$htmlTableId');">semicolon</a> | <a class="externallink" href="#" onclick="download_table_as_csv_comma('$htmlTableId');">comma</a>
 <table id="$htmlTableId" class="summaryTable">
@@ -19189,7 +19197,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -19232,7 +19240,7 @@ extensions: [{ name: 'sort' }]
     }
     else {
         [void]$htmlTenantSummary.AppendLine(@"
-<p><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle">Management Group $($namingManagementGroupCount) Naming findings</span></p>
+<p><img class="padlx imgSubTree" src="../icon/Icon-general-11-Management-Groups.svg"> <span class="valignMiddle">Management Group $($namingManagementGroupCount) Naming findings</span></p>
 "@)
     }
 
@@ -19242,7 +19250,7 @@ extensions: [{ name: 'sort' }]
         $tfCount = $namingSubscriptionCount
         $htmlTableId = "TenantSummary_NamingSubscription"
         [void]$htmlTenantSummary.AppendLine(@"
-<button type="button" class="collapsible" id="buttonTenantSummary_NamingSubscription"><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle"><b>Subscription</b> $($namingSubscriptionCount) Naming findings</span></button>
+<button type="button" class="collapsible" id="buttonTenantSummary_NamingSubscription"><img class="padlx imgSubTree" src="../icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle"><b>Subscription</b> $($namingSubscriptionCount) Naming findings</span></button>
 <div class="content TenantSummary">
 <i class="padlxx fa fa-table" aria-hidden="true"></i> Download CSV <a class="externallink" href="#" onclick="download_table_as_csv_semicolon('$htmlTableId');">semicolon</a> | <a class="externallink" href="#" onclick="download_table_as_csv_comma('$htmlTableId');">comma</a>
 <table id="$htmlTableId" class="summaryTable">
@@ -19282,7 +19290,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -19325,7 +19333,7 @@ extensions: [{ name: 'sort' }]
     }
     else {
         [void]$htmlTenantSummary.AppendLine(@"
-<p><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle">Subscription $($namingSubscriptionCount) Naming findings</span></p>
+<p><img class="padlx imgSubTree" src="../icon/Icon-general-2-Subscriptions.svg"> <span class="valignMiddle">Subscription $($namingSubscriptionCount) Naming findings</span></p>
 "@)
     }
 
@@ -19335,7 +19343,7 @@ extensions: [{ name: 'sort' }]
         $tfCount = $namingRoleCount
         $htmlTableId = "TenantSummary_NamingRole"
         [void]$htmlTenantSummary.AppendLine(@"
-<button type="button" class="collapsible" id="buttonTenantSummary_NamingRole"><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/rbacrole.svg"> <span class="valignMiddle"><b>RBAC</b> $($namingRoleCount) Naming findings</span></button>
+<button type="button" class="collapsible" id="buttonTenantSummary_NamingRole"><img class="padlx imgSubTree" src="../icon/rbacrole.svg"> <span class="valignMiddle"><b>RBAC</b> $($namingRoleCount) Naming findings</span></button>
 <div class="content TenantSummary">
 <i class="padlxx fa fa-table" aria-hidden="true"></i> Download CSV <a class="externallink" href="#" onclick="download_table_as_csv_semicolon('$htmlTableId');">semicolon</a> | <a class="externallink" href="#" onclick="download_table_as_csv_comma('$htmlTableId');">comma</a>
 <table id="$htmlTableId" class="summaryTable">
@@ -19375,7 +19383,7 @@ extensions: [{ name: 'sort' }]
 </div>
 <script>
     var tfConfig4$htmlTableId = {
-        base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+        base_path: './tablefilter/', rows_counter: true,
 "@)
         if ($tfCount -gt 10) {
             $spectrum = "10, $tfCount"
@@ -19418,7 +19426,7 @@ extensions: [{ name: 'sort' }]
     }
     else {
         [void]$htmlTenantSummary.AppendLine(@"
-<p><img class="padlx imgSubTree" src="https://www.azadvertizer.net/azgovvizv4/icon/rbacrole.svg"> <span class="valignMiddle">RBAC $($namingRoleCount) Naming Findings</span></p>
+<p><img class="padlx imgSubTree" src="../icon/rbacrole.svg"> <span class="valignMiddle">RBAC $($namingRoleCount) Naming Findings</span></p>
 "@)
     }
 
@@ -19728,7 +19736,7 @@ function definitionInsights() {
 function loadtf$htmlTableId() { if (window.helpertfConfig4$htmlTableId !== 1) { 
     window.helpertfConfig4$htmlTableId =1;
     var tfConfig4$htmlTableId = {
-    base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,       
+    base_path: './tablefilter/', rows_counter: true,       
 "@)      
     if ($tfCount -gt 10) {
         $spectrum = "10, $tfCount"
@@ -19968,7 +19976,7 @@ tf.init();}}
 function loadtf$htmlTableId() { if (window.helpertfConfig4$htmlTableId !== 1) { 
     window.helpertfConfig4$htmlTableId =1;
     var tfConfig4$htmlTableId = {
-    base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,       
+    base_path: './tablefilter/', rows_counter: true,       
 "@)      
     if ($tfCount -gt 10) {
         $spectrum = "10, $tfCount"
@@ -20231,7 +20239,7 @@ tf.init();}}
 function loadtf$htmlTableId() { if (window.helpertfConfig4$htmlTableId !== 1) { 
     window.helpertfConfig4$htmlTableId =1;
     var tfConfig4$htmlTableId = {
-    base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,       
+    base_path: './tablefilter/', rows_counter: true,       
 "@)      
     if ($tfCount -gt 10) {
         $spectrum = "10, $tfCount"
@@ -21971,7 +21979,7 @@ if ($htParameters.HierarchyMapOnly -eq $false) {
         ($htCacheDefinitionsPolicy).(($builtinPolicyDefinition.Id).ToLower()).Type = $builtinPolicyDefinition.Properties.policyType
         ($htCacheDefinitionsPolicy).(($builtinPolicyDefinition.Id).ToLower()).Category = $builtinPolicyDefinition.Properties.metadata.category
         ($htCacheDefinitionsPolicy).(($builtinPolicyDefinition.Id).ToLower()).PolicyDefinitionId = ($builtinPolicyDefinition.Id).ToLower()
-        ($htCacheDefinitionsPolicy).(($builtinPolicyDefinition.Id).ToLower()).LinkToAzAdvertizer = "<a class=`"externallink`" href=`"https://www.azadvertizer.net/azpolicyadvertizer/$(($builtinPolicyDefinition.Id -replace ".*/")).html`" target=`"_blank`">$($builtinPolicyDefinition.Properties.displayname)</a>"
+        ($htCacheDefinitionsPolicy).(($builtinPolicyDefinition.Id).ToLower()).LinkToAzAdvertizer = "<a class=`"externallink`" href=`"../policyDefinition/$(($builtinPolicyDefinition.Id -replace ".*/")).html`" target=`"_blank`">$($builtinPolicyDefinition.Properties.displayname)</a>"
         if ($builtinPolicyDefinition.Properties.metadata.deprecated -eq $true -or $builtinPolicyDefinition.Properties.displayname -like "``[Deprecated``]*") {
             ($htCacheDefinitionsPolicy).(($builtinPolicyDefinition.Id).ToLower()).Deprecated = $builtinPolicyDefinition.Properties.metadata.deprecated
         }
@@ -22052,7 +22060,7 @@ if ($htParameters.HierarchyMapOnly -eq $false) {
         ($htCacheDefinitionsPolicySet).(($builtinPolicySetDefinition.Id).ToLower()).Type = $builtinPolicySetDefinition.Properties.policyType
         ($htCacheDefinitionsPolicySet).(($builtinPolicySetDefinition.Id).ToLower()).Category = $builtinPolicySetDefinition.Properties.metadata.category
         ($htCacheDefinitionsPolicySet).(($builtinPolicySetDefinition.Id).ToLower()).PolicyDefinitionId = ($builtinPolicySetDefinition.Id).ToLower()
-        ($htCacheDefinitionsPolicySet).(($builtinPolicySetDefinition.Id).ToLower()).LinkToAzAdvertizer = "<a class=`"externallink`" href=`"https://www.azadvertizer.net/azpolicyinitiativesadvertizer/$(($builtinPolicySetDefinition.Id -replace ".*/")).html`" target=`"_blank`">$($builtinPolicySetDefinition.Properties.displayname)</a>"
+        ($htCacheDefinitionsPolicySet).(($builtinPolicySetDefinition.Id).ToLower()).LinkToAzAdvertizer = "<a class=`"externallink`" href=`"../policySetDefinition/$(($builtinPolicySetDefinition.Id -replace ".*/")).html`" target=`"_blank`">$($builtinPolicySetDefinition.Properties.displayname)</a>"
         $arrayPolicySetPolicyIdsToLower = @()
         $arrayPolicySetPolicyIdsToLower = foreach ($policySetPolicy in $builtinPolicySetDefinition.properties.policydefinitions.policyDefinitionId) {
             ($policySetPolicy).ToLower()
@@ -22091,7 +22099,7 @@ if ($htParameters.HierarchyMapOnly -eq $false) {
         ($htCacheDefinitionsRole).($roleDefinition.name).DataActions = ($roleDefinition.properties.permissions.dataActions)
         ($htCacheDefinitionsRole).($roleDefinition.name).NotDataActions = ($roleDefinition.properties.permissions.notDataActions)
         ($htCacheDefinitionsRole).($roleDefinition.name).Json = ($roleDefinition.properties)
-        ($htCacheDefinitionsRole).($roleDefinition.name).LinkToAzAdvertizer = "<a class=`"externallink`" href=`"https://www.azadvertizer.net/azrolesadvertizer/$($roleDefinition.name).html`" target=`"_blank`">$($roleDefinition.properties.roleName)</a>"
+        ($htCacheDefinitionsRole).($roleDefinition.name).LinkToAzAdvertizer = "<a class=`"externallink`" href=`"../roleDefinition/$($roleDefinition.name).html`" target=`"_blank`">$($roleDefinition.properties.roleName)</a>"
     }
 
     $endDefinitionsCaching = get-date
@@ -23653,20 +23661,20 @@ $html = @"
     <script type="text/javascript">
         var link = document.createElement( "link" );
         rand = Math.floor(Math.random() * 99999);
-        link.href = "https://www.azadvertizer.net/azgovvizv4/css/azgovvizversion.css?rnd=" + rand;
+        link.href = "../css/azgovvizversion.css?rnd=" + rand;
         link.type = "text/css";
         link.rel = "stylesheet";
         link.media = "screen,print";
         document.getElementsByTagName( "head" )[0].appendChild( link );
     </script>
-    <link rel="stylesheet" type="text/css" href="https://www.azadvertizer.net/azgovvizv4/css/azgovvizmain_004_043.css">
-    <script src="https://www.azadvertizer.net/azgovvizv4/js/jquery-1.12.1.js"></script>
-    <script src="https://www.azadvertizer.net/azgovvizv4/js/jquery-ui-1.12.1.js"></script>
-    <script type="text/javascript" src="https://www.azadvertizer.net/azgovvizv4/js/highlight_v004_002.js"></script>
-    <script src="https://www.azadvertizer.net/azgovvizv4/js/fontawesome-0c0b5cbde8.js"></script>
-    <script src="https://www.azadvertizer.net/azgovvizv4/tablefilter/tablefilter.js"></script>
-    <link rel="stylesheet" href="https://www.azadvertizer.net/azgovvizv4/css/highlight-10.5.0.min.css">
-    <script src="https://www.azadvertizer.net/azgovvizv4/js/highlight-10.5.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/azgovvizmain_004_043.css">
+    <script src="../js/jquery-1.12.1.js"></script>
+    <script src="../js/jquery-ui-1.12.1.js"></script>
+    <script type="text/javascript" src="../js/highlight_v004_002.js"></script>
+    <script src="../js/fontawesome-0c0b5cbde8.js"></script>
+    <script src="../tablefilter/tablefilter.js"></script>
+    <link rel="stylesheet" href="../css/highlight-10.5.0.min.css">
+    <script src="../js/highlight-10.5.0.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 
     <script>
@@ -23816,11 +23824,11 @@ if ($htParameters.HierarchyMapOnly -eq $false) {
         <div class="VersionDiv VersionThis"></div>
         <div class="VersionAlert"></div> 
     </div>
-    <script src="https://www.azadvertizer.net/azgovvizv4/js/toggle_v004_004.js"></script>
-    <script src="https://www.azadvertizer.net/azgovvizv4/js/collapsetable_v004_001.js"></script>
-    <script src="https://www.azadvertizer.net/azgovvizv4/js/fitty_v004_001.min.js"></script>
-    <script src="https://www.azadvertizer.net/azgovvizv4/js/version_v004_001.js"></script>
-    <script src="https://www.azadvertizer.net/azgovvizv4/js/autocorrectOff_v004_001.js"></script>
+    <script src="../js/toggle_v004_004.js"></script>
+    <script src="../js/collapsetable_v004_001.js"></script>
+    <script src="../js/fitty_v004_001.min.js"></script>
+    <script src="../js/version_v004_001.js"></script>
+    <script src="../js/autocorrectOff_v004_001.js"></script>
     <script>
         fitty('#fitme', {
             minSize: 7,
@@ -23893,7 +23901,7 @@ $script:html += @"
 $script:html += @"
                                             </div>
                                             <div class="treeMgLogo">
-                                                <img class="imgTreeLogoTenant" src="https://www.azadvertizer.net/azgovvizv4/icon/Azurev2.png">
+                                                <img class="imgTreeLogoTenant" src="../icon/Azurev2.png">
                                             </div>
                                             <div class="extraInfoContent">
 "@
@@ -24002,7 +24010,7 @@ else {
         $script:html += @"
                                     </div>
                                     <div class="treeMgLogo">
-                                        <img class="imgTreeLogo" src="https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-11-Management-Groups.svg">
+                                        <img class="imgTreeLogo" src="../icon/Icon-general-11-Management-Groups.svg">
                                     </div>
                                     <div class="extraInfoContent">
 "@
@@ -24156,11 +24164,11 @@ if ($htParameters.HierarchyMapOnly -eq $false) {
 
 $html += @"
     </div>
-    <script src="https://www.azadvertizer.net/azgovvizv4/js/toggle_v004_004.js"></script>
-    <script src="https://www.azadvertizer.net/azgovvizv4/js/collapsetable_v004_001.js"></script>
-    <script src="https://www.azadvertizer.net/azgovvizv4/js/fitty_v004_001.min.js"></script>
-    <script src="https://www.azadvertizer.net/azgovvizv4/js/version_v004_001.js"></script>
-    <script src="https://www.azadvertizer.net/azgovvizv4/js/autocorrectOff_v004_001.js"></script>
+    <script src="../js/toggle_v004_004.js"></script>
+    <script src="../js/collapsetable_v004_001.js"></script>
+    <script src="../js/fitty_v004_001.min.js"></script>
+    <script src="../js/version_v004_001.js"></script>
+    <script src="../js/autocorrectOff_v004_001.js"></script>
     <script>
         fitty('#fitme', {
             minSize: 7,
@@ -25086,7 +25094,7 @@ else {
 }
 
 #region Stats
-if (-not $StatsOptOut) {
+if ($StatsOptIn) {
 
     if ($htParameters.onAzureDevOps) {
         if ($env:BUILD_REPOSITORY_ID) {
@@ -25210,41 +25218,8 @@ if (-not $StatsOptOut) {
     until($statsSuccess -eq $true -or $tryCounter -gt 5)
 }
 else {
-    #noStats
-    $identifier = (New-Guid).Guid
-    $tryCounter = 0
-    do {
-        if ($tryCounter -gt 0) {
-            start-sleep -seconds ($tryCounter * 3)
-        }
-        $tryCounter++
-        $statsSuccess = $true
-        try {
-            $statusBody = @"
-{
-    "name": "Microsoft.ApplicationInsights.Event",
-    "time": "$((Get-Date).ToUniversalTime())",
-    "iKey": "ffcd6b2e-1a5e-429f-9495-e3492decfe06",
-    "data": {
-        "baseType": "EventData",
-        "baseData": {
-            "name": "$($Product)",
-            "ver": 2,
-            "properties": {
-                "identifier": "$($identifier)",
-                "statsTry": "$($tryCounter)"
-            }
-        }
-    }
-}
-"@
-            $stats = Invoke-WebRequest -Uri 'https://dc.services.visualstudio.com/v2/track' -Method 'POST' -body $statusBody
-        }
-        catch {
-            $statsSuccess = $false
-        }
-    }
-    until($statsSuccess -eq $true -or $tryCounter -gt 5)
+    #noStats means NO STATS.
+    # Removed code that tried to collect stats on whether or not stats could be collected.
 }
 #endregion Stats
 

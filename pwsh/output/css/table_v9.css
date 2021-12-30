@@ -1,0 +1,665 @@
+table.changeTable {
+    border: 1px solid #1C6EA4;
+    /*background-color: #EEEEEE;*/
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed;
+    word-break: break-all;
+}
+
+table.changeTable td,
+table.changeTable th {
+    border: 1px solid #AAAAAA;
+    padding: 4px 4px;
+    font-size: small;
+    vertical-align: middle;
+}
+
+table.changeTable tr:nth-child(even) {
+    background: #FFFFFF;
+}
+
+table.changeTable thead {
+    /*background: #EEEEEE;*/
+    border-bottom: 2px solid #444444;
+}
+
+table.changeTable thead th {
+    font-weight: bold;
+    border-left: 1px solid #D0E4F5;
+}
+
+table.changeTable thead th:first-child {
+    border-left: none;
+}
+
+table.detailTable {
+    width: 100%;
+    text-align: left;
+    table-layout: fixed;
+    word-break: break-word;
+}
+
+table.detailTable td {
+    border: 1px solid #AAAAAA;
+    padding: 4px 4px;
+    font-size: small;
+    vertical-align: top;
+}
+
+table.detailTableRoles {
+    /*width: 100%;*/
+    text-align: left;
+    table-layout: fixed;
+
+}
+
+table.detailTableRoles td {
+    border: 1px solid #AAAAAA;
+    padding: 4px 4px;
+    font-size: small;
+    vertical-align: top;
+}
+table.filterTable {
+    /*border: 1px solid #1C6EA4;*/
+    /*background-color: #EEEEEE;*/
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table.filterTable td{
+    font-size: small;
+    word-break: break-all;
+    vertical-align: top;
+}
+table.filterTable th {
+    /*border: 1px solid #AAAAAA;*/
+    /*vertical-align: top;*/
+    font-size: small;
+    word-break: break-all;
+    vertical-align: middle;
+}
+
+table.filterTable thead {
+    border-bottom: 2px solid #444444;
+}
+
+table.filterTable thead th {
+    font-weight: bold;
+    border-left: 1px solid #D0E4F5;
+}
+
+table.filterTable thead th:first-child {
+    border-left: none;
+}
+
+/*azPolicyAdvertizer*/
+table.filterTableAzPolicyAdvertizer {
+    /*border: 1px solid #1C6EA4;*/
+    /*background-color: #EEEEEE;*/
+    width: 100%!important;
+    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table.filterTableAzPolicyAdvertizer td{
+    font-size: small;
+    word-break: break-word;
+    vertical-align: top;
+}
+table.filterTableAzPolicyAdvertizer th {
+    /*border: 1px solid #AAAAAA;*/
+    /*vertical-align: top;*/
+    font-size: small;
+    word-break: break-word;
+    vertical-align: middle;
+}
+
+table.filterTableAzPolicyAdvertizer thead {
+    border-bottom: 2px solid #444444;
+}
+
+table.filterTableAzPolicyAdvertizer thead th {
+    font-weight: bold;
+    border-left: 1px solid #D0E4F5;
+}
+
+table.filterTableAzPolicyAdvertizer thead th:first-child {
+    border-left: 1px solid #ccc;
+}
+
+/*AzResourceOperationAdvertizer*/
+table.filterTableAzResourceOperationAdvertizer {
+    /*border: 1px solid #1C6EA4;*/
+    /*background-color: #EEEEEE;*/
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table.filterTableAzResourceOperationAdvertizer td{
+    font-size: small;
+    word-break: break-word;
+    vertical-align: top;
+}
+table.filterTableAzResourceOperationAdvertizer th {
+    /*border: 1px solid #AAAAAA;*/
+    /*vertical-align: top;*/
+    font-size: small;
+    word-break: break-word;
+    vertical-align: middle;
+}
+
+table.filterTableAzResourceOperationAdvertizer thead {
+    border-bottom: 2px solid #444444;
+}
+
+table.filterTableAzResourceOperationAdvertizer thead th {
+    font-weight: bold;
+    border-left: 1px solid #D0E4F5;
+}
+
+table.filterTableAzResourceOperationAdvertizer thead th:first-child {
+    border-left: 1px solid #ccc;
+}
+
+
+
+
+
+
+/*summary*/
+table.filterTableSummary {
+    /*border: 1px solid #1C6EA4;*/
+    /*background-color: #EEEEEE;*/
+    /*width: 100%;*/
+    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table.filterTableSummary td{
+    font-size: small;
+    word-break: break-word;
+    vertical-align: top;
+    text-align: center;
+    border-left: 1px solid #c6c6c6;
+    border-right: 1px solid #c6c6c6
+
+}
+table.filterTableSummary th {
+    /*border: 1px solid #AAAAAA;*/
+    /*vertical-align: top;*/
+    font-size: small;
+    /*word-break: break-word;*/
+    text-align: center;
+    border-left: 1px solid #c6c6c6!important;
+    
+}
+
+table.filterTableSummary thead {
+    border-bottom: 2px solid #444444;
+}
+
+table.filterTableSummary thead th {
+    font-weight: bold;
+    border-left: 1px solid #D0E4F5;
+}
+
+table.filterTableSummary thead th:first-child {
+    border-left: none;
+}
+
+/*summaryinner*/
+table.filterTableSummaryInner {
+    /*border: 1px solid #1C6EA4;*/
+    /*background-color: #EEEEEE;*/
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table.filterTableSummaryInner td{
+    font-size: small;
+    word-break: break-word;
+    vertical-align: top;
+    border-bottom: 0px solid #c6c6c6!important;
+    padding: .0em .0em!important;
+    border-left: 0px!important;
+    
+}
+table.filterTableSummaryInner th {
+    /*border: 1px solid #AAAAAA;*/
+    /*vertical-align: top;*/
+    font-size: small;
+    /*word-break: break-word;*/
+    text-align: center;
+}
+
+table.filterTableSummaryInner thead {
+    border-bottom: 0px solid #444444;
+}
+
+table.filterTableSummaryInner thead th {
+    font-weight: bold;
+    border-left: 0px solid #D0E4F5;
+}
+
+table.filterTableSummaryInner thead th:first-child {
+    border-left: none;
+}
+
+
+/*summaryinnerinner*/
+table.filterTableSummaryInnerInner {
+    /*border: 1px solid #1C6EA4;*/
+    /*background-color: #EEEEEE;*/
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border: 1px solid #e6e6e6;
+}
+
+table.filterTableSummaryInnerInner td{
+    font-size: small;
+    word-break: break-word;
+    vertical-align: top;
+    border-bottom: 0px solid #c6c6c6!important;
+    padding: .0em .0em!important;
+    border-left: 0px!important;
+}
+table.filterTableSummaryInnerInner th {
+    /*border: 1px solid #AAAAAA;*/
+    /*vertical-align: top;*/
+    font-size: small;
+    /*word-break: break-word;*/
+    vertical-align: middle;
+}
+
+table.filterTableSummaryInnerInner thead {
+    border-bottom: 0px solid #444444;
+}
+
+table.filterTableSummaryInnerInner thead th {
+    font-weight: bold;
+    border-left: 0px solid #D0E4F5;
+}
+
+table.filterTableSummaryInnerInner thead th:first-child {
+    border-left: none;
+}
+
+
+/*azPolicyInitiativesAdvertizer*/
+table.filterTableAzPolicyInitiativesAdvertizer {
+    /*border: 1px solid #1C6EA4;*/
+    /*background-color: #EEEEEE;*/
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table.filterTableAzPolicyInitiativesAdvertizer td{
+    font-size: small;
+    word-break: break-word;
+    vertical-align: top;
+}
+table.filterTableAzPolicyInitiativesAdvertizer th {
+    /*border: 1px solid #AAAAAA;*/
+    /*vertical-align: top;*/
+    font-size: small;
+    word-break: break-word;
+    vertical-align: middle;
+}
+
+table.filterTableAzPolicyInitiativesAdvertizer thead {
+    border-bottom: 2px solid #444444;
+}
+
+table.filterTableAzPolicyInitiativesAdvertizer thead th {
+    font-weight: bold;
+    border-left: 1px solid #D0E4F5;
+}
+
+table.filterTableAzPolicyInitiativesAdvertizer thead th:first-child {
+    border-left: 1px solid #ccc;
+}
+
+/*azRolesAdvertizer*/
+table.filterTableAzRolesAdvertizer {
+    /*border: 1px solid #1C6EA4;*/
+    /*background-color: #EEEEEE;*/
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table.filterTableAzRolesAdvertizer td{
+    font-size: small;
+    word-break: break-word;
+    vertical-align: top;
+}
+table.filterTableAzRolesAdvertizer th {
+    /*border: 1px solid #AAAAAA;*/
+    /*vertical-align: top;*/
+    font-size: small;
+    word-break: break-word;
+    vertical-align: middle;
+}
+
+table.filterTableAzRolesAdvertizer thead {
+    border-bottom: 2px solid #444444;
+}
+
+table.filterTableAzRolesAdvertizer thead th {
+    font-weight: bold;
+    border-left: 1px solid #D0E4F5;
+}
+
+table.filterTableAzRolesAdvertizer thead th:first-child {
+    border-left: 1px solid #ccc;
+}
+
+
+/*azPolicyAliasesAdvertizer*/
+table.filterTableAzPolicyAliasesAdvertizer {
+    /*border: 1px solid #1C6EA4;*/
+    /*background-color: #EEEEEE;*/
+    width: 100%!important;
+    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table.filterTableAzPolicyAliasesAdvertizer td{
+    font-size: small;
+    word-break: break-word;
+    vertical-align: top;
+}
+table.filterTableAzPolicyAliasesAdvertizer th {
+    /*border: 1px solid #AAAAAA;*/
+    /*vertical-align: top;*/
+    font-size: small;
+    word-break: break-word;
+    vertical-align: middle;
+}
+
+table.filterTableAzPolicyAliasesAdvertizer thead {
+    border-bottom: 2px solid #444444;
+}
+
+table.filterTableAzPolicyAliasesAdvertizer thead th {
+    font-weight: bold;
+    border-left: 1px solid #D0E4F5;
+}
+
+table.filterTableAzPolicyAliasesAdvertizer thead th:first-child {
+    border-left: 1px solid #ccc;
+}
+
+
+/*azPolicyAdvertizerDetailed*/
+table.filterTableAzPolicyAdvertizerDetailed {
+    /*border: 1px solid #1C6EA4;*/
+    /*background-color: #EEEEEE;*/
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table.filterTableAzPolicyAdvertizerDetailed td{
+    font-size: small;
+    word-break: break-word;
+    vertical-align: top;
+    /*white-space:nowrap;*/
+}
+table.filterTableAzPolicyAdvertizerDetailed th {
+    border: 1px solid #AAAAAA;
+    /*vertical-align: top;*/
+    font-size: small;
+    /*word-break: break-word;*/
+    vertical-align: middle;
+}
+
+table.filterTableAzPolicyAdvertizerDetailed thead {
+    border-bottom: 2px solid #444444;
+}
+
+table.filterTableAzPolicyAdvertizerDetailed thead th {
+    font-weight: bold;
+    border-left: 1px solid #D0E4F5;
+}
+
+table.filterTableAzPolicyAdvertizerDetailed thead th:first-child {
+    border-left: 1px solid #aaa;
+}
+
+
+
+
+/*azPolicyInitiativesAdvertizerDetailed*/
+table.filterTableAzPolicyInitiativesAdvertizerDetailed {
+    /*border: 1px solid #1C6EA4;*/
+    /*background-color: #EEEEEE;*/
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed;
+    /*white-space:nowrap;*/
+}
+
+table.filterTableAzPolicyInitiativesAdvertizerDetailed td{
+    font-size: small;
+    word-break: break-word;
+    vertical-align: top;
+}
+table.filterTableAzPolicyInitiativesAdvertizerDetailed th {
+    border: 1px solid #AAAAAA;
+    /*vertical-align: top;*/
+    font-size: small;
+    /*word-break: break-word;*/
+    vertical-align: middle;
+}
+
+table.filterTableAzPolicyInitiativesAdvertizerDetailed thead {
+    border-bottom: 2px solid #444444;
+}
+
+table.filterTableAzPolicyInitiativesAdvertizerDetailed thead th {
+    font-weight: bold;
+    border-left: 1px solid #D0E4F5;
+}
+
+table.filterTableAzPolicyInitiativesAdvertizerDetailed thead th:first-child {
+    border-left: 1px solid #aaa;
+}
+
+
+/*azRolesAdvertizerDetailed*/
+table.filterTableAzRolesAdvertizerDetailed {
+    /*border: 1px solid #1C6EA4;*/
+    /*background-color: #EEEEEE;*/
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table.filterTableAzRolesAdvertizerDetailed td{
+    font-size: small;
+    word-break: break-word;
+    vertical-align: top;
+    /*white-space:nowrap;*/
+}
+
+table.filterTableAzRolesAdvertizerDetailed th {
+    border: 1px solid #AAAAAA;
+    /*vertical-align: top;*/
+    font-size: small;
+    /*word-break: break-word;*/
+    vertical-align: middle;
+}
+
+table.filterTableAzRolesAdvertizerDetailed thead {
+    border-bottom: 2px solid #444444;
+}
+
+table.filterTableAzRolesAdvertizerDetailed thead th {
+    font-weight: bold;
+    border-left: 1px solid #D0E4F5;
+}
+
+table.filterTableAzRolesAdvertizerDetailed thead th:first-child {
+    border-left: 1px solid #aaa;
+}
+
+
+.width05 {
+    width: 5%;
+}
+
+.width10 {
+    width: 10%;
+}
+
+.width12 {
+    width: 12%;
+}
+
+.width13 {
+    width: 13%;
+}
+
+.width15 {
+    width: 15%;
+}
+
+.width16 {
+    width: 16%;
+}
+
+.width17 {
+    width: 17%;
+}
+
+.width18 {
+    width: 18%;
+}
+
+.width20 {
+    width: 20%;
+}
+
+.width22 {
+    width: 22%;
+}
+
+.width24 {
+    width: 24%;
+}
+
+.width25 {
+    width: 25%;
+}
+
+.width28 {
+    width: 28%;
+}
+
+.width29 {
+    width: 29%;
+}
+
+.width32 {
+    width: 32%;
+}
+
+.width34 {
+    width: 34%;
+}
+
+.width40 {
+    width: 40%;
+}
+
+.width45 {
+    width: 45%;
+}
+
+.width50 {
+    width: 50%;
+}
+
+.width52 {
+    width: 52%;
+}
+
+.width59 {
+    width: 59%;
+}
+
+.width60 {
+    width: 60%;
+}
+
+#wrapper1 {
+    overflow: hidden;
+}
+
+#wrapper1first {
+    line-height: 30px;
+    width: 30px;
+    float: left;
+}
+
+#wrapper1second {
+    overflow: hidden;
+    float: left;
+    line-height: 30px;
+}
+
+.morecontent span {
+    display: none;
+}
+
+.morelink {
+    color: #1C6EA4!important;
+    text-decoration: none;
+}
+.col5555{
+    background-color: #525050;
+}
+
+/*jsontdinnertable*/
+table.jsontdinnertable {
+    text-align: left;
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%
+}
+
+td.jsontdinnertablehead{
+    border-top: 0px!important;
+    border-right: 0px!important;
+    border-left: 0px!important;
+    border-bottom: 1px solid #AAAAAA!important;
+    padding-left: 0px!Important;
+    padding-top: 0px!Important;
+}
+
+td.jsontdinnertablecontent {
+    resize: vertical; 
+    overflow-y: auto;
+    border: 0px!Important;
+    padding-left: 0px!Important;
+}

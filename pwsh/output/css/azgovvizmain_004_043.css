@@ -1,0 +1,1308 @@
+.VersionThis {
+    content: "4"
+}
+
+.VersionDiv {
+    display: none
+}
+
+.VersionAlert {
+    color: #000000
+}
+
+* {
+	margin: 0;
+	padding: 0
+}
+
+.logo {
+	display: block;
+	text-indent: -9999px;
+	width: 100px;
+	height: 82px;
+	background: url(https://www.azadvertizer.net/azgovvizv4/icon/Icon-general-11-Management-Groups.svg);
+	background-size: 100px 82px
+  }
+
+html,
+body {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	background-color: #EEEEEE
+}
+
+b {
+    font-weight: 500
+}
+
+table {
+	margin: 1px;
+	padding: 3px 0px 0px 3px;
+	background-color: #AEDEFE;
+	border-top-left-radius: 5px;
+	border-spacing: 0px;
+	border-top: 1px solid #ccc;
+	border-left: 1px solid #ccc;
+	color: #000000
+}
+
+.valignMiddle{
+	vertical-align: top
+}
+
+th {
+	font-weight: bold;
+	background-color: #F3F3F3;
+	vertical-align: top
+}
+
+table.summaryTable {
+	background-color: #E0E0E0;
+	border-spacing: 1px;
+	border: 1px solid #ccc;
+	padding: 0px 0px 0px 0px
+}
+
+td.detailstd {
+	background-color: #ffffff;
+	line-height: 10px
+}
+
+table.mgDetailsTable {
+	background-color: #E0E0E0;
+	border-spacing: 1px;
+	border: 1px solid #ccc;
+	padding: 0px 0px 0px 0px
+}
+
+table.subTable {
+	width: 100%;
+	background-color: #FFDF5C;
+    margin: 1px;
+    border-bottom: 2px solid #ccc
+}
+
+table.subDetailsTable {
+	border-spacing: 1px;
+	padding: 0px 0px 0px 0px
+}
+
+table.bottomrow {
+	border-bottom: 1px solid #ccc;
+	width: 100%
+}
+
+tr {
+	text-align: left;
+	margin: 1px;
+	padding: 1px
+}
+
+td {
+	text-align: left;
+	margin: 1px;
+	padding: 1px;
+	vertical-align: top;
+	line-height: normal;
+}
+
+td.breakwordall {
+	word-break: break-all
+}
+
+.widthCustom {
+	width: 16%
+}
+
+.fa-eye {
+	background: white
+}
+
+.fa-minus-square-o {
+	color: #56595E
+}
+
+.fa-info-circle {
+	color: #ccc
+}
+
+.fa-ban {
+	color: #56595E
+}
+
+.fa-exclamation-triangle {
+	color: #FF9300
+}
+
+.yellow.fa-exclamation-triangle {
+	color: #FFC300;
+	font-size: 9px
+}
+
+.orange.fa-exclamation-triangle {
+	color: #ff5e00;
+	font-size: 9px
+}
+
+.red.fa-exclamation-triangle {
+	color: #ff0000;
+	font-size: 9px
+}
+
+.fa-linkedin-square {
+	color: #2867B2
+}
+
+.blue.fa-check-circle{
+	color: #0078df
+}
+
+.green.fa-check-circle{
+	color: #67C409
+}
+
+.green.fa-check{
+	color: #67C409
+}
+
+.fa-question-circle{
+	color: #56595E
+}
+
+img.imgMgTree {
+	height: 10px;
+	vertical-align: middle
+}
+
+img.imgMgTree.defaultMG {
+    background-color: #FFCBC7
+}
+
+img.imgMg {
+	height: 13px;
+	vertical-align: middle
+}
+
+img.imgMg.defaultMG {
+    background-color: #FFCBC7
+}
+
+img.imgSubTree {
+	height: 10px;
+	vertical-align: middle
+}
+
+img.imgSub {
+	height: 11px;
+	vertical-align: middle
+}
+
+div {
+	float: left
+}
+
+.hierarchyTree {
+	width: 100%;
+	margin-top: 5px;
+	overflow-x: auto;
+    overflow-y: hidden;
+    display: inherit;
+    padding-left: 10px
+}
+
+.summprnt {
+    overflow-y: scroll;
+    overflow-x: auto;
+	background-color: #e0f2ff;
+	resize: vertical
+}
+
+.summary {
+    overflow-x: hidden;
+    font-family: "Segoe UI","SegoeUI","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 10px;
+    padding-top: 15px;
+    padding-left: 10px
+}
+
+.definitioninsightsprnt {
+    overflow-y: scroll;
+    overflow-x: auto;
+	background-color: #DAFFD1;
+	resize: vertical
+}
+
+.definitioninsights {
+    overflow-x: hidden;
+    font-family: "Segoe UI","SegoeUI","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 10px;
+    padding-top: 15px;
+    padding-left: 10px
+}
+
+.hierprnt {
+    overflow-y: auto
+}
+
+.hierarchyTables {
+	overflow: hidden;
+	font-family: "Segoe UI","SegoeUI","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 10px;
+	padding-top: 15px;
+    padding-left: 10px;
+	background-color: #EEEEEE
+}
+
+.footer {
+	font-family: "Segoe UI","SegoeUI","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 10px;
+	text-align: left;
+	background-color: #F9F9F9;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	width: 100%;
+	position: absolute;
+	padding-left: 5px
+}
+
+a,
+a:visited {
+	text-decoration: none;
+	outline: 0;
+	color: #000000;
+	-webkit-transition: color .3s ease-in-out;
+	-moz-transition: color .3s ease-in-out;
+	-o-transition: color .3s ease-in-out;
+	transition: color .3s ease-in-out
+}
+a.externallink, a.externallink:visited, a.externallink:hover {
+    color: #0078df!important
+}
+a.externallinksecurityfinding, a.externallinksecurityfinding:visited, a.externallinksecurityfinding:hover {
+    color: #ff0000
+}
+a.internallink, a.internallink:visited, a.internallink:hover {
+    color: #0078df!important
+}
+
+a:hover,
+a:focus {
+	color: #34393A
+}
+
+p a,
+p a:visited {
+	line-height: inherit
+}
+
+a.foot:visited {
+    color: #56595E
+}
+
+.collapsible {
+	background-color: inherit;
+	cursor: pointer;
+	width: 100%;
+	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 10px
+}
+
+.content {
+	display: none;
+	overflow: hidden;
+    width: 100%;
+    padding-top: 3px;
+}
+
+.content.TenantSummary {
+	background-color: #e0f2ff;
+}
+
+.content.TenantSummaryContent {
+	background-color: #cae6fa;
+}
+
+.contentDefinitionInsights {
+    float: none;
+}
+
+.contentSub {
+	display: none;
+	overflow: hidden;
+	width: 100%;
+	padding-left: 3px 
+}
+
+.tree{
+	background-color: #FFFFFF;
+    padding-right: 10px
+}
+.tree ul {
+	/*padding-top: 5px;*/
+	position: relative;
+    display: flex;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	transition: all 0.5s;
+}
+
+li#first::before {
+    content: none
+}
+
+.tree li {
+	float: left;
+	text-align: center;
+	list-style-type: none;
+	position: relative;
+	padding: 6px 1px 0 1px;
+	word-break: break-word
+}
+
+/*We will use ::before and ::after to draw the connectors*/
+.tree li::before,
+.tree li::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 50%;
+	border-top: 1px solid #B9B9B7;
+	width: 50%;
+	height: 5px
+}
+
+.tree li::after {
+	right: auto;
+	left: 50%;
+	border-left: 1px solid #B9B9B7
+}
+
+.tree li a.tenant::before {
+    content: none;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-left: 1px solid #B9B9B7;
+    width: 0;
+    /*height: 6px*/
+}
+
+.tree li:only-child::after,
+.tree li:only-child::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-left: 1px solid #B9B9B7;
+    width: 0;
+    /*height: 6px*/
+}
+
+.tree li:first-child::before,
+.tree li:last-child::after {
+	border: 0 none
+}
+
+.tree li:last-child::before {
+	border-right: 1px solid #B9B9B7
+}
+
+.tree ul ul::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 50%;
+	border-left: 1px solid #B9B9B7;
+	width: 0;
+	height: 0px
+}
+
+.tree li a {
+	border: 1px solid #B9B9B7;
+	-webkit-border-radius: 3px 3px 3px 3px;
+	-moz-border-radius: 3px 3px 3px 3px;
+	border-radius: 3px 3px 3px 3px;
+	padding: 0px 0px;
+	text-decoration: none;
+	color: #000000;
+	font-family: Arial;
+	font-size: 10px;
+	display: inline-block;
+	width: 76px;
+	background-color: #FFFFFF
+}
+
+.tree li a.mgnonradius {
+	border-top: 2px solid #AEDEFE;
+	border-left: 1.5px dashed #AEDEFE;
+	border-right: 1.5px dashed #AEDEFE;
+	border-bottom: 0px;
+	-webkit-border-radius: 10px 10px 0px 0px;
+	-moz-border-radius: 10px 10px 0px 0px;
+	border-radius: 10px 10px 0px 0px;
+	height: 40px;
+	margin-bottom: 3px
+}
+
+.tree li a.defaultMG {
+	background-color: #FFCBC7
+}
+
+.tree li a.parentmgnotaccessible {
+	border: 1.5px solid #ccc;
+	border-left: 1.5px dashed #ccc;
+	border-right: 1.5px dashed #ccc;
+	border-bottom: 0px;
+	cursor: text;
+	background-color: #F4F4F4;
+}
+
+.tree li a.tenantRootGroup {
+    /*height: fit-content;*/
+	/*margin-top: 12px;*/
+	margin-bottom: 3px
+}
+
+.tree li a.tenant {
+	margin-top: 12px;
+	border: 1px solid #3e81ff;
+	border-bottom: 0px;
+	-webkit-border-radius: 10px 10px 0px 0px;
+	-moz-border-radius: 10px 10px 0px 0px;
+	border-radius: 10px 10px 0px 0px;
+	background-color: #ffffff;
+	padding: 0px 0px;
+	text-decoration: none;
+	color: #000000;
+	font-family: "Segoe UI","SegoeUI","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 10px;
+	display: inline-block;
+	height: fit-content;
+	-webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+	transition: all 0.5s;
+    cursor: text
+}
+
+button {
+    font-family: "Segoe UI","SegoeUI","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 10px;
+    line-height: 10px
+}
+
+button#hierarchyTreeShowHide {
+	background-color: #FFFFFF;
+	outline:none;
+    border: 1px solid #aaa
+}
+
+button#summaryShowHide {
+	background-color: #e0f2ff;
+	outline:none;
+    border: 1px solid #aaa
+}
+
+button#definitionInsightsShowHide {
+    background-color: #DAFFD1;
+    outline: none;
+    border: 1px solid #aaa;
+}
+
+button#hierprntShowHide {
+	background-color: #EEEEEE;
+	outline:none;
+    border: 1px solid #aaa
+}
+
+.hr {
+	margin-block-start: 0;
+    margin-block-end: 0
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin-top: 2px
+}
+
+.fitme {
+	width: 100%
+}
+
+.topli {
+	width: 100%
+}
+
+abbr[title] {
+    cursor: help
+}
+
+abbr {
+	color: gray;
+	font-family: "Segoe UI","SegoeUI","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 10px
+}
+
+.se-pre-con {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url(https://www.azadvertizer.net/azgovvizv4/icon/preloader_c.gif) center no-repeat rgba(255,255,255,0.7)
+}
+
+::-webkit-resizer {
+    border : 9px solid rgba(0,0,0,.1);
+    border-bottom-color: rgba(0,0,0,.5);
+    border-right-color: rgba(0,0,0,.5)
+}
+
+.hr-text {
+	line-height: 1em;
+	position: relative;
+	border: 0;
+	color: black;
+	text-align: left;
+	height: 1.5em;
+	padding-left: 8px;
+	font-weight: 500
+}
+.hr-text::before{
+	  content: '';
+	  background: #ccc;
+	  position: absolute;
+	  left: 0;
+	  top: 50%;
+	  width: 100%;
+	  height: 1px
+}
+
+.hr-text::after{
+	content: attr(data-content);
+	position: relative;
+	display: inline-block;
+	padding: 0 .5em;
+	line-height: 1.5em;
+	background-color: #e0f2ff
+}
+
+.hr-textPolicy {
+	line-height: 1em;
+	position: relative;
+	border: 0;
+	color: black;
+	text-align: left;
+	height: 1.5em;
+	/*padding-left: 8px;*/
+	font-weight: 500
+}
+.hr-textPolicy::before{
+	  content: '';
+	  background: #ccc;
+	  position: absolute;
+	  left: 0;
+	  top: 50%;
+	  width: 100%;
+	  height: 1px
+}
+
+.hr-textPolicy::after{
+	content: attr(data-content);
+	position: relative;
+	display: inline-block;
+	padding: 0 1em 0 2em;
+	line-height: 1.5em;
+	background-color: #e0f2ff;
+	background-repeat: no-repeat;
+	background-size: 14px;
+	background-position-y: center;
+    background-image: url(https://www.azadvertizer.net/azgovvizv4/icon/10316-icon-service-Policy.svg);
+}
+
+.hr-textAAD {
+	line-height: 1em;
+	position: relative;
+	border: 0;
+	color: black;
+	text-align: left;
+	height: 1.5em;
+	/*padding-left: 8px;*/
+	font-weight: 500
+}
+.hr-textAAD::before{
+	  content: '';
+	  background: #ccc;
+	  position: absolute;
+	  left: 0;
+	  top: 50%;
+	  width: 100%;
+	  height: 1px
+}
+
+.hr-textAAD::after{
+	content: attr(data-content);
+	position: relative;
+	display: inline-block;
+	padding: 0 1em 0 2em;
+	line-height: 1.5em;
+	background-color: #e0f2ff;
+	background-repeat: no-repeat;
+	background-size: 14px;
+	background-position-y: center;
+    background-image: url(https://www.azadvertizer.net/azgovvizv4/icon/10221-icon-service-Azure-Active-Directory.svg);
+}
+
+.hr-textConsumption {
+	line-height: 1em;
+	position: relative;
+	border: 0;
+	color: black;
+	text-align: left;
+	height: 1.5em;
+	/*padding-left: 8px;*/
+	font-weight: 500
+}
+.hr-textConsumption::before{
+	  content: '';
+	  background: #ccc;
+	  position: absolute;
+	  left: 0;
+	  top: 50%;
+	  width: 100%;
+	  height: 1px
+}
+
+.hr-textConsumption::after{
+	content: attr(data-content);
+	position: relative;
+	display: inline-block;
+	padding: 0 1em 0 2em;
+	line-height: 1.5em;
+	background-color: #e0f2ff;
+	background-repeat: no-repeat;
+	background-size: 14px;
+	background-position-y: center;
+    background-image: url(https://www.azadvertizer.net/azgovvizv4/icon/00004-icon-service-Cost-Management-and-Billing.svg);
+}
+
+.hr-textManagementGroups {
+	line-height: 1em;
+	position: relative;
+	border: 0;
+	color: black;
+	text-align: left;
+	height: 1.5em;
+	/*padding-left: 8px;*/
+	font-weight: 500
+}
+.hr-textManagementGroups::before{
+	  content: '';
+	  background: #ccc;
+	  position: absolute;
+	  left: 0;
+	  top: 50%;
+	  width: 100%;
+	  height: 1px
+}
+
+.hr-textManagementGroups::after{
+	content: attr(data-content);
+	position: relative;
+	display: inline-block;
+	padding: 0 1em 0 2em;
+	line-height: 1.5em;
+	background-color: #e0f2ff;
+	background-repeat: no-repeat;
+	background-size: 14px;
+	background-position-y: center;
+    background-image: url(https://www.azadvertizer.net/azgovvizv4/icon/10011-icon-service-Management-Groups.svg);
+}
+
+.hr-textRBAC {
+	line-height: 1em;
+	position: relative;
+	border: 0;
+	color: black;
+	text-align: left;
+	height: 1.5em;
+	/*padding-left: 8px;*/
+	font-weight: 500
+}
+.hr-textRBAC::before{
+	  content: '';
+	  background: #ccc;
+	  position: absolute;
+	  left: 0;
+	  top: 50%;
+	  width: 100%;
+	  height: 1px
+}
+
+.hr-textRBAC::after{
+	content: attr(data-content);
+	position: relative;
+	display: inline-block;
+	padding: 0 1em 0 2em;
+	line-height: 1.5em;
+	background-color: #e0f2ff;
+	background-repeat: no-repeat;
+	background-size: 14px;
+	background-position-y: center;
+    background-image: url(https://www.azadvertizer.net/azgovvizv4/icon/10340-icon-service-Azure-AD-Roles-and-Administrators.svg);
+}
+
+.hr-textBlueprints {
+	line-height: 1em;
+	position: relative;
+	border: 0;
+	color: black;
+	text-align: left;
+	height: 1.5em;
+	/*padding-left: 8px;*/
+	font-weight: 500
+}
+.hr-textBlueprints::before{
+	  content: '';
+	  background: #ccc;
+	  position: absolute;
+	  left: 0;
+	  top: 50%;
+	  width: 100%;
+	  height: 1px
+}
+
+.hr-textBlueprints::after{
+	content: attr(data-content);
+	position: relative;
+	display: inline-block;
+	padding: 0 1em 0 2em;
+	line-height: 1.5em;
+	background-color: #e0f2ff;
+	background-repeat: no-repeat;
+	background-size: 14px;
+	background-position-y: center;
+    background-image: url(https://www.azadvertizer.net/azgovvizv4/icon/00006-icon-service-Blueprints.svg);
+}
+
+.hr-textSubscriptions {
+	line-height: 1em;
+	position: relative;
+	border: 0;
+	color: black;
+	text-align: left;
+	height: 1.5em;
+	/*padding-left: 8px;*/
+	font-weight: 500
+}
+.hr-textSubscriptions::before{
+	  content: '';
+	  background: #ccc;
+	  position: absolute;
+	  left: 0;
+	  top: 50%;
+	  width: 100%;
+	  height: 1px
+}
+
+.hr-textSubscriptions::after{
+	content: attr(data-content);
+	position: relative;
+	display: inline-block;
+	padding: 0 1em 0 2em;
+	line-height: 1.5em;
+	background-color: #e0f2ff;
+	background-repeat: no-repeat;
+	background-size: 14px;
+	background-position-y: center;
+    background-image: url(https://www.azadvertizer.net/azgovvizv4/icon/10002-icon-service-Subscriptions.svg);
+}
+
+.hr-textLimits {
+	line-height: 1em;
+	position: relative;
+	border: 0;
+	color: black;
+	text-align: left;
+	height: 1.5em;
+	/*padding-left: 8px;*/
+	font-weight: 500
+}
+.hr-textLimits::before{
+	  content: '';
+	  background: #ccc;
+	  position: absolute;
+	  left: 0;
+	  top: 50%;
+	  width: 100%;
+	  height: 1px
+}
+
+.hr-textLimits::after{
+	content: attr(data-content);
+	position: relative;
+	display: inline-block;
+	padding: 0 1em 0 2em;
+	line-height: 1.5em;
+	background-color: #e0f2ff;
+	background-repeat: no-repeat;
+	background-size: 14px;
+	background-position-y: center;
+    background-image: url(https://www.azadvertizer.net/azgovvizv4/icon/Limits.png);
+}
+
+.hr-textChangeTracking {
+	line-height: 1em;
+	position: relative;
+	border: 0;
+	color: black;
+	text-align: left;
+	height: 1.5em;
+	/*padding-left: 8px;*/
+	font-weight: 500
+}
+.hr-textChangeTracking::before{
+	  content: '';
+	  background: #ccc;
+	  position: absolute;
+	  left: 0;
+	  top: 50%;
+	  width: 100%;
+	  height: 1px
+}
+
+.hr-textChangeTracking::after{
+	content: attr(data-content);
+	position: relative;
+	display: inline-block;
+	padding: 0 1em 0 2em;
+	line-height: 1.5em;
+	background-color: #e0f2ff;
+	background-repeat: no-repeat;
+	background-size: 14px;
+	background-position-y: center;
+    background-image: url(https://www.azadvertizer.net/azgovvizv4/icon/ChangeTracking.png);
+}
+
+.hr-textDiagnostics {
+	line-height: 1em;
+	position: relative;
+	border: 0;
+	color: black;
+	text-align: left;
+	height: 1.5em;
+	/*padding-left: 8px;*/
+	font-weight: 500
+}
+.hr-textDiagnostics::before{
+	  content: '';
+	  background: #ccc;
+	  position: absolute;
+	  left: 0;
+	  top: 50%;
+	  width: 100%;
+	  height: 1px
+}
+
+.hr-textDiagnostics::after{
+	content: attr(data-content);
+	position: relative;
+	display: inline-block;
+	padding: 0 1em 0 2em;
+	line-height: 1.5em;
+	background-color: #e0f2ff;
+	background-repeat: no-repeat;
+	background-size: 14px;
+	background-position-y: center;
+    background-image: url(https://www.azadvertizer.net/azgovvizv4/icon/00008-icon-service-Diagnostics-Settings.svg);
+}
+
+.hr-text-definitionInsightsPolicy {
+	line-height: 1em;
+	position: relative;
+	border: 0;
+	color: black;
+	text-align: left;
+	height: 1.5em;
+	/*padding-left: 8px;*/
+	font-weight: 500
+}
+.hr-text-definitionInsightsPolicy::before{
+	  content: '';
+	  background: #ccc;
+	  position: absolute;
+	  left: 0;
+	  top: 50%;
+	  width: 100%;
+	  height: 1px
+}
+
+.hr-text-definitionInsightsPolicy::after{
+	content: attr(data-content);
+	position: relative;
+	display: inline-block;
+	padding: 0 1em 0 2em;
+	line-height: 1.5em;
+	background-color: #DAFFD1;
+	background-repeat: no-repeat;
+	background-size: 14px;
+	background-position-y: center;
+    background-image: url(https://www.azadvertizer.net/azgovvizv4/icon/10316-icon-service-Policy.svg);
+}
+
+.hr-text-definitionInsightsRBAC {
+	line-height: 1em;
+	position: relative;
+	border: 0;
+	color: black;
+	text-align: left;
+	height: 1.5em;
+	/*padding-left: 8px;*/
+	font-weight: 500
+}
+.hr-text-definitionInsightsRBAC::before{
+	  content: '';
+	  background: #ccc;
+	  position: absolute;
+	  left: 0;
+	  top: 50%;
+	  width: 100%;
+	  height: 1px
+}
+
+.hr-text-definitionInsightsRBAC::after{
+	content: attr(data-content);
+	position: relative;
+	display: inline-block;
+	padding: 0 1em 0 2em;
+	line-height: 1.5em;
+	background-color: #DAFFD1;
+	background-repeat: no-repeat;
+	background-size: 14px;
+	background-position-y: center;
+    background-image: url(https://www.azadvertizer.net/azgovvizv4/icon/10340-icon-service-Azure-AD-Roles-and-Administrators.svg);
+}
+
+.hr-textFindings {
+	line-height: 1em;
+	position: relative;
+	border: 0;
+	color: black;
+	text-align: left;
+	height: 1.5em;
+	/*padding-left: 8px;*/
+	font-weight: 500
+}
+.hr-textFindings::before{
+	  content: '';
+	  background: #ccc;
+	  position: absolute;
+	  left: 0;
+	  top: 50%;
+	  width: 100%;
+	  height: 1px
+}
+
+.hr-textFindings::after{
+	content: attr(data-content);
+	position: relative;
+	display: inline-block;
+	padding: 0 1em 0 2em;
+	line-height: 1.5em;
+	background-color: #e0f2ff;
+	background-repeat: no-repeat;
+	background-size: 14px;
+	background-position-y: center;
+    background-image: url(https://www.azadvertizer.net/azgovvizv4/icon/findings.svg);
+}
+
+span.colVisSpan a.colVis {
+	color: #FF5733;
+    padding: 4px 5px 0!important
+}
+
+.cols_checklist_slc_item {
+    background-color: #eaeaea!important;
+    color: #000000!important
+}
+
+li.cols_checklist_item:hover{
+    background-color:#eaeaea!important;
+    color:#000000!important
+}
+
+p.pbordered {
+	width: -moz-fit-content;
+    width: fit-content;
+    padding-right: 2px;
+    padding-bottom: 1px;
+    border-bottom-right-radius: 2px;
+    color: #888;
+    /*font-weight: 600;*/
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc
+}
+
+p.pbordered.pborderedspecial {
+    float: left;
+    font-family: "Segoe UI","SegoeUI","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 10px;
+    margin-top: 12px
+}
+
+/*TableFilter Addons*/
+select.flt_multi {
+    height: auto!important;
+    padding: 1px!important;
+    outline: none!important
+}
+
+select.flt_multi option {
+    padding-top: 0px!important;
+    padding-bottom: 0px!important
+}
+
+select#flt11_SummaryTable_roleAssignmentsAll:focus {
+    border-color: #FF5733
+}
+
+.paddingleft10 {
+    padding-left: 10px
+}
+
+.me{
+	padding-left: 7px;
+    padding-bottom: 5px
+}
+
+.downloadjson {
+	padding-left: 7px;
+    float: none
+}
+
+/*
+.pull-left {
+    float: none!important;
+}
+*/
+
+div#extGridPolicy{
+	float: none
+}
+
+div#extGridPolicySet{
+	float: none
+}
+
+div#extGridRole{
+	float: none
+}
+
+.hljs {
+	color: #a31515!important;
+	background: none!important
+}
+
+.hljs-literal, .hljs-number, .hljs-tag .hljs-attr, .hljs-template-variable, .hljs-variable {
+    color: teal!important
+}
+
+.hljs-doctag, .hljs-string {
+    color: #0451a5!important
+}
+
+span.keyword {
+	color: #FF5733!important;
+	background-color: yellow
+}
+
+.precode{
+    width:1000px;
+    white-space: pre-wrap
+}
+
+span.info {
+	color: #7b69c9
+}
+
+.padlx {
+    padding-left: 15px;
+}
+
+.padlxx {
+    padding-left: 25px;
+}
+
+.padlxx {
+    padding-left: 35px;
+}
+
+.hintTableSize{
+	color: #FF5733
+}
+
+.ctContenPolicyTrue{
+	color: inherit;
+	font-weight: 500;
+}
+
+.ctContenPolicyFalse{
+	color: #8b8b8b;
+	font-weight: normal;
+}
+
+.ctContenRBACTrue{
+	color: inherit;
+	font-weight: 500;
+}
+
+.ctContenRBACFalse{
+	color: #8b8b8b;
+	font-weight: normal;
+}
+
+.ctContenResourcesTrue{
+	color: inherit;
+	font-weight: 500;
+}
+
+.ctContenResourcesFalse{
+	color: #8b8b8b;
+	font-weight: normal;
+}
+
+.breakwordnone{
+	white-space: nowrap;
+}
+
+.main{
+    width: 100%
+}
+
+.extraInfo{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: smaller;
+    color: black;
+}
+
+.extraInfoContent{
+    width: 40px;
+    display: flex;
+}
+
+.extraInfoPolicyAss0{
+    -webkit-border-radius: 8px 0px 5px 0px;
+	border-radius: 8px 0px 5px 0px;
+    border-right: 1px solid dodgerblue;
+    border-bottom: 1px dotted dodgerblue;
+    width: 20px;
+    background-color: lightcyan;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.extraInfoPolicyAss1{
+    -webkit-border-radius: 8px 0px 0px 0px;
+	border-radius: 8px 0px 0px 0px;
+    border-right: 1px solid dodgerblue;
+    border-bottom: 1px dotted dodgerblue;
+    width: 20px;
+    background-color: lightcyan;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.extraInfoPolicyScoped0{
+    -webkit-border-radius: 8px 0px 5px 0px;
+	border-radius: 8px 0px 5px 0px;
+    border-right: 1px solid rgb(146, 30, 255);
+    border-bottom: 1px dotted rgb(146, 30, 255);
+    width: 20px;
+    background-color: rgb(243, 224, 255);
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.extraInfoPolicyScoped1{
+    -webkit-border-radius: 0px 0px 5px 0px;
+	border-radius: 0px 0px 5px 0px;
+    border-right: 1px solid rgb(146, 30, 255);
+    border-bottom: 1px dotted rgb(146, 30, 255);
+    width: 20px;
+    background-color: rgb(243, 224, 255);
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.extraInfoRoleAss{
+    -webkit-border-radius: 0px 8px 0px 5px;
+	border-radius: 0px 8px 0px 5px;
+    border-left: 1px solid rgba(8, 175, 8, 0.849);
+    border-bottom: 1px dotted rgba(8, 175, 8, 0.849);
+    width: 20px;
+    background-color: #DAFFD1;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.abbrTree{
+    font-size: inherit;
+    text-decoration: inherit;
+	color: black;
+}
+
+.treeMgLogo {
+    width: -webkit-fill-available;
+}
+
+img.imgTreeLogo {
+    height: 14px;
+    vertical-align: middle;
+}
+
+img.imgTreeLogoTenant {
+    height: 13px;
+    vertical-align: middle;
+	padding-top: 1px;
+}
+
+.extraInfoPlchldr{
+    width: 20px;
+}
+
+.showhidemgextrainfo{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	cursor: pointer;
+}
+
+.hierarchyTreeSubs{
+    width: 100%;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+div.colVisCont {
+	padding: 0px 0px 0px 0px!important;
+}
+
+li.cols_checklist_item {
+	padding: 0px!important;
+}
+
+div.colVisCont p {
+	margin: 1px auto 1px auto!important;
+}

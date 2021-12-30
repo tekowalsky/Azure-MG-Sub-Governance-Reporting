@@ -1,0 +1,82 @@
+.CodeMirror {
+    height: auto!important;
+}
+
+.prettyfy {
+    font-weight: bold!important;
+    font-size: smaller!important;
+    margin-left: 3px!important;
+    font: unset!important;
+    color: #000!important;
+    background: #ccc!important;
+    padding: 2px 2px!important;
+    margin-bottom: 2px!important;
+    border: solid 1px!important;
+    letter-spacing: unset!important;
+}
+
+#description {
+    font-size: inherit!important;
+    font-weight: 600!important;
+}
+
+label, legend {
+    display: contents!important;
+}
+
+.CodeMirror-lines {
+    font-size: 13px!important;
+}
+
+label.labelspecial {
+    font: 13px 'opensans-light', sans-serif!important;
+}
+
+p#visualdiff {
+    margin-bottom: 4px!important;
+}
+
+p.nomarg {
+    margin-bottom: 4px!important;
+}
+
+p#annotateddiff {
+    margin-bottom: 4px!important;
+}
+
+.error-message {
+    display: none!important;
+}
+
+table.detailTable {
+    width: auto!important;
+}
+
+td.wsnowrap {
+    white-space: nowrap!important;
+    background-color: #eee!important;
+    font-weight: 600!important;
+    font-size: smaller!important;
+}
+
+td.thsim {
+    background-color: #eee!important;
+    font-weight: 600!important;
+    font-size: smaller!important;
+}
+
+table.filterTableAzPolicyAdvertizerDetailed thead th {
+    font-size: smaller!important;
+}
+
+table.filterTableAzPolicyInitiativesAdvertizerDetailed thead th {
+    font-size: smaller!important;
+}
+
+table.filterTableAzRolesAdvertizerDetailed thead th {
+    font-size: smaller!important;
+}
+
+b.bsmaller {
+    font-size: smaller!important;
+}

@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<!--[if lt IE 8 ]><html class="no-js ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="no-js ie ie8" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="no-js ie ie9" lang="en"> <![endif]-->
+<!--[if (gte IE 8)|!(IE)]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-159063892-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-159063892-1');
+    </script>
+
+    <!--- Basic Page Needs
+   ================================================== -->
+    <meta charset="utf-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>AzPolicyAdvertizer</title>
+    <meta name="description" content="AzAdvertizer insights on Azure Policy Deploy the Windows Guest Configuration extension to enable Guest Configuration assignments on Windows VMs">
+    <meta name="author" content="Julian Hayward">
+
+    <!-- mobile specific metas
+   ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="../tablefilter/style/tablefilter_addon03.css">
+    <link rel="stylesheet" href="../css/default_v16.css">
+    <link rel="stylesheet" href="../css/layout_v7.css">
+    <link rel="stylesheet" href="../css/media-queries_v3.css">
+    <link rel="stylesheet" href="../css/table_v9.css">
+    <link rel="stylesheet" href="../css/vs.css">
+    <link rel="stylesheet" href="../css/jsondiffpatch/jsondiffpatch_addon003.css" type="text/css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../css/jsonviewer_v01.css">
+    <script type="text/javascript" src="../js/jsonviewer_v01.js"></script>    <link rel="stylesheet" href="../css/jsondiffpatch/style.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../css/jsondiffpatch/formatters-styles/html.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../css/jsondiffpatch/formatters-styles/annotated.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/codemirror.min.css" type="text/css" media="screen" />
+    <!-- Favicons
+	================================================== -->
+    <link rel="shortcut icon" href="../favicon.png">
+
+    <!-- Script
+    ================================================== -->
+    <!-- To collect end-user usage analytics about your application, insert the following script into each page you want to track. Place this code immediately before the closing </head> tag, and before any other scripts. Your first data will appear automatically in just a few seconds. --> 
+    <script>var appInsights=window.appInsights||function(a){ function b(a){c[a]=function(){var b=arguments;c.queue.push(function(){c[a].apply(c,b)})}}var c={config:a},d=document,e=window;setTimeout(function(){var b=d.createElement("script");b.src=a.url||"https://az416426.vo.msecnd.net/scripts/a/ai.0.js",d.getElementsByTagName("script")[0].parentNode.appendChild(b)});try{c.cookie=d.cookie}catch(a){}c.queue=[];for(var f=["Event","Exception","Metric","PageView","Trace","Dependency"];f.length;)b("track"+f.pop());if(b("setAuthenticatedUserContext"),b("clearAuthenticatedUserContext"),b("startTrackEvent"),b("stopTrackEvent"),b("startTrackPage"),b("stopTrackPage"),b("flush"),!a.disableExceptionTracking){f="onerror",b("_"+f);var g=e[f];e[f]=function(a,b,d,e,h){var i=g&&g(a,b,d,e,h);return!0!==i&&c["_"+f](a,b,d,e,h),i}}return c }({ instrumentationKey:"811aec69-c924-48af-84df-de30fb1d47d9" }); window.appInsights=appInsights,appInsights.queue&&0===appInsights.queue.length&&appInsights.trackPageView(); </script>
+    
+    <!--<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="../tablefilter/tablefilter.js"></script>
+    <script src="https://use.fontawesome.com/0c0b5cbde8.js"></script>
+    <script src="../js/modernizr.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script type='text/javascript' src="https://cdn.jsdelivr.net/npm/jsondiffpatch/dist/jsondiffpatch.umd.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/codemirror.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/mode/javascript/javascript.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/addon/edit/matchbrackets.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/addon/comment/continuecomment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.1/addon/comment/comment.min.js"></script>    </head>
+    <body>
+
+    <!-- Header
+   ================================================== -->
+   <header id="top">
+
+        <div class="row">
+            <div class="header-content twelve columns">
+                <h1 id="logo-text"> 
+                    <a>
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-cloud fa-stack-2x" style="color:#FFFFFF; margin-left:30px;"></i>
+                            <span class="fa fa-stack-1x" style="color:#0078D4;">
+                                    Az<font color="#34393A">Policy</font>Advertizer
+                            </span>
+                        </span>	   
+                    </a>
+                </h1>   
+            </div>
+        </div>
+
+        <nav id="nav-wrap">
+            <a class="mobile-btn" href="#nav-wrap" title="Show navigation">Show Menu</a>
+            <a class="mobile-btn" href="#" title="Hide navigation">Hide Menu</a>
+
+            <div class="row">
+                <ul id="nav" class="nav">
+                    <li><a href="../index.html">Home</a></li>
+                    
+        <li class="has-children current"><a href="../azpolicyadvertizer_all.html">Policy</a><ul><li><a href="../azpolicyadvertizer_history.html"><i class="fa fa-history" aria-hidden="true"></i> Changes</a></li><li><a href="../azpolicyadvertizer_all.html"><i class="fa fa-folder-o" aria-hidden="true"></i> All</a></li></ul></li>
+        <li><a href="../azpolicyinitiativesadvertizer_all.html">Initiative</a><ul><li><a href="../azpolicyinitiativesadvertizer_history.html"><i class="fa fa-history" aria-hidden="true"></i> Changes</a></li><li><a href="../azpolicyinitiativesadvertizer_all.html"><i class="fa fa-folder-o" aria-hidden="true"></i> All</a></li></ul></li>
+        <li><a href="../azpolicyaliasesadvertizer_history.html">Alias</a><ul><li><a href="../azpolicyaliasesadvertizer_history.html"><i class="fa fa-history" aria-hidden="true"></i> Changes</a></li><li><a href="../azpolicyaliasesadvertizer_all.html"><i class="fa fa-folder-o" aria-hidden="true"></i> All</a></li><li><a href="../azpolicyaliasesadvertizer_singlelines.html"><i class="fa fa-list" aria-hidden="true"></i> singleLines</a></li></ul></li>
+        <li><a href="../azrolesadvertizer_all.html">RBAC Role</a><ul><li><a href="../azrolesadvertizer_history.html"><i class="fa fa-history" aria-hidden="true"></i> Changes</a></li><li><a href="../azrolesadvertizer_all.html"><i class="fa fa-folder-o" aria-hidden="true"></i> All</a></li></ul></li>
+        <li><a href="../azresourceoperationadvertizer_all.html">ResProvOps</a></li>
+        <!--<li><a href="../azaadrolesadvertizer_history.html">AAD Roles</a><ul><li><a href="../azaadrolesadvertizer_history.html"><i class="fa fa-history" aria-hidden="true"></i> Changes on AAD Roles</a></li><li><a href="../azaadrolesadvertizer_all.html"><i class="fa fa-folder-o" aria-hidden="true"></i> All AAD Roles</a></li></ul></li>-->
+        
+                    <li><a href="../other.html">Other</a></li>
+                    <li><a href="../info.html" aria-label="Info"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></a></li>
+                </ul> <!-- end #nav -->
+            </div>
+        </nav> <!-- end #nav-wrap -->
+
+    </header> <!-- Header End -->
+
+    <!-- Content
+   ================================================== -->
+    <div id="content-wrap">
+        <div class="row">
+            <div id="main" class="eight columns">
+                <article class="entry">
+                <mark class="markdefault">last sync: 2021-Dec-29 17:45:20 UTC</mark>
+                    <div class="entry-content">
+                        <h3><i class="fa fa-search" aria-hidden="true"></i> Azure Policy definition</h3>
+                        <h3>Deploy the Windows Guest Configuration extension to enable Guest Configuration assignments on Windows VMs</h3>             
+                    </div>
+                </article>
+            </div> <!-- main End -->
+            <div id="sidebar" class="four columns">
+                <div class="widget widget_popular">
+                    <!-- <h3>Popular</h3> -->
+                    <ul class="link-list">
+                        <li><i class="fa fa-folder-o" aria-hidden="true"></i> <a href="../azpolicyadvertizer_all.html">All Azure Policy definitions</a></li> 
+                        <li><i class="fa fa-history" aria-hidden="true"></i> <a href="../azpolicyadvertizer_history.html">Changes on Azure Policy definitions</a></li>    
+                    </ul>
+                </div>
+            </div> <!-- end sidebar -->
+        </div> <!-- end row -->
+
+        <div class="row add-bottom">
+  
+            <table class="detailTable">
+                <tr>
+                    <td class="wsnowrap">Name</td>
+                    <td>Deploy the Windows Guest Configuration extension to enable Guest Configuration assignments on Windows VMs<br><a href="https://portal.azure.com/#blade/Microsoft_Azure_Policy/PolicyDetailBlade/definitionId/%2Fproviders%2FMicrosoft.Authorization%2FpolicyDefinitions%2F385f5831-96d4-41db-9a3c-cd3af78aaae6" target="_blank"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Azure Portal <i class="fa fa-external-link" aria-hidden="true"></i></a></td>
+                </tr>
+                <tr>
+                    <td class="wsnowrap">Id</td>
+                    <td>385f5831-96d4-41db-9a3c-cd3af78aaae6</td>
+                </tr>
+                <tr>
+                    <td class="wsnowrap">Version</td>
+                    <td>1.2.0<br> <a href="https://github.com/Azure/azure-policy/tree/master/built-in-policies#versioning" target="_blank"><i class="fa fa-info-circle" aria-hidden="true"></i> details on versioning <i class="fa fa-external-link" aria-hidden="true"></i></a></td>
+                </tr>
+                <tr>
+                    <td class="wsnowrap">Category</td>
+                    <td>Guest Configuration<br><a href="https://docs.microsoft.com/en-us/azure/governance/policy/samples/built-in-policies#guest-configuration" target="_blank" rel="noopener"><i class="fa fa-windows" aria-hidden="true"></i> Microsoft docs <i class="fa fa-external-link" aria-hidden="true"></i></a></td>
+                </tr>
+                <tr>
+                    <td class="wsnowrap">Description</td>
+                    <td>This policy deploys the Windows Guest Configuration extension to Windows virtual machines hosted in Azure that are supported by Guest Configuration. The Windows Guest Configuration extension is a prerequisite for all Windows Guest Configuration assignments and must be deployed to machines before using any Windows Guest Configuration policy definition. For more information on Guest Configuration, visit https://aka.ms/gcpol.</td>
+                </tr>
+                <tr>
+                    <td class="wsnowrap">Mode</td>
+                    <td>Indexed</td>
+                </tr>
+                <tr>
+                    <td class="wsnowrap">Type</td>
+                    <td><span style="font-weight: bold;">BuiltIn</span></td>
+                </tr>
+                <tr>
+                    <td class="wsnowrap">Preview</td>
+                    <td>                FALSE
+                    </td>
+                </tr>
+                <tr>
+                    <td class="wsnowrap">Deprecated</td>
+                    <td>                FALSE
+                    </td>
+                </tr>
+                <tr>
+                    <td class="wsnowrap">Effect</td>
+                    <td>                        Fixed: deployIfNotExists                    </td>
+                </tr>
+                <tr>
+                    <td class="wsnowrap">Used RBAC Role</td>
+                    <td>                        <table class="filterTableAzPolicyAdvertizerDetailed">
+                            <tr>
+                                <td class="thsim">Role Name</td>
+                                <td class="thsim">Role Id</td>
+                            </tr>                            <tr>
+                                <td>Contributor</td>
+                                <td><a href="../azrolesadvertizer/b24988ac-6180-42a0-ab88-20f7382dd24c.html" target="_blank">b24988ac-6180-42a0-ab88-20f7382dd24c</a></td>
+                            </tr>                        </table>                    </td>
+                </tr>
+
+                <tr>
+                    <td class="wsnowrap">Rule Aliases</td>
+                    <td>                <span style="font-size: smaller"><b>IF (5)</b></span><br>
+                <table class="filterTableAzPolicyAdvertizerDetailed">
+                    <tr>
+                        <td class="thsim">Alias</td>
+                        <td class="thsim">Namespace</td>
+                        <td class="thsim">ResourceType</td>
+                        <td class="thsim">DefaultPath</td>
+                        <td class="thsim">Modifiable</td>
+                    </tr>                            <tr>
+                                <td>Microsoft.Compute/imageOffer</td>
+                                <td>Microsoft.Compute<br>Microsoft.Compute<br>Microsoft.Compute</td>
+                                <td>virtualMachines<br>virtualMachineScaleSets<br>disks</td>
+                                <td>properties.storageProfile.imageReference.offer<br>properties.virtualMachineProfile.storageProfile.imageReference.offer<br>properties.creationData.imageReference.id</td>
+                                <td>false<br>false<br>false</td>
+                            </tr>                            <tr>
+                                <td>Microsoft.Compute/imagePublisher</td>
+                                <td>Microsoft.Compute<br>Microsoft.Compute<br>Microsoft.Compute</td>
+                                <td>virtualMachines<br>virtualMachineScaleSets<br>disks</td>
+                                <td>properties.storageProfile.imageReference.publisher<br>properties.virtualMachineProfile.storageProfile.imageReference.publisher<br>properties.creationData.imageReference.id</td>
+                                <td>false<br>false<br>false</td>
+                            </tr>                            <tr>
+                                <td>Microsoft.Compute/imageSKU</td>
+                                <td>Microsoft.Compute<br>Microsoft.Compute<br>Microsoft.Compute</td>
+                                <td>virtualMachines<br>virtualMachineScaleSets<br>disks</td>
+                                <td>properties.storageProfile.imageReference.sku<br>properties.virtualMachineProfile.storageProfile.imageReference.sku<br>properties.creationData.imageReference.id</td>
+                                <td>false<br>false<br>false</td>
+                            </tr>                            <tr>
+                                <td><a href="https://www.azadvertizer.net/azpolicyaliasesadvertizer_singlelines.html#%7B%22col_3%22%3A%7B%22flt%22%3A%22Microsoft.Compute%2fvirtualMachines%2fosProfile.windowsConfiguration%22%7D%7D" target="_blank">Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration</a></td>
+                                <td>Microsoft.Compute</td>
+                                <td>virtualMachines</td>
+                                <td>properties.osProfile.windowsConfiguration</td>
+                                <td>true</td>
+                            </tr>                            <tr>
+                                <td><a href="https://www.azadvertizer.net/azpolicyaliasesadvertizer_singlelines.html#%7B%22col_3%22%3A%7B%22flt%22%3A%22Microsoft.Compute%2fvirtualMachines%2fstorageProfile.osDisk.osType%22%7D%7D" target="_blank">Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType</a></td>
+                                <td>Microsoft.Compute</td>
+                                <td>virtualMachines</td>
+                                <td>properties.storageProfile.osDisk.osType</td>
+                                <td>true</td>
+                            </tr>                    </table>                <span style="font-size: smaller"><b>THEN-ExistenceCondition (3)</b></span><br>
+                <table class="filterTableAzPolicyAdvertizerDetailed">
+                    <tr>
+                        <td class="thsim">Alias</td>
+                        <td class="thsim">Namespace</td>
+                        <td class="thsim">ResourceType</td>
+                        <td class="thsim">DefaultPath</td>
+                        <td class="thsim">Modifiable</td>
+                    </tr>                            <tr>
+                                <td><a href="https://www.azadvertizer.net/azpolicyaliasesadvertizer_singlelines.html#%7B%22col_3%22%3A%7B%22flt%22%3A%22Microsoft.Compute%2fvirtualMachines%2fextensions%2fprovisioningState%22%7D%7D" target="_blank">Microsoft.Compute/virtualMachines/extensions/provisioningState</a></td>
+                                <td>Microsoft.Compute</td>
+                                <td>virtualMachines/extensions</td>
+                                <td>properties.provisioningState</td>
+                                <td>false</td>
+                            </tr>                            <tr>
+                                <td><a href="https://www.azadvertizer.net/azpolicyaliasesadvertizer_singlelines.html#%7B%22col_3%22%3A%7B%22flt%22%3A%22Microsoft.Compute%2fvirtualMachines%2fextensions%2fpublisher%22%7D%7D" target="_blank">Microsoft.Compute/virtualMachines/extensions/publisher</a></td>
+                                <td>Microsoft.Compute</td>
+                                <td>virtualMachines/extensions</td>
+                                <td>properties.publisher</td>
+                                <td>false</td>
+                            </tr>                            <tr>
+                                <td><a href="https://www.azadvertizer.net/azpolicyaliasesadvertizer_singlelines.html#%7B%22col_3%22%3A%7B%22flt%22%3A%22Microsoft.Compute%2fvirtualMachines%2fextensions%2ftype%22%7D%7D" target="_blank">Microsoft.Compute/virtualMachines/extensions/type</a></td>
+                                <td>Microsoft.Compute</td>
+                                <td>virtualMachines/extensions</td>
+                                <td>properties.type</td>
+                                <td>false</td>
+                            </tr>                </table>                    </td>
+                </tr>
+
+                <tr>
+                    <td class="wsnowrap">Rule ResourceTypes</td>
+                    <td>                <span style="font-size: smaller"><b>IF (1)</b></span><br>                    Microsoft.Compute/virtualMachines<br>                <span style="font-size: smaller"><b>THEN-Deployment (1)</b></span><br>                    Microsoft.Compute/virtualMachines/extensions<br>                    </td>
+                </tr>
+
+                <tr>
+                    <td class="wsnowrap">History</td>
+                    <td>                        <table class="filterTableAzPolicyAdvertizerDetailed">
+                            <tr>
+                                <td class="width15 thsim">Date/Time (UTC ymd) <abbr title="Date/Time represents the time of detection, changes may have occured earlier">(i)</abbr></td>
+                                <td class="width15 thsim">Change type</td>
+                                <td class="thsim">Change detail</td>
+                            </tr>                            <tr>
+                                <td>2021-12-06 22:17:57</td>
+                                <td>change</td>
+                                <td>Minor (1.1.0 > 1.2.0)</td>
+                            </tr>                            <tr>
+                                <td>2021-10-04 15:27:15</td>
+                                <td>change</td>
+                                <td>Minor (1.0.1 > 1.1.0)</td>
+                            </tr>                            <tr>
+                                <td>2021-05-11 14:06:18</td>
+                                <td>change</td>
+                                <td>Patch (1.0.0 > 1.0.1)<span style="color: #FF5733; font-size: smaller"> *changes on text case sensitivity are not tracked</span></td>
+                            </tr>                            <tr>
+                                <td>2020-09-15 14:06:41</td>
+                                <td>change</td>
+                                <td>Previous DisplayName: [Preview]: Deploy the Windows Guest Configuration extension to enable Guest Configuration assignments on Windows VMs </td>
+                            </tr>                            <tr>
+                                <td>2020-08-05 13:05:29</td>
+                                <td>change</td>
+                                <td>Previous DisplayName: [Preview]: Deploy the Windows Guest Configuration extension to enable Guest Configuration assignments on Windows virtual machines </td>
+                            </tr>                            <tr>
+                                <td>2020-06-23 16:03:25</td>
+                                <td>add</td>
+                                <td>385f5831-96d4-41db-9a3c-cd3af78aaae6 </td>
+                            </tr>                        </table>                    </td>
+                </tr>
+                <tr>
+                    <td class="wsnowrap">Used in Initiatives</td>
+                    <td>                        <table class="filterTableAzPolicyAdvertizerDetailed" id="azpolicyadvertizerDetailedUsedInInitiatives">
+                            <thead>
+                                <tr>
+                                    <th>Initiative DisplayName</th>
+                                    <th>Initiative Id</th>
+                                    <th>Initiative Category</th>
+                                    <th>State</th>                                    <th>Type</th>                                </tr>
+                            </thead>                            <tr>
+                                <td>[Deprecated]: Azure Security Benchmark v1</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/42a694ed-f65e-42b2-aa9e-8052e9740a92.html" target="_blank">42a694ed-f65e-42b2-aa9e-8052e9740a92</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>Deprecated</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>[Deprecated]: DoD Impact Level 4</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/8d792a84-723c-4d92-a3c3-e4ed16a2d133.html" target="_blank">8d792a84-723c-4d92-a3c3-e4ed16a2d133</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>Deprecated</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>[Preview]: Australian Government ISM PROTECTED</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/27272c0b-c225-4cc3-b8b0-f2534b093077.html" target="_blank">27272c0b-c225-4cc3-b8b0-f2534b093077</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>Preview</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>[Preview]: Motion Picture Association of America (MPAA)</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/92646f03-e39d-47a9-9e24-58d60ef49af8.html" target="_blank">92646f03-e39d-47a9-9e24-58d60ef49af8</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>Preview</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>[Preview]: SWIFT CSP-CSCF v2020</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/3e0c67fc-8c7c-406c-89bd-6b6bdc986a22.html" target="_blank">3e0c67fc-8c7c-406c-89bd-6b6bdc986a22</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>Preview</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>Canada Federal PBMM</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/4c4a5f27-de81-430b-b4e5-9cbd50595a87.html" target="_blank">4c4a5f27-de81-430b-b4e5-9cbd50595a87</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>GA</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>CMMC Level 3</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/b5629c75-5c77-4422-87b9-2509e680f8de.html" target="_blank">b5629c75-5c77-4422-87b9-2509e680f8de</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>GA</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>Deploy prerequisites to enable Guest Configuration policies on virtual machines</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/12794019-7a00-42cf-95c2-882eed337cc8.html" target="_blank">12794019-7a00-42cf-95c2-882eed337cc8</a></td>
+                                <td>Guest Configuration</td>
+                                <td>GA</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>FedRAMP High</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/d5264498-16f4-418a-b659-fa7ef418175f.html" target="_blank">d5264498-16f4-418a-b659-fa7ef418175f</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>GA</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>FedRAMP Moderate</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/e95f5a9f-57ad-4d03-bb0b-b1d16db93693.html" target="_blank">e95f5a9f-57ad-4d03-bb0b-b1d16db93693</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>GA</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>HITRUST/HIPAA</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/a169a624-5599-4385-a696-c8d643089fab.html" target="_blank">a169a624-5599-4385-a696-c8d643089fab</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>GA</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>IRS1075 September 2016</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/105e0327-6175-4eb2-9af4-1fba43bdb39d.html" target="_blank">105e0327-6175-4eb2-9af4-1fba43bdb39d</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>GA</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>ISO 27001:2013</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/89c6cddc-1c73-4ac1-b19c-54d1a15a42f2.html" target="_blank">89c6cddc-1c73-4ac1-b19c-54d1a15a42f2</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>GA</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>New Zealand ISM Restricted</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/d1a462af-7e6d-4901-98ac-61570b4ed22a.html" target="_blank">d1a462af-7e6d-4901-98ac-61570b4ed22a</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>GA</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>NIST SP 800-171 Rev. 2</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/03055927-78bd-4236-86c0-f36125a10dc9.html" target="_blank">03055927-78bd-4236-86c0-f36125a10dc9</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>GA</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>NIST SP 800-53 Rev. 4</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/cf25b9c1-bd23-4eb6-bd2c-f4f3ac644a5f.html" target="_blank">cf25b9c1-bd23-4eb6-bd2c-f4f3ac644a5f</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>GA</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>NIST SP 800-53 Rev. 5</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/179d1daa-458f-4e47-8086-2a68d0d6c38f.html" target="_blank">179d1daa-458f-4e47-8086-2a68d0d6c38f</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>GA</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>PCI v3.2.1:2018</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/496eeda9-8f2f-4d5e-8dfd-204f0a92ed41.html" target="_blank">496eeda9-8f2f-4d5e-8dfd-204f0a92ed41</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>GA</td>                                    <td>BuiltIn</td>                            </tr>                            <tr>
+                                <td>UK OFFICIAL and UK NHS</td>
+                                <td><a href="../azpolicyinitiativesadvertizer/3937f550-eedd-4639-9c5e-294358be442e.html" target="_blank">3937f550-eedd-4639-9c5e-294358be442e</a></td>
+                                <td>Regulatory Compliance</td>
+                                <td>GA</td>                                    <td>BuiltIn</td>                            </tr>                        </table>
+                        <script>
+                        var filtersConfig = {
+                            base_path: '../tablefilter/',
+                            paging: {
+                                results_per_page: ['Records: ', [10, 25, 100, 200]]
+                            },
+                            /*state: {
+                                types: ['local_storage'],
+                                filters: true,
+                                page_number: true,
+                                page_length: true,
+                                sort: true
+                            },*/
+                            alternate_rows: true,
+                            btn_reset: true,
+                            rows_counter: true,
+                            loader: {
+                                html: '<div id="lblMsg"></div>',
+                                css_class: 'myLoader'
+                            },
+                            status_bar: {
+                                target_id: 'lblMsg',
+                                css_class: 'myStatus'
+                            },
+                            col_2: 'select',
+                            col_3: 'multiple',                                col_4: 'select',
+                                col_types: [
+                                    'caseinsensitivestring', 'caseinsensitivestring', 'caseinsensitivestring', 'caseinsensitivestring', 'caseinsensitivestring'
+                                ],
+                                watermark: ['type here', 'type here', '', '', ''],                            auto_filter: {
+                                delay: 1100 //milliseconds
+                            },
+                            extensions:[{
+                                name: 'sort'
+                            }],
+                            no_results_message: true,
+                            highlight_keywords: true
+                        };
+                        var tf = new TableFilter('azpolicyadvertizerDetailedUsedInInitiatives', filtersConfig);
+                        tf.init();
+                    </script>                    </td>
+                </tr>                <tr>
+                    <td class="wsnowrap">
+                        JSON Changes
+                    </td>
+                    <td>
+                    <div class="hide">
+                        <div class="padtop5"><span id="description"></span></div>
+                        <a id="external-link" style="display: none;">source</a>
+                            <div class="json-input">
+                                <div id="json-panel-left">
+                                    <label for="json-input-left">
+                                        <h4>JSON Left</h4>
+                                    </label>
+                                    <textarea id="json-input-left">
+                                    loading...
+                                </textarea>
+                                    <span class="error-message"></span>
+                                </div>
+                                <div id="json-panel-right">
+                                    <label for="json-input-right">
+                                        <h4>JSON Right</h4>
+                                    </label>
+                                    <textarea id="json-input-right">
+                                    loading...
+                                </textarea>
+                                    <span class="error-message"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="results">
+                            <label class="labelspecial">
+                                <input id="show-delta-type-visual" type="radio" name="delta-type" checked>Visual
+                            </label>
+                            <label class="labelspecial">
+                                <input id="show-delta-type-json" type="radio" name="delta-type">JSON
+                            </label>
+                            <label class="labelspecial">
+                                <input id="show-delta-type-annotated" type="radio" name="delta-type">JSON (Annotated)
+                            </label>
+                            <div id="delta-panel-visual">
+                                <div class="header-options">
+                                    <input id="showunchanged" type="checkbox">
+                                    <label class="labelspecial" for="showunchanged">
+                                        Show unchanged values
+                                    </label>
+                                </div>
+                                <p class="nomarg" id="visualdiff">
+                                </p>
+                            </div>
+                            <div id="delta-panel-annotated" style="display: none;">
+                                <p class="nomarg" id="annotateddiff">
+                                </p>
+                            </div>
+                            <div id="delta-panel-json" style="display: none;">
+                                <p class="nomarg">
+                                    (<span id="jsondifflength"></span>
+                                    KB)
+                                </p>
+                                <textarea id="json-delta" readonly>
+                            </textarea>
+                                <span class="error-message"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>            <tr>
+                <td class="wsnowrap">JSON</td>
+                <td>
+                    <table class="jsontdinnertable">
+                        <tr>
+                            <td class="jsontdinnertablehead">
+                                <button onclick="copyDef()">Copy definition</button>
+                                <script>
+                                function copyDef() {
+                                const obj = {
+  "displayName": "Deploy the Windows Guest Configuration extension to enable Guest Configuration assignments on Windows VMs",
+  "policyType": "BuiltIn",
+  "mode": "Indexed",
+  "description": "This policy deploys the Windows Guest Configuration extension to Windows virtual machines hosted in Azure that are supported by Guest Configuration. The Windows Guest Configuration extension is a prerequisite for all Windows Guest Configuration assignments and must be deployed to machines before using any Windows Guest Configuration policy definition. For more information on Guest Configuration, visit https://aka.ms/gcpol.",
+  "metadata": {
+    "category": "Guest Configuration",
+    "version": "1.2.0"
+  },
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Compute/virtualMachines"
+        },
+        {
+          "anyOf": [
+            {
+              "field": "Microsoft.Compute/imagePublisher",
+              "in": [
+                "esri",
+                "incredibuild",
+                "MicrosoftDynamicsAX",
+                "MicrosoftSharepoint",
+                "MicrosoftVisualStudio",
+                "MicrosoftWindowsDesktop",
+                "MicrosoftWindowsServerHPCPack"
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "MicrosoftWindowsServer"
+                },
+                {
+                  "field": "Microsoft.Compute/imageSKU",
+                  "notLike": "2008*"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "MicrosoftSQLServer"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "notLike": "SQL2008*"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "microsoft-dsvm"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "like": "dsvm-win*"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "microsoft-ads"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "in": [
+                    "standard-data-science-vm",
+                    "windows-data-science-vm"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "batch"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "equals": "rendering-windows2016"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "center-for-internet-security-inc"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "like": "cis-windows-server-201*"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "pivotal"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "like": "bosh-windows-server*"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "cloud-infrastructure-services"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "like": "ad*"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "anyOf": [
+                    {
+                      "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration",
+                      "exists": "true"
+                    },
+                    {
+                      "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+                      "like": "Windows*"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "field": "Microsoft.Compute/imageSKU",
+                      "exists": "false"
+                    },
+                    {
+                      "allOf": [
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "notLike": "2008*"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageOffer",
+                          "notLike": "SQL2008*"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "then": {
+      "effect": "deployIfNotExists",
+      "details": {
+        "roleDefinitionIds": [
+          "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+        ],
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "name": "AzurePolicyforWindows",
+        "existenceCondition": {
+          "allOf": [
+            {
+              "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+              "equals": "Microsoft.GuestConfiguration"
+            },
+            {
+              "field": "Microsoft.Compute/virtualMachines/extensions/type",
+              "equals": "ConfigurationforWindows"
+            },
+            {
+              "field": "Microsoft.Compute/virtualMachines/extensions/provisioningState",
+              "equals": "Succeeded"
+            }
+          ]
+        },
+        "deployment": {
+          "properties": {
+            "mode": "incremental",
+            "parameters": {
+              "vmName": {
+                "value": "[field('name')]"
+              },
+              "location": {
+                "value": "[field('location')]"
+              }
+            },
+            "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "parameters": {
+                "vmName": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "string"
+                }
+              },
+              "resources": [
+                {
+                  "apiVersion": "2019-07-01",
+                  "name": "[concat(parameters('vmName'), '/AzurePolicyforWindows')]",
+                  "type": "Microsoft.Compute/virtualMachines/extensions",
+                  "location": "[parameters('location')]",
+                  "properties": {
+                    "publisher": "Microsoft.GuestConfiguration",
+                    "type": "ConfigurationforWindows",
+                    "typeHandlerVersion": "1.1",
+                    "autoUpgradeMinorVersion": true,
+                    "enableAutomaticUpgrade": true,
+                    "settings": {},
+                    "protectedSettings": {}
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+};
+                                var copyText = JSON.stringify(obj);
+                                navigator.clipboard.writeText(copyText);
+                                }
+                                </script>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="jsontdinnertablecontent">
+                                <div id="json" style="height: 600px;" ></div>
+                                <script>
+                                    var jsonObj = {};
+                                    var jsonViewer = new JSONViewer();
+                                    document.querySelector("#json").appendChild(jsonViewer.getContainer());
+                                    var setJSON = function() {
+                                        try {
+                                            jsonObj = JSON.parse(JSON.stringify({
+  "displayName": "Deploy the Windows Guest Configuration extension to enable Guest Configuration assignments on Windows VMs",
+  "policyType": "BuiltIn",
+  "mode": "Indexed",
+  "description": "This policy deploys the Windows Guest Configuration extension to Windows virtual machines hosted in Azure that are supported by Guest Configuration. The Windows Guest Configuration extension is a prerequisite for all Windows Guest Configuration assignments and must be deployed to machines before using any Windows Guest Configuration policy definition. For more information on Guest Configuration, visit https://aka.ms/gcpol.",
+  "metadata": {
+    "category": "Guest Configuration",
+    "version": "1.2.0"
+  },
+  "policyRule": {
+    "if": {
+      "allOf": [
+        {
+          "field": "type",
+          "equals": "Microsoft.Compute/virtualMachines"
+        },
+        {
+          "anyOf": [
+            {
+              "field": "Microsoft.Compute/imagePublisher",
+              "in": [
+                "esri",
+                "incredibuild",
+                "MicrosoftDynamicsAX",
+                "MicrosoftSharepoint",
+                "MicrosoftVisualStudio",
+                "MicrosoftWindowsDesktop",
+                "MicrosoftWindowsServerHPCPack"
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "MicrosoftWindowsServer"
+                },
+                {
+                  "field": "Microsoft.Compute/imageSKU",
+                  "notLike": "2008*"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "MicrosoftSQLServer"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "notLike": "SQL2008*"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "microsoft-dsvm"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "like": "dsvm-win*"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "microsoft-ads"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "in": [
+                    "standard-data-science-vm",
+                    "windows-data-science-vm"
+                  ]
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "batch"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "equals": "rendering-windows2016"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "center-for-internet-security-inc"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "like": "cis-windows-server-201*"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "pivotal"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "like": "bosh-windows-server*"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "field": "Microsoft.Compute/imagePublisher",
+                  "equals": "cloud-infrastructure-services"
+                },
+                {
+                  "field": "Microsoft.Compute/imageOffer",
+                  "like": "ad*"
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "anyOf": [
+                    {
+                      "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration",
+                      "exists": "true"
+                    },
+                    {
+                      "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+                      "like": "Windows*"
+                    }
+                  ]
+                },
+                {
+                  "anyOf": [
+                    {
+                      "field": "Microsoft.Compute/imageSKU",
+                      "exists": "false"
+                    },
+                    {
+                      "allOf": [
+                        {
+                          "field": "Microsoft.Compute/imageSKU",
+                          "notLike": "2008*"
+                        },
+                        {
+                          "field": "Microsoft.Compute/imageOffer",
+                          "notLike": "SQL2008*"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "then": {
+      "effect": "deployIfNotExists",
+      "details": {
+        "roleDefinitionIds": [
+          "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+        ],
+        "type": "Microsoft.Compute/virtualMachines/extensions",
+        "name": "AzurePolicyforWindows",
+        "existenceCondition": {
+          "allOf": [
+            {
+              "field": "Microsoft.Compute/virtualMachines/extensions/publisher",
+              "equals": "Microsoft.GuestConfiguration"
+            },
+            {
+              "field": "Microsoft.Compute/virtualMachines/extensions/type",
+              "equals": "ConfigurationforWindows"
+            },
+            {
+              "field": "Microsoft.Compute/virtualMachines/extensions/provisioningState",
+              "equals": "Succeeded"
+            }
+          ]
+        },
+        "deployment": {
+          "properties": {
+            "mode": "incremental",
+            "parameters": {
+              "vmName": {
+                "value": "[field('name')]"
+              },
+              "location": {
+                "value": "[field('location')]"
+              }
+            },
+            "template": {
+              "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+              "contentVersion": "1.0.0.0",
+              "parameters": {
+                "vmName": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "string"
+                }
+              },
+              "resources": [
+                {
+                  "apiVersion": "2019-07-01",
+                  "name": "[concat(parameters('vmName'), '/AzurePolicyforWindows')]",
+                  "type": "Microsoft.Compute/virtualMachines/extensions",
+                  "location": "[parameters('location')]",
+                  "properties": {
+                    "publisher": "Microsoft.GuestConfiguration",
+                    "type": "ConfigurationforWindows",
+                    "typeHandlerVersion": "1.1",
+                    "autoUpgradeMinorVersion": true,
+                    "enableAutomaticUpgrade": true,
+                    "settings": {},
+                    "protectedSettings": {}
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}));
+                                        }
+                                        catch (err) {
+                                            alert(err);
+                                        }
+                                    };
+                                    setJSON();
+                                    jsonViewer.showJSON(jsonObj)
+
+                                </script>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>        </div> <!-- Row End-->
+    </div> <!-- Row End-->
+
+    <!-- Footer
+    ================================================== -->
+    <footer>
+        <div class="row">
+            <div class="six columns info">
+                <p>Please note that while being developed by a Microsoft employee, AzAdvertizer is not a Microsoft
+                    service or product. AzAdvertizer is a personal driven project, there are none implicit or
+                    explicit obligations related to this project, it is provided 'as is' with no warranties and
+                    confer no rights.<br>
+                </p>
+
+            </div>
+            <div class="six columns info">
+            <p>JH <a href="https://www.linkedin.com/in/julianhayward" target="_blank" rel="noopener" aria-label="LinkedIn"><i
+            class="fa fa-linkedin-square fa-lg" aria-hidden="true"></i></a></p>
+            </div>
+        </div>
+        <div id="go-top">
+            <a class="smoothscroll" title="Back to Top" href="#top"><i class="fa fa-chevron-up"></i></a>
+        </div>
+    </footer> <!-- End Footer-->
+
+    <!-- Java Script
+    ================================================== -->
+    <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <script src="../js/main.js"></script>    <script type="text/javascript">
+
+        (function demo() {
+            const getExampleJson = function () {
+                document.location =
+                    '?desc=compareJson&left=' +
+                    encodeURIComponent(
+                        'https://www.azadvertizer.net/azpolicyadvertizerjson/385f5831-96d4-41db-9a3c-cd3af78aaae6_1.1.0.json'
+                    ) +
+                    '&right=' +
+                    encodeURIComponent(
+                        'https://www.azadvertizer.net/azpolicyadvertizerjson/385f5831-96d4-41db-9a3c-cd3af78aaae6_1.2.0.json'
+                    );
+            };
+
+            /* global jsondiffpatch */
+            const instance = jsondiffpatch.create({
+                objectHash: function (obj, index) {
+                    if (typeof obj._id !== 'undefined') {
+                        return obj._id;
+                    }
+                    if (typeof obj.id !== 'undefined') {
+                        return obj.id;
+                    }
+                    if (typeof obj.name !== 'undefined') {
+                        return obj.name;
+                    }
+                    return '$$index:' + index;
+                },
+            });
+
+            const dom = {
+                addClass: function (el, className) {
+                    if (el.classList) {
+                        el.classList.add(className);
+                    } else {
+                        el.className += ' ' + className;
+                    }
+                },
+                removeClass: function (el, className) {
+                    if (el.classList) {
+                        el.classList.remove(className);
+                    } else {
+                        el.className = el.className.replace(
+                            new RegExp(
+                                '(^|\\b)' + className.split(' ').join('|') + '(\\b|$)',
+                                'gi'
+                            ),
+                            ' '
+                        );
+                    }
+                },
+                text: function (el, text) {
+                    if (typeof el.textContent !== 'undefined') {
+                        if (typeof text === 'undefined') {
+                            return el.textContent;
+                        }
+                        el.textContent = text;
+                    } else {
+                        if (typeof text === 'undefined') {
+                            return el.innerText;
+                        }
+                        el.innerText = text;
+                    }
+                },
+                on: function (el, eventName, handler) {
+                    if (el.addEventListener) {
+                        el.addEventListener(eventName, handler);
+                    } else {
+                        el.attachEvent('on' + eventName, handler);
+                    }
+                },
+                ready: function (fn) {
+                    if (document.addEventListener) {
+                        document.addEventListener('DOMContentLoaded', fn);
+                    } else {
+                        document.attachEvent('onreadystatechange', function () {
+                            if (document.readyState === 'interactive') {
+                                fn();
+                            }
+                        });
+                    }
+                },
+                getJson: function (url, callback) {
+                    /* global XMLHttpRequest */
+                    let request = new XMLHttpRequest();
+                    request.open('GET', url, true);
+                    request.onreadystatechange = function () {
+                        if (this.readyState === 4) {
+                            let data;
+                            try {
+                                data = JSON.parse(this.responseText, jsondiffpatch.dateReviver);
+                            } catch (parseError) {
+                                // eslint-disable-next-line standard/no-callback-literal
+                                return callback('parse error: ' + parseError);
+                            }
+                            if (this.status >= 200 && this.status < 400) {
+                                callback(null, data);
+                            } else {
+                                callback(new Error('request failed'), data);
+                            }
+                        }
+                    };
+                    request.send();
+                    request = null;
+                },
+                runScriptTags: function (el) {
+                    let scripts = el.querySelectorAll('script');
+                    for (let i = 0; i < scripts.length; i++) {
+                        let s = scripts[i];
+                        // eslint-disable-next-line no-eval
+                        eval(s.innerHTML);
+                    }
+                },
+            };
+
+            const trim = function (str) {
+                return str.replace(/^\s+|\s+$/g, '');
+            };
+
+            const JsonArea = function JsonArea(element) {
+                this.element = element;
+                this.container = element.parentNode;
+                const self = this;
+                const prettifyButton = this.container.querySelector('.prettyfy');
+                if (prettifyButton) {
+                    dom.on(prettifyButton, 'click', function () {
+                        self.prettyfy();
+                    });
+                }
+            };
+
+            JsonArea.prototype.error = function (err) {
+                const errorElement = this.container.querySelector('.error-message');
+                if (!err) {
+                    dom.removeClass(this.container, 'json-error');
+                    errorElement.innerHTML = '';
+                    return;
+                }
+                errorElement.innerHTML = err + '';
+                dom.addClass(this.container, 'json-error');
+            };
+
+            JsonArea.prototype.getValue = function () {
+                if (!this.editor) {
+                    return this.element.value;
+                }
+                return this.editor.getValue();
+            };
+
+            JsonArea.prototype.parse = function () {
+                const txt = trim(this.getValue());
+                try {
+                    this.error(false);
+                    if (
+                        /^\d+(.\d+)?(e[+-]?\d+)?$/i.test(txt) ||
+                        /^(true|false)$/.test(txt) ||
+                        /^["].*["]$/.test(txt) ||
+                        /^[{[](.|\n)*[}\]]$/.test(txt)
+                    ) {
+                        return JSON.parse(txt, jsondiffpatch.dateReviver);
+                    }
+                    return this.getValue();
+                } catch (err) {
+                    this.error(err);
+                    throw err;
+                }
+            };
+
+            JsonArea.prototype.setValue = function (value) {
+                if (!this.editor) {
+                    this.element.value = value;
+                    return;
+                }
+                this.editor.setValue(value);
+            };
+
+            JsonArea.prototype.prettyfy = function () {
+                const value = this.parse();
+                const prettyJson =
+                    typeof value === 'string' ? value : JSON.stringify(value, null, 2);
+                this.setValue(prettyJson);
+            };
+
+            /* global CodeMirror */
+            JsonArea.prototype.makeEditor = function (readOnly) {
+                if (typeof CodeMirror === 'undefined') {
+                    return;
+                }
+                this.editor = CodeMirror.fromTextArea(this.element, {
+                    mode: 'application/ld+json',
+                    matchBrackets: true,
+                    autoCloseBrackets: true,
+                    lineWrapping: true,
+                    json: true,
+                    readOnly: readOnly,
+                    lineNumbers: true,
+                    styleActiveLine: true,
+                    viewportMargin: Infinity,
+                });
+                if (!readOnly) {
+                    this.editor.on('change', compare);
+                }
+            };
+
+            const areas = {
+                left: new JsonArea(document.getElementById('json-input-left')),
+                right: new JsonArea(document.getElementById('json-input-right')),
+                delta: new JsonArea(document.getElementById('json-delta')),
+            };
+
+            const compare = function () {
+                let left, right, error;
+                document.getElementById('results').style.display = 'none';
+                try {
+                    left = areas.left.parse();
+                } catch (err) {
+                    error = err;
+                }
+                try {
+                    right = areas.right.parse();
+                } catch (err) {
+                    error = err;
+                }
+                areas.delta.error(false);
+                if (error) {
+                    areas.delta.setValue('');
+                    return;
+                }
+                const selectedType = getSelectedDeltaType();
+                const visualdiff = document.getElementById('visualdiff');
+                const annotateddiff = document.getElementById('annotateddiff');
+                const jsondifflength = document.getElementById('jsondifflength');
+                try {
+                    const delta = instance.diff(left, right);
+
+                    if (typeof delta === 'undefined') {
+                        switch (selectedType) {
+                            case 'visual':
+                                visualdiff.innerHTML = 'no diff';
+                                break;
+                            case 'annotated':
+                                annotateddiff.innerHTML = 'no diff';
+                                break;
+                            case 'json':
+                                areas.delta.setValue('no diff');
+                                jsondifflength.innerHTML = '0';
+                                break;
+                        }
+                    } else {
+                        switch (selectedType) {
+                            case 'visual':
+                                visualdiff.innerHTML = jsondiffpatch.formatters.html.format(
+                                    delta,
+                                    left
+                                );
+                                if (!document.getElementById('showunchanged').checked) {
+                                    jsondiffpatch.formatters.html.hideUnchanged();
+                                }
+                                dom.runScriptTags(visualdiff);
+                                break;
+                            case 'annotated':
+                                annotateddiff.innerHTML = jsondiffpatch.formatters.annotated.format(
+                                    delta
+                                );
+                                break;
+                            case 'json':
+                                areas.delta.setValue(JSON.stringify(delta, null, 2));
+                                jsondifflength.innerHTML =
+                                    Math.round(JSON.stringify(delta).length / 102.4) / 10.0 + '';
+                                break;
+                        }
+                    }
+                } catch (err) {
+                    jsondifflength.innerHTML = '0';
+                    visualdiff.innerHTML = '';
+                    annotateddiff.innerHTML = '';
+                    areas.delta.setValue('');
+                    areas.delta.error(err);
+                    if (typeof console !== 'undefined' && console.error) {
+                        console.error(err);
+                        console.error(err.stack);
+                    }
+                }
+                document.getElementById('results').style.display = '';
+            };
+
+            areas.left.makeEditor();
+            areas.right.makeEditor();
+
+            dom.on(areas.left.element, 'change', compare);
+            dom.on(areas.right.element, 'change', compare);
+            dom.on(areas.left.element, 'keyup', compare);
+            dom.on(areas.right.element, 'keyup', compare);
+
+            const getSelectedDeltaType = function () {
+                if (document.getElementById('show-delta-type-visual').checked) {
+                    return 'visual';
+                }
+                if (document.getElementById('show-delta-type-annotated').checked) {
+                    return 'annotated';
+                }
+                if (document.getElementById('show-delta-type-json').checked) {
+                    return 'json';
+                }
+            };
+
+            const showSelectedDeltaType = function () {
+                const type = getSelectedDeltaType();
+                document.getElementById('delta-panel-visual').style.display =
+                    type === 'visual' ? '' : 'none';
+                document.getElementById('delta-panel-annotated').style.display =
+                    type === 'annotated' ? '' : 'none';
+                document.getElementById('delta-panel-json').style.display =
+                    type === 'json' ? '' : 'none';
+                compare();
+            };
+
+            dom.on(
+                document.getElementById('show-delta-type-visual'),
+                'click',
+                showSelectedDeltaType
+            );
+            dom.on(
+                document.getElementById('show-delta-type-annotated'),
+                'click',
+                showSelectedDeltaType
+            );
+            dom.on(
+                document.getElementById('show-delta-type-json'),
+                'click',
+                showSelectedDeltaType
+            );
+
+            dom.on(document.getElementById('showunchanged'), 'change', function () {
+                jsondiffpatch.formatters.html.showUnchanged(
+                    document.getElementById('showunchanged').checked,
+                    null,
+                    800
+                );
+            });
+
+            dom.ready(function () {
+                setTimeout(compare);
+            }, 1);
+
+            const load = {};
+
+            load.data = function (dataArg) {
+                const data = dataArg || {};
+                dom.text(document.getElementById('description'), data.description || '');
+                if (data.url && trim(data.url).substr(0, 10) !== 'javascript') {
+                    document.getElementById('external-link').setAttribute('href', data.url);
+                    document.getElementById('external-link').style.display = '';
+                } else {
+                    document.getElementById('external-link').style.display = 'none';
+                }
+                const leftValue = data.left ? data.left.content || data.left : '';
+                areas.left.setValue(leftValue);
+                const rightValue = data.right ? data.right.content || data.right : '';
+                areas.right.setValue(rightValue);
+
+                dom.text(
+                    document.getElementById('json-panel-left').querySelector('h4'),
+                    (data.left && data.left.name) || 'left.json'
+                );
+                dom.text(
+                    document.getElementById('json-panel-right').querySelector('h4'),
+                    (data.right && data.right.name) || 'right.json'
+                );
+
+                document
+                    .getElementById('json-panel-left')
+                    .querySelector('h4')
+                    .setAttribute('title', (data.left && data.left.fullname) || '');
+                document
+                    .getElementById('json-panel-right')
+                    .querySelector('h4')
+                    .setAttribute('title', (data.right && data.right.fullname) || '');
+
+                if (data.error) {
+                    areas.left.setValue('ERROR LOADING: ' + data.error);
+                    areas.right.setValue('');
+                }
+            };
+
+            load.gist = function (id) {
+                dom.getJson('https://api.github.com/gists/' + id, function (error, data) {
+                    if (error) {
+                        let message = error + (data && data.message ? data.message : '');
+                        load.data({
+                            error: message,
+                        });
+                        return;
+                    }
+                    let filenames = [];
+                    for (let filename in data.files) {
+                        let file = data.files[filename];
+                        if (file.language === 'JSON') {
+                            filenames.push(filename);
+                        }
+                    }
+                    filenames.sort();
+                    let files = [data.files[filenames[0]], data.files[filenames[1]]];
+                    /* jshint camelcase: false */
+                    load.data({
+                        url: data.html_url,
+                        description: data.description,
+                        left: {
+                            name: files[0].filename,
+                            content: files[0].content,
+                        },
+                        right: {
+                            name: files[1].filename,
+                            content: files[1].content,
+                        },
+                    });
+                });
+            };
+
+            load.leftright = function (descriptionArg, leftValueArg, rightValueArg) {
+                try {
+                    const description = decodeURIComponent(descriptionArg || '');
+                    const leftValue = decodeURIComponent(leftValueArg);
+                    const rightValue = decodeURIComponent(rightValueArg);
+                    const urlmatch = /https?:\/\/.*\/([^/]+\.json)(?:[?#].*)?/;
+                    const dataLoaded = {
+                        description: description,
+                        left: {},
+                        right: {},
+                    };
+                    const loadIfReady = function () {
+                        if (
+                            typeof dataLoaded.left.content !== 'undefined' &&
+                            typeof dataLoaded.right.content !== 'undefined'
+                        ) {
+                            load.data(dataLoaded);
+                        }
+                    };
+                    if (urlmatch.test(leftValue)) {
+                        dataLoaded.left.name = urlmatch.exec(leftValue)[1];
+                        dataLoaded.left.fullname = leftValue;
+                        dom.getJson(leftValue, function (error, data) {
+                            if (error) {
+                                dataLoaded.left.content =
+                                    error + (data && data.message ? data.message : '');
+                            } else {
+                                dataLoaded.left.content = JSON.stringify(data, null, 2);
+                            }
+                            loadIfReady();
+                        });
+                    } else {
+                        dataLoaded.left.content = leftValue;
+                    }
+                    if (urlmatch.test(rightValue)) {
+                        dataLoaded.right.name = urlmatch.exec(rightValue)[1];
+                        dataLoaded.right.fullname = rightValue;
+                        dom.getJson(rightValue, function (error, data) {
+                            if (error) {
+                                dataLoaded.right.content =
+                                    error + (data && data.message ? data.message : '');
+                            } else {
+                                dataLoaded.right.content = JSON.stringify(data, null, 2);
+                            }
+                            loadIfReady();
+                        });
+                    } else {
+                        dataLoaded.right.content = rightValue;
+                    }
+                    loadIfReady();
+                } catch (err) {
+                    load({
+                        error: err,
+                    });
+                }
+            };
+
+            load.key = function (key) {
+                const matchers = {
+                    // eslint-disable-next-line max-len
+                    gist: /^(?:https?:\/\/)?(?:gist\.github\.com\/)?(?:[\w0-9\-a-f]+\/)?([0-9a-f]+)$/i,
+                    leftright: /^(?:desc=(.*)?&)?left=(.*)&right=(.*)&?$/i,
+                };
+                for (let loader in matchers) {
+                    const match = matchers[loader].exec(key);
+                    if (match) {
+                        return load[loader].apply(load, match.slice(1));
+                    }
+                }
+                load.data({
+                    error: 'unsupported source: ' + key,
+                });
+            };
+
+            const urlQuery = /^[^?]*\?([^#]+)/.exec(document.location.href);
+            if (urlQuery) {
+                load.key(urlQuery[1]);
+            } else {
+                const exampleJson = getExampleJson();
+                load.data({
+                    left: exampleJson[0],
+                    right: exampleJson[1],
+                });
+            }
+
+        })();
+
+        </script>
+</body>
+
+</html>

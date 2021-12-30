@@ -1,0 +1,34 @@
+select.pgSlc {
+    font-size: inherit;
+}
+
+select.rspg {
+    font-size: inherit
+}
+
+.rdiv {
+    width: inherit!important;
+    height: 30px
+}
+
+div.tot {
+    min-width: inherit!important;
+    padding: .8em!important;
+}
+
+.ldiv {
+    width: inherit!important
+}
+
+.mdiv {
+    float: right!important;
+    width: auto!important;
+}
+
+table.TF th {
+    height: auto!important;
+}
+
+.flt, .flt_s, .single_flt {
+    height: auto!important;
+}

@@ -1,0 +1,120 @@
+5483  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+5622  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+5739                  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+5844                  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+5987      base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,          
+6106              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,          
+6198                  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+6328          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+6501  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,          
+6615                  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+6704                  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+6829                  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+6957                  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+7182              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+7428              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+7629                  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+7756                  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+7860                  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+7962                  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+8175              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+8360                  $roletype = "<abbr title=`"Custom 'Owner' Role definitions should not exist`"><i class=`"fa fa-exclamation-triangle yellow`" aria-hidden=`"true`"></i></abbr> <a class=`"externallink`" href=`"https://www.azadvertizer.net/azpolicyadvertizer/10ee2ea2-fb4d-45b8-a7e9-a2e770044cd9.html`" target=`"_blank`">Custom</a>"
+9158              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,       
+9309              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+9442              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+9564              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+9839              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+9962              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+10076              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+10193              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+10310              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+10456              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+10638              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+10818                          $relatedRoleAssignmentsArray += "<a class=`"externallink`" href=`"https://www.azadvertizer.net/azrolesadvertizer/$($entry.roleDefinitionId).html`" target=`"_blank`">$($entry.roleDefinitionName)</a> ($($entry.roleAssignmentId))"
+10876                  $azaLinkOrNot = "<a class=`"externallink`" href=`"https://www.azadvertizer.net/azpolicyadvertizer/$(($policyAssignmentAll.PolicyDefinitionIdGuid)).html`" target=`"_blank`">$($policyAssignmentAll.Policy)</a>"
+10879                  $azaLinkOrNot = "<a class=`"externallink`" href=`"https://www.azadvertizer.net/azpolicyinitiativesadvertizer/$(($policyAssignmentAll.PolicyDefinitionIdGuid)).html`" target=`"_blank`">$($policyAssignmentAll.Policy)</a>"
+11528          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+11767              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+11892              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+12020              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+12116              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+12390              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+12527              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+12623              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+12729              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+12839              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+12951              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+13057                  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+13149                  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+13254              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+13468              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+13648              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+13754              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+13843              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+13937          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+14042          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+14202              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,      
+14342              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+14447              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+14540              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+14623              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+14703              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+14866          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+14982          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+15104          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+15218          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+15334          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+15714          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+15880          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+15965              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+16050              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+16136              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+16229              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+16314              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+16399              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+16484              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+16569              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+16655              base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+16751      base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+16830      base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+17113      base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+17276      base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+17431      base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+17541  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+17873  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+18022  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+18234  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+18463  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+18605  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+18742  base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+18879          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+18988          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+19097          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+19192          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+19285          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+19378          base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,
+19731      base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,       
+19971      base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,       
+20234      base_path: 'https://www.azadvertizer.net/azgovvizv4/tablefilter/', rows_counter: true,       
+21974          ($htCacheDefinitionsPolicy).(($builtinPolicyDefinition.Id).ToLower()).LinkToAzAdvertizer = "<a class=`"externallink`" href=`"https://www.azadvertizer.net/azpolicyadvertizer/$(($builtinPolicyDefinition.Id -replace ".*/")).html`" target=`"_blank`">$($builtinPolicyDefinition.Properties.displayname)</a>"
+22055          ($htCacheDefinitionsPolicySet).(($builtinPolicySetDefinition.Id).ToLower()).LinkToAzAdvertizer = "<a class=`"externallink`" href=`"https://www.azadvertizer.net/azpolicyinitiativesadvertizer/$(($builtinPolicySetDefinition.Id -replace ".*/")).html`" target=`"_blank`">$($builtinPolicySetDefinition.Properties.displayname)</a>"
+22094          ($htCacheDefinitionsRole).($roleDefinition.name).LinkToAzAdvertizer = "<a class=`"externallink`" href=`"https://www.azadvertizer.net/azrolesadvertizer/$($roleDefinition.name).html`" target=`"_blank`">$($roleDefinition.properties.roleName)</a>"
+23656          link.href = "https://www.azadvertizer.net/azgovvizv4/css/azgovvizversion.css?rnd=" + rand;
+23662      <link rel="stylesheet" type="text/css" href="https://www.azadvertizer.net/azgovvizv4/css/azgovvizmain_004_043.css">
+23663      <script src="https://www.azadvertizer.net/azgovvizv4/js/jquery-1.12.1.js"></script>
+23664      <script src="https://www.azadvertizer.net/azgovvizv4/js/jquery-ui-1.12.1.js"></script>
+23665      <script type="text/javascript" src="https://www.azadvertizer.net/azgovvizv4/js/highlight_v004_002.js"></script>
+23666      <script src="https://www.azadvertizer.net/azgovvizv4/js/fontawesome-0c0b5cbde8.js"></script>
+23667      <script src="https://www.azadvertizer.net/azgovvizv4/tablefilter/tablefilter.js"></script>
+23668      <link rel="stylesheet" href="https://www.azadvertizer.net/azgovvizv4/css/highlight-10.5.0.min.css">
+23669      <script src="https://www.azadvertizer.net/azgovvizv4/js/highlight-10.5.0.min.js"></script>
+23819      <script src="https://www.azadvertizer.net/azgovvizv4/js/toggle_v004_004.js"></script>
+23820      <script src="https://www.azadvertizer.net/azgovvizv4/js/collapsetable_v004_001.js"></script>
+23821      <script src="https://www.azadvertizer.net/azgovvizv4/js/fitty_v004_001.min.js"></script>
+23822      <script src="https://www.azadvertizer.net/azgovvizv4/js/version_v004_001.js"></script>
+23823      <script src="https://www.azadvertizer.net/azgovvizv4/js/autocorrectOff_v004_001.js"></script>
+24159      <script src="https://www.azadvertizer.net/azgovvizv4/js/toggle_v004_004.js"></script>
+24160      <script src="https://www.azadvertizer.net/azgovvizv4/js/collapsetable_v004_001.js"></script>
+24161      <script src="https://www.azadvertizer.net/azgovvizv4/js/fitty_v004_001.min.js"></script>
+24162      <script src="https://www.azadvertizer.net/azgovvizv4/js/version_v004_001.js"></script>
+24163      <script src="https://www.azadvertizer.net/azgovvizv4/js/autocorrectOff_v004_001.js"></script>
