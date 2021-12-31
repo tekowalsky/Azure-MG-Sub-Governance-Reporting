@@ -336,11 +336,22 @@ Param
     [int]$LimitTagsSubscription = 50
 )
 
+#region start
 $Error.clear()
 $ErrorActionPreference = "Stop"
 #removeNoise
 $ProgressPreference = 'SilentlyContinue'
 Set-Item Env:\SuppressAzurePowerShellBreakingChangeWarnings "true"
+
+$startAzGovViz = get-date
+$startTime = get-date -format "dd-MMM-yyyy HH:mm:ss"
+$startTimeUTC = ((Get-Date).ToUniversalTime()).ToString("dd-MMM-yyyy HH:mm:ss")
+Write-Host "Start AzGovViz $($startTime) (#$($ProductVersion))"
+
+#time
+$executionDateTimeInternationalReadable = get-date -format "dd-MMM-yyyy HH:mm:ss"
+$currentTimeZone = (Get-TimeZone).Id
+#endregion start
 
 #region file
 #filedir
@@ -374,7 +385,9 @@ catch {
     $FileTimeStampFormat = "yyyyMMdd_HHmmss"
     $fileTimestamp = (get-date -format $FileTimeStampFormat)
 }
+#endregion file
 
+#region StartTranscript
 if ($DoTranscript) {
     if ($ManagementGroupId) {
         $fileNameTranscript = "AzGovViz_$($ProductVersion)_$($fileTimestamp)_$($ManagementGroupId)_Log.txt"
@@ -384,17 +397,7 @@ if ($DoTranscript) {
     }
     Start-Transcript -Path "$($outputPath)$($DirectorySeparatorChar)$($fileNameTranscript)" -NoClobber
 }
-#endregion file
-
-#time
-$executionDateTimeInternationalReadable = get-date -format "dd-MMM-yyyy HH:mm:ss"
-$currentTimeZone = (Get-TimeZone).Id
-
-#start
-$startAzGovViz = get-date
-$startTime = get-date -format "dd-MMM-yyyy HH:mm:ss"
-$startTimeUTC = ((Get-Date).ToUniversalTime()).ToString("dd-MMM-yyyy HH:mm:ss")
-Write-Host "Start AzGovViz $($startTime) (#$($ProductVersion))"
+#endregion StartTranscript
 
 #region ChinaBilling
 $checkContext = Get-AzContext -ErrorAction Stop
@@ -616,9 +619,6 @@ else {
 }
 #endregion PowerShellEditionAnVersionCheck
 
-
-
-
 #region testAzModules
 $testCommands = @('Get-AzContext')
 $azModules = @('Az.Accounts')
@@ -718,13 +718,14 @@ else {
 #region environmentcheck
 $checkAzEnvironments = Get-AzEnvironment -ErrorAction Stop
 
-#FutureUse
+#region FutureUse
 #Graph Endpoints https://docs.microsoft.com/en-us/graph/deployments#microsoft-graph-and-graph-explorer-service-root-endpoints
 #AzureCloud https://graph.microsoft.com
 #AzureUSGovernment L4 https://graph.microsoft.us
 #AzureUSGovernment L5 (DOD) https://dod-graph.microsoft.us
 #AzureChinaCloud https://microsoftgraph.chinacloudapi.cn
 #AzureGermanCloud https://graph.microsoft.de
+#endregion FutureUse
 
 #AzureEnvironmentRelatedUrls
 $htAzureEnvironmentRelatedUrls = @{}
@@ -747,8 +748,6 @@ foreach ($checkAzEnvironment in $checkAzEnvironments) {
     }
 }
 #endregion environmentcheck
-
-
 
 #region delimiter
 if ($CsvDelimiter -eq ";") {
@@ -24325,7 +24324,7 @@ foreach ($entry in $htDailySummary.keys | sort-Object) {
         })
 }
 $dailySummary4ExportToCSV | Export-Csv -Path "$($outputPath)$($DirectorySeparatorChar)$($fileName)_DailySummary.csv" -Delimiter "$csvDelimiter" -NoTypeInformation
-#region BuildDailySummaryCSV
+#endregion BuildDailySummaryCSV
 
 #region BuildConsumptionCSV
 if ($htParameters.HierarchyMapOnly -eq $false) {
@@ -25068,19 +25067,20 @@ if (-not $NoJsonExport) {
 
 #endregion createoutputs
 
-#APITracking
+#region APITracking
 $APICallTrackingCount = ($arrayAPICallTracking).Count
 $APICallTrackingManagementCount = ($arrayAPICallTracking.where( { $_.TargetEndpoint -eq "ManagementAPI" } )).Count
 $APICallTrackingGraphCount = ($arrayAPICallTracking.where( { $_.TargetEndpoint -eq "MSGraphAPI" } )).Count
 $APICallTrackingRetriesCount = ($arrayAPICallTracking.where( { $_.TryCounter -gt 0 } )).Count
 $APICallTrackingRestartDueToDuplicateNextlinkCounterCount = ($arrayAPICallTracking.where( { $_.RestartDueToDuplicateNextlinkCounter -gt 0 } )).Count
 Write-Host "AzGovViz APICalls total count: $APICallTrackingCount ($APICallTrackingManagementCount ManagementAPI; $APICallTrackingGraphCount MSGraphAPI; $APICallTrackingRetriesCount retries; $APICallTrackingRestartDueToDuplicateNextlinkCounterCount nextLinkReset)"
+#endregion APITracking
 
+#region End
 $endAzGovViz = get-date
 $durationProduct = (NEW-TIMESPAN -Start $startAzGovViz -End $endAzGovViz)
 Write-Host "AzGovViz duration: $($durationProduct.TotalMinutes) minutes"
 
-#end
 $endTime = get-date -format "dd-MMM-yyyy HH:mm:ss"
 Write-Host "End AzGovViz $endTime"
 
@@ -25233,3 +25233,5 @@ Write-Host "Completed successful" -ForegroundColor Green
 if ($Error.Count -gt 0) {
     Write-Host "Don´t bother about dumped errors"
 }
+
+#endregion End
