@@ -1,1 +1,6 @@
 demo-output
+pwsh/output/**/*.html
+pwsh/output/**/*.csv
+pwsh/output/**/*.json
+!pwsh/output/policy*/*.json
+!pwsh/output/roleDefinition/*.json
