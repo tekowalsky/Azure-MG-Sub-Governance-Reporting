@@ -23667,13 +23667,22 @@ $html = @"
         document.getElementsByTagName( "head" )[0].appendChild( link );
     </script>
     <link rel="stylesheet" type="text/css" href="../css/azgovvizmain_004_043.css">
-    <script src="../js/jquery-1.12.1.js"></script>
+    <!-- 
+    <script src="../js/jquery-1.12.1.js"></script> 
     <script src="../js/jquery-ui-1.12.1.js"></script>
-    <script type="text/javascript" src="../js/highlight_v004_002.js"></script>
     <script src="../js/fontawesome-0c0b5cbde8.js"></script>
+    <script src="../highlight-10.5.0.min.js"></script>
+    <script type="text/javascript" src="../js/highlight_v004_002.js"></script>
     <script src="../tablefilter/tablefilter.js"></script>
-    <link rel="stylesheet" href="../css/highlight-10.5.0.min.css">
-    <script src="../js/highlight-10.5.0.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="../js/fontawesome-0c0b5cbde8.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <script type="text/javascript" src="../js/highlight_v004_002.js"></script>
+    <script src="../tablefilter/tablefilter.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 
     <script>
@@ -23830,8 +23839,8 @@ if ($htParameters.HierarchyMapOnly -eq $false) {
     <script src="../js/autocorrectOff_v004_001.js"></script>
     <script>
         fitty('#fitme', {
-            minSize: 7,
-            maxSize: 10
+            minSize: 9,
+            maxSize: 11
         });
     </script>
 </body>
