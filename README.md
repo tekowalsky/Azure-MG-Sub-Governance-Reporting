@@ -3,7 +3,7 @@
 Do you want to get granular insights on your technical Azure Governance implementation? - document it in CSV, HTML, Markdown and JSON?  
 AzGovViz is a PowerShell based script that iterates your Azure Tenant´s Management Group hierarchy down to Subscription level. It captures most relevant Azure governance capabilities such as Azure Policy, RBAC and Blueprints and a lot more. From the collected data AzGovViz provides visibility on your __HierarchyMap__, creates a __TenantSummary__, creates __DefinitionInsights__ and builds granular __ScopeInsights__ on Management Groups and Subscriptions. The technical requirements as well as the required permissions are minimal.
 
-This fork was initially created to remove links loading graphics and HTML files from Julian Heyward's third party website.
+This version is a fork from version 6 of the original code by Julian Heyward.  This fork was initially created to remove links loading graphics and HTML files from Julian Heyward's third party website as these third party site connections posed an information leak risk for organizations using this product.
 
 You can run the script either for your Tenant Root Group or any other Management Group.
 
