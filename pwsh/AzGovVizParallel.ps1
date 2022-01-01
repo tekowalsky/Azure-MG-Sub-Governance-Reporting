@@ -49,14 +49,14 @@
     define Service Principal Secret and Certificate grace period (lifetime below the defined will be marked for warning / default is 14 days)
 
 .PARAMETER NoAzureConsumption
-    #obsolete
-    use this parameter if Azure Consumption data should not be reported
+    use this parameter if Azure Consumption data should not be reported.  (Julian Heyward V6 deprecation reverted.)
 
 .PARAMETER DoAzureConsumption
-    use this parameter if Azure Consumption data should be reported
+    # DEPRECATED IN THIS VERSION
+    Azure Consumption data should be reported by default
 
 .PARAMETER AzureConsumptionPeriod
-    use this parameter to define for which time period Azure Consumption data should be gathered; default is 1 day
+    use this parameter to define for which time period Azure Consumption data should be gathered; default is 30 day
 
 .PARAMETER NoAzureConsumptionReportExportToCSV
     use this parameter if Azure Consumption data should not be exported (CSV)
@@ -74,7 +74,7 @@
     Define the Subscription Id to use for AzContext (default is to use a random Subscription Id)
 
 .PARAMETER NoCsvExport 
-    Export enriched 'Role assignments' data, enriched 'Policy assignments' data and 'all resources' (subscriptionId, mgPath, resourceType, id, name, location, tags, createdTime, changedTime)
+    Do not export enriched 'Role assignments' data, enriched 'Policy assignments' data and 'all resources' (subscriptionId, mgPath, resourceType, id, name, location, tags, createdTime, changedTime)
 
 .PARAMETER DoNotIncludeResourceGroupsOnPolicy 
     Do not include Policy assignments on ResourceGroups
@@ -171,13 +171,13 @@
     Define Service Principal Secret and Certificate grace period (lifetime below the defined will be marked for warning / default is 14 days)
     PS C:\>.\AzGovVizParallel.ps1 -ManagementGroupId <your-Management-Group-Id> -AADServicePrincipalExpiryWarningDays 30
 
-    #obsolete Define if Azure Consumption data should not be reported
+    Define if Azure Consumption data should not be reported
     PS C:\>.\AzGovVizParallel.ps1 -ManagementGroupId <your-Management-Group-Id> -NoAzureConsumption
 
-    Define if Azure Consumption data should be reported
+    #DEPRECATED Define if Azure Consumption data should be reported (Default)
     PS C:\>.\AzGovVizParallel.ps1 -ManagementGroupId <your-Management-Group-Id> -DoAzureConsumption
 
-    Define for which time period (days) Azure Consumption data should be gathered; e.g. 14 days; default is 1 day
+    Define for which time period (days) Azure Consumption data should be gathered; e.g. 14 days; default is 30 day
     PS C:\>.\AzGovVizParallel.ps1 -ManagementGroupId <your-Management-Group-Id> -AzureConsumptionPeriod 14
 
     Define the number of script blocks running in parallel. Leveraging PowerShell Core´s parallel capability you can define the ThrottleLimit (default=5)
@@ -256,19 +256,21 @@
     PS C:\>.\AzGovVizParallel.ps1 -ManagementGroupId <your-Management-Group-Id> -HtmlTableRowsLimit 23077
 
     .NOTES
-    AUTHOR: Julian Hayward - Customer Engineer - Customer Success Unit | Azure Infrastucture/Automation/Devops/Governance | Microsoft
+    ORIGINAL_AUTHOR: Julian Hayward - Customer Engineer - Customer Success Unit | Azure Infrastucture/Automation/Devops/Governance | Microsoft
+    FORK_MAINTAINED_BY: Tim Kowalsky
 
 .LINK
-    https://github.com/JulianHayward/Azure-MG-Sub-Governance-Reporting (aka.ms/AzGovViz)
+    https://github.com/tekowalsky/Azure-MG-Sub-Governance-Reporting
+    Forked from Julian Heyward version v6_minor_20211212_1: https://github.com/julianhayward/azure-mg-sub-governance-reporting
     https://github.com/microsoft/CloudAdoptionFramework/tree/master/govern/AzureGovernanceVisualizer
-    Please note that while being developed by a Microsoft employee, AzGovViz is not a Microsoft service or product. AzGovViz is a personal/community driven project, there are none implicit or explicit obligations related to this project, it is provided 'as is' with no warranties and confer no rights.
+    Please note that while originally developed by a Microsoft employee, AzGovViz is not a Microsoft service or product. This fork of the original project is also not a Microsoft service or product.  This product is provided 'as is' with no warranties and confers no rights.
 #>
 
 [CmdletBinding()]
 Param
 (
     [string]$Product = "AzGovViz",
-    [string]$ProductVersion = "v6_minor_20211212_1",
+    [string]$ProductVersion = "v6_FORK_20211231",
     [string]$GithubRepository = "github.com/tekowalsky/Azure-MG-Sub-Governance-Reporting",
     [string]$ManagementGroupId,
     [switch]$AzureDevOpsWikiAsCode, #deprecated - Based on environment variables the script will detect the code run platform
@@ -288,9 +290,9 @@ Param
     [switch]$NoResourceDiagnosticsPolicyLifecycle,
     [switch]$NoAADGroupsResolveMembers,
     [int]$AADServicePrincipalExpiryWarningDays = 14,
-    [switch]$NoAzureConsumption, #obsolete
-    [switch]$DoAzureConsumption,
-    [int]$AzureConsumptionPeriod = 1,
+    [switch]$NoAzureConsumption, 
+    [switch]$DoAzureConsumption, #Deprecated, Default
+    [int]$AzureConsumptionPeriod = 30,
     [switch]$NoAzureConsumptionReportExportToCSV,
     [switch]$DoTranscript,
     [int]$HtmlTableRowsLimit = 20000, #HTML TenantSummary may become unresponsive depending on client device performance. A recommendation will be shown to use the CSV file instead of opening the TF table
@@ -398,6 +400,12 @@ if ($DoTranscript) {
     Start-Transcript -Path "$($outputPath)$($DirectorySeparatorChar)$($fileNameTranscript)" -NoClobber
 }
 #endregion StartTranscript
+
+#region DefaultIncludeConsumption
+if (!($NoAzureConsumption)){
+    $DoAzureConsumption = $true
+}
+#endregion DefaultIncludeConsumption
 
 #region ChinaBilling
 $checkContext = Get-AzContext -ErrorAction Stop
@@ -1489,7 +1497,7 @@ function AzAPICall($uri, $method, $currentTask, $body, $listenOn, $getConsumptio
                             Write-Host "$($htParameter):$($htParameters.($htParameter))"
                         }
                         if ($getConsumption) {
-                            Write-Host "If Consumption data is not that important for you, do not use parameter: -DoAzureConsumption (however, please still report the issue - thank you)"
+                            Write-Host "If Consumption data is not that important for you, use parameter: -NoAzureConsumption (however, please still report the issue - thank you)"
                         }
                         if ($htParameters.onAzureDevOps -eq $true) {
                             Write-Error "Error"
@@ -6042,7 +6050,7 @@ tf.init();}}
         }   
         else {
             [void]$htmlScopeInsights.AppendLine(@"
-<p><i class="fa fa-credit-card" aria-hidden="true"></i> <span class="valignMiddle">No Consumption data available as switch parameter -DoAzureConsumption was not applied</span></p>
+<p><i class="fa fa-credit-card" aria-hidden="true"></i> <span class="valignMiddle">No Consumption data available as switch parameter -NoAzureConsumption was applied</span></p>
 "@)
         }
 
@@ -6568,7 +6576,7 @@ tf.init();}}
         }   
         else {
             [void]$htmlScopeInsights.AppendLine(@"
-<p><i class="fa fa-credit-card" aria-hidden="true"></i> <span class="valignMiddle">No Consumption data available as switch parameter -DoAzureConsumption was not applied</span></p>
+<p><i class="fa fa-credit-card" aria-hidden="true"></i> <span class="valignMiddle">No Consumption data available as switch parameter -NoAzureConsumption was applied</span></p>
 "@)
         }
         #endregion ScopeInsightsConsumptionMg
@@ -8260,7 +8268,10 @@ btn_reset: true, highlight_keywords: true, alternate_rows: true, auto_filter: { 
             $htmlThisSubSingleOutput = $htmlSubscriptionOnlyStart
             $htmlThisSubSingleOutput += $htmlScopeInsights
             $htmlThisSubSingleOutput += $htmlSubscriptionOnlyEnd
-            $htmlThisSubSingleOutput | Set-Content -Path "$($outputPath)$($DirectorySeparatorChar)$($HTMLPath)$($DirectorySeparatorChar)$($fileName)_$($subscriptionId).html" -Encoding utf8 -Force
+            if (!(test-path "$($outputPath)$($DirectorySeparatorChar)$($HTMLPath)$($DirectorySeparatorChar)$($subscriptionId)")){
+                mkdir "$($outputPath)$($DirectorySeparatorChar)$($HTMLPath)$($DirectorySeparatorChar)$($subscriptionId)"
+            }
+            $htmlThisSubSingleOutput | Set-Content -Path "$($outputPath)$($DirectorySeparatorChar)$($HTMLPath)$($DirectorySeparatorChar)$($subscriptionId)$($DirectorySeparatorChar)$($fileName).html" -Encoding utf8 -Force
             $htmlThisSubSingleOutput = $null
         }
     }
@@ -12227,7 +12238,7 @@ extensions: [{ name: 'sort' }]
                 <i class="fa fa-exclamation-triangle orange" aria-hidden="true"></i><span style="color:#ff0000"> Output of $tfCount lines would exceed the html rows limit of $HtmlTableRowsLimit (html file potentially would become unresponsive). Work with the CSV file <i>$($csvFilename).csv</i> | Note: the CSV file will only exist if you did NOT use parameter <i>-NoCsvExport</i></span><br>
                 <span style="color:#ff0000">You can adjust the html row limit by using parameter <i>-HtmlTableRowsLimit</i></span><br>
                 <span style="color:#ff0000">You can reduce the number of lines by using parameter <i>-LargeTenant</i> and/or <i>-DoNotIncludeResourceGroupsAnsResourcesOnRBAC</i></span><br>
-                <span style="color:#ff0000">Check the parameters documentation</span> <a class="externallink" href="https://github.com/JulianHayward/Azure-MG-Sub-Governance-Reporting#parameters" target="_blank">AzGovViz docs <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                <span style="color:#ff0000">Check the parameters documentation</span> <a class="externallink" href="https://github.com/tekowalsky/Azure-MG-Sub-Governance-Reporting#parameters" target="_blank">AzGovViz docs <i class="fa fa-external-link" aria-hidden="true"></i></a>
             </div>
 "@)            
         }
@@ -14396,7 +14407,7 @@ extensions: [{ name: 'sort' }]
                 <div class="content TenantSummary padlxx">
                     <i class="fa fa-exclamation-triangle orange" aria-hidden="true"></i><span style="color:#ff0000"> Output of $tfCount lines would exceed the html rows limit of $HtmlTableRowsLimit (html file potentially would become unresponsive). Work with the CSV file <i>$($csvFilename).csv</i> | Note: the CSV file will only exist if you did NOT use parameter <i>-NoCsvExport</i></span><br>
                     <span style="color:#ff0000">You can adjust the html row limit by using parameter <i>-HtmlTableRowsLimit</i></span><br>
-                    <span style="color:#ff0000">Check the parameters documentation</span> <a class="externallink" href="https://github.com/JulianHayward/Azure-MG-Sub-Governance-Reporting#parameters" target="_blank">AzGovViz docs <i class="fa fa-external-link" aria-hidden="true"></i></a>
+                    <span style="color:#ff0000">Check the parameters documentation</span> <a class="externallink" href="https://github.com/tekowalsky/Azure-MG-Sub-Governance-Reporting#parameters" target="_blank">AzGovViz docs <i class="fa fa-external-link" aria-hidden="true"></i></a>
                 </div>
 "@)
             }
@@ -17602,7 +17613,7 @@ tf.init();
     }
     else {
         [void]$htmlTenantSummary.AppendLine(@"
-<p><i class="padlx fa fa-ban" aria-hidden="true"></i> <span class="valignMiddle">No information on Consumption as switch parameter -DoAzureConsumption was not applied</span></p>
+<p><i class="padlx fa fa-ban" aria-hidden="true"></i> <span class="valignMiddle">No information on Consumption as switch parameter -NoAzureConsumption was applied</span></p>
 "@)
     }
 
@@ -20973,7 +20984,7 @@ if ($htParameters.HierarchyMapOnly -eq $false) {
         }
     }
     else {
-        Write-Host " Azure Consumption reporting disabled (-DoAzureConsumption = $($htParameters.DoAzureConsumption))" -ForegroundColor Green
+        Write-Host " Azure Consumption reporting disabled (-NoAzureConsumption = $($htParameters.NoAzureConsumption))" -ForegroundColor Green
         $paramsUsed += "DoAzureConsumption: false &#13;"
     }
 
@@ -21809,8 +21820,8 @@ if ($htParameters.HierarchyMapOnly -eq $false) {
             if ($allConsumptionData -eq "NoSubscriptionsPresent") {
                 Write-Host " Seems there are no Subscriptions present - skipping CostManagement"
             }
-            Write-Host " Action: Setting switch parameter 'DoAzureConsumption' to false"
-            $DoAzureConsumption = $false
+            Write-Host " Action: Setting switch parameter 'NoAzureConsumption' to true"
+            $NoAzureConsumption = $true
         }
         else {
             Write-Host " Checking returned Consumption data"
@@ -23666,7 +23677,7 @@ $html = @"
         link.media = "screen,print";
         document.getElementsByTagName( "head" )[0].appendChild( link );
     </script>
-    <link rel="stylesheet" type="text/css" href="../css/azgovvizmain_004_043.css">
+    <link rel="stylesheet" type="text/css" href="../css/azgovvizmain_006_001.css">
     <!-- 
     <script src="../js/jquery-1.12.1.js"></script> 
     <script src="../js/jquery-ui-1.12.1.js"></script>
@@ -23885,10 +23896,10 @@ $html += @"
 "@
 
 if ($htParameters.onAzureDevOps -eq $false) {
-    $tenantDetailsDisplay = "$tenantDisplayName<br>$tenantDefaultDomain<br>$($checkContext.Tenant.Id)"
+    $tenantDetailsDisplay = "$tenantDisplayName<br>$tenantDefaultDomain<br><nobr>$($checkContext.Tenant.Id)</nobr>"
 }
 else {
-    $tenantDetailsDisplay = "$($checkContext.Tenant.Id)"
+    $tenantDetailsDisplay = "<nobr>$($checkContext.Tenant.Id)</nobr>"
 }
 
 $tenantRoleAssignmentCount = 0
@@ -24179,8 +24190,8 @@ $html += @"
     <script src="../js/autocorrectOff_v004_001.js"></script>
     <script>
         fitty('#fitme', {
-            minSize: 7,
-            maxSize: 10
+            minSize: 9,
+            maxSize: 11
         });
     </script>
 </body>
