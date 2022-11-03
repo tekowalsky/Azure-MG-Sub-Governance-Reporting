@@ -3,12 +3,12 @@
 Do you want to get granular insights on your technical Azure Governance implementation? - document it in CSV, HTML, Markdown and JSON?  
 AzGovViz is a PowerShell script that iterates your Azure Tenant´s Management Group hierarchy down to Subscription level. It captures most relevant Azure governance information such as Azure Policy, RBAC and Blueprints and a lot more. From the collected data AzGovViz provides visibility on your __HierarchyMap__, creates a __TenantSummary__, creates __DefinitionInsights__ and builds granular __ScopeInsights__ on Management Groups and Subscriptions. The technical requirements are minimal.
 
-This version is a fork from version 6 of the original code by Julian Heyward.  This fork was initially created to remove links loading graphics and HTML files from Julian Heyward's third party website and remove default statistics collection.  These third party site connections in the original script posed risk of information leak for organizations using this project.
+This version is a fork from version 6 of the original code by Julian Heyward.  This fork was initially created to remove links loading graphics and HTML files from a third party website and remove default statistics collection.
 
 Additional changes in this fork:
 * Creation of a default output folder with subdirectories created by date_time added.
 * Set statistics collection to disabled by default.
-* Removed code that connected to Application Insights even when the option not to collect statistics was selected.
+* Removed code that connected to Application Insights when the option not to collect statistics was selected.
 
 You can run the script either for your Tenant Root Group or any other Management Group.
 
@@ -27,8 +27,6 @@ Listed as [security monitoring tool](https://docs.microsoft.com/en-us/azure/arch
 ## Content
 * [Release history](#release-history)
 * [Demo](#demo)
-  * [Media](#media)
-  * [Slideset](#slideset)
 * [Features](#features)
 * [Screenshots](#screenshots)
 * [Outputs](#outputs)
@@ -43,18 +41,15 @@ Listed as [security monitoring tool](https://docs.microsoft.com/en-us/azure/arch
 * [Stats](#stats)
 * [Security](#security)
 * [Known issues](#known-issues)
-* [Facts](#facts)
-* [Contributions](#contributions)
-* [AzAdvertizer](#azadvertizer)
 * [Final note](#final-note)
 
 ## Release history
 
 __Changes__ (2021-Dec-31)
-* removed all links to https://www.azadvertizer.net from the code as these pose an information leak security risk.
+* removed all links to https://www.azadvertizer.net from the code to remove information leak security risk.
 * Added a default output folder with subdirectories created by date_time added.
 * Set statistics collection to disabled by default.
-* Removed code that collected statistics on whether statistics collection was possible even when the user specifically chose the option to NOT collect statistics.
+* Removed code that collected statistics on whether statistics collection was possible when user chose the option to NOT collect statistics.
 
 __Forked__ (2021-Dec-30)
 
@@ -73,15 +68,6 @@ Passed tests: Powershell Core 7.2.0 Azure DevOps hosted agent ubuntu-18.04
 Passed tests: Powershell Core 7.2.0 GitHub Codespaces mcr.microsoft.com/powershell:latest
 
 [Release history](history.md)
-
-### Media
-
-* Microsoft Dev Radio (YouTube) [Get visibility into your environment with AzGovViz](https://www.youtube.com/watch?v=hZXvF5oypLE)  
-* Jack Tracey (Cloud Solution Architect Microsoft) [AzGovViz With Azure DevOps](https://jacktracey.co.uk/azgovviz-with-azure-devops/)
-
-### Slideset
-
-Short presentation on AzGovViz [[download](slides/AzGovViz_intro.pdf)]
 
 ## Features
 
@@ -146,7 +132,6 @@ Short presentation on AzGovViz [[download](slides/AzGovViz_intro.pdf)]
       * Related Policy assignments (Policy assignment that leverages the DeployIfNotExists (DINE) or Modify effect)
       * System metadata 'createdOn, createdBy' ('createdBy' identity is fully resolved)
       * Determine if the Role assignment is 'standing' or PIM (Privileged Identity Management) managed
-  * ~~Role assignments ClassicAdministrators~~
   * Security & Best practice analysis
     * Existence of custom Role definition that reflect 'Owner' permissions
     * Role assignments for 'Owner' permissions on identity-type == 'ServicePrincipal' 
@@ -373,8 +358,6 @@ Screenshot Azure Portal
   * [Installing PowerShell on Linux](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell-core-on-linux)
 * Requires PowerShell Az Modules
   * Az.Accounts
-  * ~~Az.Resources~~
-  * ~~Az.ResourceGraph~~
   * [Install the Azure Az PowerShell module](https://docs.microsoft.com/en-us/powershell/azure/install-az-ps)
 * Usage/command
   * `.\AzGovVizParallel.ps1 -ManagementGroupId <your-Management-Group-Id>`
@@ -383,21 +366,17 @@ Screenshot Azure Portal
   * `-ManagementGroupId` Management Group Id (Root Management Group Id equals your Tenant Id)
   * `-CsvDelimiter` - The world is split into two kinds of delimiters - comma and semicolon - choose yours (default is semicolon ';')
   * `-OutputPath` - Defaults to subdirectories by date in the "pwsh/output" directory.
-  * ~~`-AzureDevOpsWikiAsCode` - Use this parameter only when running AzGovViz in a Azure DevOps Pipeline~~ Based on environment variables the script will detect the code run platform
   * `-DoNotShowRoleAssignmentsUserData` - Scrub personally identifiable information (PII)
   * `-LimitCriticalPercentage` - Limit warning level, default is 80%
-  * ~~`-HierarchyTreeOnly`~~ `-HierarchyMapOnly` - Output only the __HierarchyMap__ for Management Groups including linked Subscriptions
+  * `-HierarchyMapOnly` - Output only the __HierarchyMap__ for Management Groups including linked Subscriptions
   * `-SubscriptionQuotaIdWhitelist` - Process only Subscriptions with defined QuotaId(s). Example: .\AzGovVizParallel.ps1 `-SubscriptionQuotaIdWhitelist MSDN_,Enterprise_`
   * `-NoResourceProvidersDetailed` - Disables output for ResourceProvider states for all Subscriptions in the __TenantSummary__ section, in large Tenants this can become time consuming
   * `-NoMDfCSecureScore` - Disables Microsoft Defender for Cloud Secure Score request for Subscriptions and Management Groups.
-  * ~~`-DisablePolicyComplianceStates`~~ `-NoPolicyComplianceStates` - Will not query policy compliance states. You may want to use this parameter to accellerate script execution or when receiving error 'ResponseTooLarge'. 
+  * `-NoPolicyComplianceStates` - Will not query policy compliance states. You may want to use this parameter to accellerate script execution or when receiving error 'ResponseTooLarge'. 
   * `-NoResourceDiagnosticsPolicyLifecycle` - Disables Resource Diagnostics Policy Lifecycle recommendations
   * `-NoAADGroupsResolveMembers` - Disables resolving Azure Active Directory Group memberships
-  * ~~`-NoAADGuestUsers` - Disables resolving Azure Active Directory User type (Guest or Member)~~
-  * ~~`-NoServicePrincipalResolve` `-NoAADServicePrincipalResolve` - Disables resolving ServicePrincipals~~
-  * ~~`-ServicePrincipalExpiryWarningDays`~~ `-AADServicePrincipalExpiryWarningDays` - Define warning period for Service Principal secret and certificate expiry; default is 14 days
-  * `-NoAzureConsumption` - Azure Consumption data should not be collected/reported
-  * ~~`-DoAzureConsumption`~~ - (Default) Azure Consumption data should be collected/reported
+  * `-AADServicePrincipalExpiryWarningDays` - Define warning period for Service Principal secret and certificate expiry; default is 14 days
+  * `-NoAzureConsumption` - Azure Consumption data should not be collected/reported.  By default Azure Consumption data should be collected/reported.
   * `-AzureConsumptionPeriod` - Define for which time period Azure Consumption data should be gathered; default is 1 day
   * `-NoAzureConsumptionReportExportToCSV` - Azure Consumption data should not be exported (CSV)
   * `-NoScopeInsights` - Q: Why would you want to do this? A: In larger tenants the ScopeInsights section blows up the html file (up to unusable due to html file size). Use `-LargeTenant` to further reduce the output.
@@ -406,19 +385,19 @@ Screenshot Azure Portal
   * `-SubscriptionId4AzContext` - Define the Subscription Id to use for AzContext (default is to use a random Subscription Id)
   * `-PolicyAtScopeOnly` - Removing 'inherited' lines in the HTML file for 'Policy Assignments'; use this parameter if you run against a larger tenants. Note using parameter `-LargeTenant` will set `-PolicyAtScopeOnly $true`
   * `-RBACAtScopeOnly` - Removing 'inherited' lines in the HTML file for 'Role Assignments'; use this parameter if you run against a larger tenants. Note using parameter `-LargeTenant` will set `-RBACAtScopeOnly $true`
-  * ~~`-CsvExport`~~ `-NoCsvExport` - Do not export enriched data for 'Role assignments', 'Policy assignments' data and 'all resources' (subscriptionId,  managementGroup path, resourceType, id, name, location, tags, createdTime, changedTime)
-  * ~~`-PolicyIncludeResourceGroups`~~ `-DoNotIncludeResourceGroupsOnPolicy` - Do not include Policy assignments on ResourceGroups
-  * ~~`-RBACIncludeResourceGroupsAndResources`~~ `-DoNotIncludeResourceGroupsAndResourcesOnRBAC` - Do not include Role assignments on ResourceGroups and Resources
+  * `-NoCsvExport` - Do not export enriched data for 'Role assignments', 'Policy assignments' data and 'all resources' (subscriptionId,  managementGroup path, resourceType, id, name, location, tags, createdTime, changedTime)
+  * `-DoNotIncludeResourceGroupsOnPolicy` - Do not include Policy assignments on ResourceGroups
+  * `-DoNotIncludeResourceGroupsAndResourcesOnRBAC` - Do not include Role assignments on ResourceGroups and Resources
   * `-ChangeTrackingDays` - Define the period for Change tracking on newly created and updated custom Policy, PolicySet and RBAC Role definitions and Policy/RBAC Role assignments (default is '14') 
   * `-FileTimeStampFormat`- Define the time format for the output files (default is `yyyyMMdd_HHmmss`)
-  * ~~`-JsonExport`~~ `-NoJsonExport` - Do not enable export of ManagementGroup Hierarchy including all MG/Sub Policy/RBAC definitions, Policy/RBAC assignments and some more relevant information to JSON 
+  * `-NoJsonExport` - Do not enable export of ManagementGroup Hierarchy including all MG/Sub Policy/RBAC definitions, Policy/RBAC assignments and some more relevant information to JSON 
   * `-JsonExportExcludeResourceGroups` - JSON Export will not include ResourceGroups (Policy & Role assignments)
   * `-JsonExportExcludeResources`- JSON Export will not include Resources (Role assignments)
   * `-LargeTenant` - A large tenant is a tenant with more than ~500 Subscriptions - the HTML output for large tenants simply becomes too big. Using this parameter the following parameters will be set: -PolicyAtScopeOnly $true, -RBACAtScopeOnly $true, -NoResourceProvidersDetailed $true, -NoScopeInsights $true
   * `-HtmlTableRowsLimit` - Although the parameter `-LargeTenant` was introduced recently, still the html output may become too large to be processed properly. The new parameter defines the limit of rows - if for the html processing part the limit is reached then the html table will not be created (csv and json output will still be created). Default rows limit is 20.000
   * `-AADGroupMembersLimit` - Defines the limit (default=500) of AAD Group members; For AAD Groups that have more members than the defined limit Group members will not be resolved 
   * `-NoResources` - Will speed up the processing time but information like Resource diagnostics capability and resource type statistic (featured for large tenants)
-  * `-StatsOptOut` - Opt out sending [stats](#stats) DEPRECATED in forked version 2021-Dec-31 which made "no statistics collection" the default, and REALLY no statistics collection. This Opt-out was not completely honored in the original Julian Heyward version of this script.
+  * `-StatsOptOut` - Opt out sending [stats](#stats) DEPRECATED in forked version 2021-Dec-31 which made "no statistics collection" the default, and REALLY no statistics collection.
   * `-NoSingleSubscriptionOutput` - Single __Scope Insights__ output per Subscription should not be created
 
 ## Integrate with AzOps
@@ -439,65 +418,12 @@ You can integrate AzGovViz (same project as AzOps).
 ## Stats
 
 Statistics collection disabled by default and code that collected statistics on whether statistics could be collected is no longer run when statistics are specifically set to disabled.  (Fork update 2021-Dec-31)
-~~In order to better understand the AzGovViz usage and to optimize the product accordingly some stats will be ingested to Azure Application Insights. Results of stats analysis may be shared at a later stage.~~ 
-
-### ~~How/What?
-
-~~If the script is run in Azure DevOps then the Repository Id and executing principal´s object Id will be used to create an unique identifier.  
-If the script is not run in Azure DevOps then the Tenant Id and executing principal´s object Id will be used to create an unique identifier.
-
-~~SHA384/512 hashed combination of 
-~* portion of the repositoryId/tenantId 
-~  * if repositoryId/tenantId startsWith a letter then use characters 3-8 (6 characters) of the first GUID´s block, combine them with the third GUID`s block of the principal´s objectId (4 characters), SHA512 hash them as identifier0
-~  * if repositoryId/tenantId startsWith a number then use characters 7-12 (6 characters) of the last GUID`s block, combine them with the second GUID´s block of the principal´s objectId (4 characters), SHA384 hash them as identifier0
-~* portion of the executing principal´s objectId 
-~  * if objectId startsWith a letter then use characters 3-8 (6 characters) of the first GUID´ block, combine them with the third GUID´ block of the repositoryId/tenantId (4 characters), SHA512 hash them as identifier1
-~  * if objectId startsWith a number then use characters 7-12 (6 characters) of the last GUID´ block, combine them with the second GUID´ block of the repositoryId/tenantId (4 characters), SHA384 hash them as identifier1
-
-~~Combine identifier0 and identifier1
-~  * if objectId startsWith a letter then combine identifiers -> 'identifier0 + identifier1', SHA512 hash them as final identifier and remove dashes (string of 128 characters)
-~  * if objectId startsWith a number then combine identifiers -> 'identifier1 + identifier0', SHA512 hash them as final identifier and remove dashes (string of 128 characters)
-
-~~To conclude the approach: taking 6 or 4 characters from tenantId/respositoryId and objectId of the executing principal to create a unique identifier, which may not be backward resolveable.
 
 ![alt text](img/identifier.jpg "identifier")
 
-~~The following data will be ingested to Azure Application Insights:
-
-~~```
-    "accType": "ServicePrincipal / User (member) / User (Guest)",
-    "azCloud": "Azure environment e.g. AzureCloud, ChinaCloud, etc.",
-    "identifier": "8c62a7..53d08c0 (string of 128 characters)",
-    "platform": "Console / AzureDevOps",
-    "productVersion": "used AzGovViz version",
-    "psAzAccountsVersion": "used Az.Accounts PS module version",
-    "psVersion": "used PowerShell version",
-    "scopeUsage": "childManagementGroup / rootManagementGroup",
-    "statsCountErrors": "count of encountered errors",
-    "statsCountSubscriptions": "less than 100 / more than 100 (no exact numbers)",
-    "statsParametersDoNotIncludeResourceGroupsAndResourcesOnRBAC": "true / false",
-    "statsParametersDoNotIncludeResourceGroupsOnPolicy": "true / false",
-    "statsParametersDoNotShowRoleAssignmentsUserData": "true / false",
-    "statsParametersHierarchyMapOnly": "true / false",
-    "statsParametersLargeTenant": "true / false",
-    "statsParametersNoASCSecureScore" "true / false",
-    "statsParametersNoAzureConsumption": "true / false",
-    "statsParametersNoJsonExport": "true / false",
-    "statsParametersNoPolicyComplianceStates": "true / false",
-    "statsParametersNoResourceProvidersDetailed": "true / false",
-    "statsParametersNoResources": "true / false",
-    "statsParametersPolicyAtScopeOnly": "true / false",
-    "statsParametersRBACAtScopeOnly": "true / false",
-    "statsTry": "count of try sending to Application Insights"
-~~```
-
-~~Azure Application Insights data:  
-
-~~![alt text](img/stats.jpg "Stats")
-
 ~~If you do not want to contribute to stats for AzGovViz then you can use the parameter:  
 `-StatsOptOut` 
-~~ This parameter was not completely honored by the original version of this script.  When the opt-out parameter was selected the script attempted to connect anyway, flagging it as having been run (and where).
+~~ This parameter was not completely honored by the original version of this script.
 
 ## Security
 
@@ -523,18 +449,6 @@ git config --system core.longpaths true
 Disabled Subscriptions and Subscriptions where Quota Id starts with with "AAD_" are being skipped, all others are queried. More information on Subscription Quota Id / Offer numbers: [Supported Microsoft Azure offers](https://docs.microsoft.com/en-us/azure/cost-management-billing/costs/understand-cost-mgt-data#supported-microsoft-azure-offers).  
 
 ARM Limits are not acquired programmatically, these are hardcoded. The links used to check related limits are commented in the param section of the script.
-
-## Contributions
-
-Please feel free to contribute. Thanks to so many supporters - testing, giving feedback, making suggestions, presenting use-case, posting/blogging articles, refactoring code - THANK YOU!
-
-Thanks Stefan Stranger (Microsoft) for providing me with his AzGovViz outputs executed on his implementation of EnterpriseScale. Make sure you read Stefan´s Blog Article: [Enterprise-Scale - Policy Driven Governance](https://stefanstranger.github.io/2020/08/28/EnterpriseScalePolicyDrivenGovernance)
-
-Thanks Frank Oltmanns-Mack (Microsoft) for providing me with his AzGovViz outputs executed on his implementation of EnterpriseScale.
-
-Special thanks to Tim Wanierke, Brooks Vaughn and Friedrich Weinmann (Microsoft).
-
-Kudos to the [TableFilter](https://www.tablefilter.com) Project Team!
 
 ## AzAdvertizer
 

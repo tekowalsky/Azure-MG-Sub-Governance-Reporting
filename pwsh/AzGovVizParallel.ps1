@@ -135,6 +135,9 @@
     Although the parameter -LargeTenant was introduced recently, still the html output may become too large to be processed properly. The new parameter defines the limit of rows - if for the html processing part the limit is reached then the html table will not be created (csv and json output will still be created). Default rows limit is 20.000
 
 .EXAMPLE
+    Run against the entire tenant with no CSV exports.
+    PS C:\> .\AzGovVizParallel.ps1 -managementgroupid "<Tenant Root GUID>" -SubscriptionId4AzContext "<default sub GUID>" -NoCsvExport
+
     Define the ManagementGroup ID
     PS C:\> .\AzGovVizParallel.ps1 -ManagementGroupId <your-Management-Group-Id>
 
